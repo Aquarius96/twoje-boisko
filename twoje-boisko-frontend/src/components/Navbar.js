@@ -4,7 +4,8 @@ import './Navbar.css';
 class Navbar extends Component {
     render() {
       return (
-        <div className="Navbar container">
+        <div className="navbar container">
+        <div><p>Twoje-boisko.pl</p></div>
          <ul>
             <li><a class="active" href="#home.html">Strona Główna</a></li>
             <li><a href="#list.html">Lista Boisk</a></li>
