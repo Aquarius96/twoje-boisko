@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import './Navbar.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 class Navbar extends Component {
     render() {
@@ -7,7 +12,7 @@ class Navbar extends Component {
         <div className="navbar container">
         <div><p>Twoje-boisko.pl</p></div>
          <ul>
-            <li><a class="active" href="#home.html">Strona Główna</a></li>
+            <li><Link class="active" to="/">Strona Główna</Link></li>
             <li><a href="#list.html">Lista Boisk</a></li>
             <li><a href="#login.html">Logowanie</a></li>
          </ul>

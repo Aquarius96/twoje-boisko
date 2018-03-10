@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './MainPage.css';
-import News from './News';
+import News from '../components/News';
 class MainPage extends Component {
   render() {
     return (
