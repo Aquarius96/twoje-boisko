@@ -28,4 +28,4 @@ class TableSportsfield extends Component {
   }
 }
 
-export default TableSportsField;
+export default TableSportsfield;

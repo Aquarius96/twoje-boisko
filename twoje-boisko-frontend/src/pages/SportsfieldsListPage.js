@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import '../App.css';
-import Navbar from '../Navbar';
-import News from '../TableSportsfield';
-class App extends Component {
+import TableSportsfield from '../components/TableSportsfield';
+class SportsfieldsListPage extends Component {
   render() {
     return (
-      <div className="App container">
-      <Navbar />
+      <div className="container">
       <TableSportsfield />
       </div>
     );
   }
 }
 
-export default App;
+export default SportsfieldsListPage;

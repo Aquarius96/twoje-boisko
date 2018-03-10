@@ -13,7 +13,7 @@ class Navbar extends Component {
         <div><p>Twoje-boisko.pl</p></div>
          <ul>
             <li><Link class="active" to="/">Strona Główna</Link></li>
-            <li><a href="#list.html">Lista Boisk</a></li>
+            <li><Link to="/listaBoisk">Lista Boisk</Link></li>
             <li><a href="#login.html">Logowanie</a></li>
          </ul>
         </div>
