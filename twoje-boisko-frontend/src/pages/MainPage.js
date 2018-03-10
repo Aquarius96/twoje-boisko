@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
-import Navbar from './Navbar';
+import './MainPage.css';
 import News from './News';
-class App extends Component {
+class MainPage extends Component {
   render() {
     return (
-      <div className="App container">
-      <Navbar />
+      <div className="MainPage container">
       <h1>Aktualności</h1>
       <div class="news-tab row">
         <div class="col-sm-4"> <News /></div>
@@ -24,4 +22,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default MainPage;
