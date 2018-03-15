@@ -4,7 +4,11 @@ class SportsfieldsListPage extends Component {
   render() {
     return (
       <div className="container">
+      
       <TableSportsfield />
+      
+      <button class="button button1">Szczegóły</button>
+
       </div>
     );
   }

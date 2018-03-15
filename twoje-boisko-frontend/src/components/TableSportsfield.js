@@ -9,7 +9,7 @@ class TableSportsfield extends Component {
             <table id="myTable">
                 <tr class="header">
                     <th>Nazwa Boiska</th>
-                    <th>Miasto</th>
+                    <th>Miasto</th>                   
                 </tr>
                 <tr>
                     <td>Orlik przy SP nr 6</td>
