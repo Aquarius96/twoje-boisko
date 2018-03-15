@@ -58,3 +58,7 @@
     background-color: #4CAF50;
     color: white;
 }
+
+th.nazwa { width: 45%; }
+th.miasto { width: 45%; }
+th.przycisk { width: 10%; }

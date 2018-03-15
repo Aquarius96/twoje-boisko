@@ -8,20 +8,25 @@ class TableSportsfield extends Component {
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Type in a name"></input>
             <table id="myTable">
                 <tr class="header">
-                    <th>Nazwa Boiska</th>
-                    <th>Miasto</th>                   
+                    <th class ="nazwa">Nazwa Boiska</th>
+                    <th class ="miasto">Adres</th>            
+                    <th class ="przycisk"></th>       
                 </tr>
                 <tr>
-                    <td>Orlik przy SP nr 6</td>
-                    <td>Szczytno</td>
+                    <td>Orlik przy szkole podstawowej nr 6</td>
+                    <td>Szczytno ul. Polska 12</td>
+                    <td><button class="button button1">Szczegóły</button></td>
+
                 </tr>
                 <tr>
-                    <td>Orlik przy ZS nr 3</td>
-                    <td>Warszawa</td>
+                    <td>Orlik przy zespole szkół nr 3</td>
+                    <td>Warszawa ul. Jana Pawła 2</td>
+                    <td><button class="button button1">Szczegóły</button></td>
                 </tr>
                 <tr>
-                    <td>Orlik przy SP nr 23</td>
-                    <td>Kraków</td>
+                    <td>Orlik przy szkole podsatwowej nr 23</td>
+                    <td>Kraków ul. Marcinów Zapadków 18</td>
+                    <td><button class="button button1">Szczegóły</button></td>
                 </tr>
         </table>
       </div>

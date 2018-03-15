@@ -10,7 +10,7 @@ class Navbar extends Component {
     render() {
       return (
         <div className="navbar container">
-        <div><p>Twoje-boisko.pl</p></div>
+        <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
          <ul>
             <li><Link className='active' to="/">Strona Główna</Link></li>
             <li><Link to="/listaBoisk">Lista Boisk</Link></li>
