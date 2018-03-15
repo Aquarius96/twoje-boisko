@@ -14,8 +14,8 @@ class NewsTab extends Component {
     Object.keys(allNews).forEach(function(key){
         allNewsTab.push(allNews[key]);
     });
-    return (<div class="row">
-        {allNewsTab.map(item => <div class=""><News header={item.header}/></div>)}
+    return (<div class="news-tab row">
+        {allNewsTab.map(item => <div class="col-sm-4"><News header={item.header}/></div>)}
         </div>
     );
   }

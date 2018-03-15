@@ -20,8 +20,18 @@ class TableSportsfield extends Component {
                     <td>Warszawa</td>
                 </tr>
                 <tr>
-                    <td>Orlik przy SP nr 23</td>
-                    <td>Kraków</td>
+                <div class="row">
+                    <div class="col-sm-6"><td>Orlik przy SP nr 23</td></div>
+                    <div class="col-sm-6">  <td>
+                        <div class="row">
+                            <div class="col-sm-8 pt-2">Kraków</div>
+                            <div class="col-sm-4"><button class="button button1">Szczegóły</button></div>
+                        </div>
+                        </td></div>
+
+                </div>
+                    
+                  
                 </tr>
         </table>
       </div>
