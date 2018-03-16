@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,4 +16,10 @@ public class LoginController {
         return new User_abs(login,password); // porownac tego usera z dana userow
     }
 
+    @RequestMapping(value = "/allUsers")
+    public List<User> test(){
+        DBconnector con = new DBconnector();
+        return con.getAllUsers();
+    }
+    
 }

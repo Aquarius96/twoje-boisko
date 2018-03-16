@@ -1,6 +1,5 @@
 package hello;
 
-
 public class User {
 
   private Integer id;
@@ -25,6 +24,8 @@ public class User {
     this.phone = phone;
   }
 
+  //? po cos tam moze kiedys sie przyda 
+
   public User(Integer id, String username, String password){
     this.id = id;
     this.username = username;
@@ -32,8 +33,8 @@ public class User {
   }
   
   public Integer getId() {  
-    return id;  
-    }
+  return id;  
+  }
     
   public void setId(Integer id) {  
   this.id = id;  
