@@ -14,9 +14,10 @@ class Navbar extends Component {
          <ul>
             <li><Link className='a' to="/">Strona Główna</Link></li>
             <li><Link to="/listaBoisk">Lista Boisk</Link></li>
-            <li><a href="#login.html">Logowanie</a></li>
+            <li><Link to="/LoginPage">Logowanie</Link></li>
          </ul>
         </div>
+        
       );
     }
   }
