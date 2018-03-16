@@ -2,7 +2,23 @@ import React, { Component } from 'react';
 import './TableSportsfield.css';
 
 class TableSportsfield extends Component {
+    constructor(props){
+        super(props);
+    }
+
+    sortTable(){
+        
+    }
   render() {
+    var mockTableRows = {
+        "one":{"name":'Orlik przy szkole podstawowej nr 6',"address":'Szczytno ul. Polska 12'},
+        "two":{"name":"Orlik przy zespole szkół nr 3","address":'Szczytno ul. Polska 12'},
+        "three":{"name":"Orlik przy szkole podstawowej nr 23","address":'Szczytno ul. Polska 12'}
+    }
+    var mockTableRowsTab = [];
+    Object.keys(mockTableRows).forEach(function(key){
+        mockTableRowsTab.push(mockTableRows[key]);
+    });
     return (
       <div class="tableContainer">
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Type in a name"></input>
@@ -12,22 +28,13 @@ class TableSportsfield extends Component {
                     <th class ="miasto">Adres</th>            
                     <th class ="przycisk"></th>       
                 </tr>
-                <tr>
-                    <td>Orlik przy szkole podstawowej nr 6</td>
-                    <td>Szczytno ul. Polska 12</td>
-                    <td><button class="button button1">Szczegóły</button></td>
-
-                </tr>
-                <tr>
-                    <td>Orlik przy zespole szkół nr 3</td>
-                    <td>Warszawa ul. Jana Pawła 2</td>
+                {mockTableRowsTab.map(item => 
+                 <tr>
+                    <td>{item.name}</td>
+                    <td>{item.address}</td>
                     <td><button class="button button1">Szczegóły</button></td>
                 </tr>
-                <tr>
-                    <td>Orlik przy szkole podsatwowej nr 23</td>
-                    <td>Kraków ul. Marcinów Zapadków 18</td>
-                    <td><button class="button button1">Szczegóły</button></td>
-                </tr>
+                )}
         </table>
       </div>
     );
