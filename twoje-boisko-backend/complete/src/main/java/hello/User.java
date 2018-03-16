@@ -3,6 +3,7 @@ package hello;
 
 public class User {
 
+  private Integer id;
   private String username;
   private String password;  
   private String firstname;  
@@ -14,7 +15,8 @@ public class User {
 
   }
 
-  public User(String username, String password, String firstname, String lastname, String email, String phone){
+  public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone){
+    this.id = id;
     this.username = username;
     this.password = password;
     this.firstname = firstname;
@@ -23,11 +25,20 @@ public class User {
     this.phone = phone;
   }
 
-  public User(String username, String password){
+  public User(Integer id, String username, String password){
+    this.id = id;
     this.username = username;
     this.password = password;
   }
   
+  public Integer getId() {  
+    return id;  
+    }
+    
+  public void setId(Integer id) {  
+  this.id = id;  
+  }
+
   public String getUsername() {  
   return username;  
   }
