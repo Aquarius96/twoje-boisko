@@ -12,7 +12,7 @@ class Navbar extends Component {
         <div className="navbar container">
         <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
          <ul>
-            <li><Link className='active' to="/">Strona Główna</Link></li>
+            <li><Link className='a' to="/">Strona Główna</Link></li>
             <li><Link to="/listaBoisk">Lista Boisk</Link></li>
             <li><a href="#login.html">Logowanie</a></li>
          </ul>

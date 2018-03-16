@@ -8,15 +8,15 @@ class NewsTab extends Component {
        
     }
   render() {
-    var allNews = {
+    var mockNews = {
         "one":{"header":'Joe'},"two":{"header":"Jane"},"three":{"header":"Fado"}
     }
-    var allNewsTab = [];
-    Object.keys(allNews).forEach(function(key){
-        allNewsTab.push(allNews[key]);
+    var mockNewsTab = [];
+    Object.keys(mockNews).forEach(function(key){
+        mockNewsTab.push(mockNews[key]);
     });
     return (<div class="news-tab row">
-        {allNewsTab.map(item => <div class="col-sm-4"><News header={item.header}/></div>)}
+        {mockNewsTab.map(item => <div class="col-sm-4"><News header={item.header}/></div>)}
         </div>
     );
   }
