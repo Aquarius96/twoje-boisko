@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
+import LoginPage from '../pages/LoginPage';
 import './App.css';
 import Navbar from './Navbar';
 import MainPage from '../pages/MainPage';
@@ -15,6 +16,7 @@ class App extends Component {
         <Navbar />
           <Route exact path="/" component={MainPage} />
           <Route exact path="/listaBoisk" component={SportsfieldsListPage} />
+          <Route exact path="/LoginPage" component={LoginPage} />
         </div>
       </Router>
     );
