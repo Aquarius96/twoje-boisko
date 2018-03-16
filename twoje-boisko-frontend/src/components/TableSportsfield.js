@@ -5,7 +5,7 @@ class TableSportsfield extends Component {
   render() {
     return (
       <div class="tableContainer">
-      <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Type in a name"></input>
+      <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
             <table id="myTable">
                 <tr class="header">
                     <th class ="nazwa">Nazwa Boiska</th>
