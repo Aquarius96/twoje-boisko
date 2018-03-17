@@ -8,6 +8,7 @@ class LoginPage extends Component {
   {
     super(props);
     this.switchwindows = this.switchwindows.bind(this);
+    this.addUser=this.addUser.bind(this);
   }
 
   switchwindows()
@@ -15,6 +16,21 @@ class LoginPage extends Component {
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
   }
 
+  addUser(){
+    fetch('http://localhost:8080/something', {
+      method: 'POST',
+      mode:'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: 'Hubot',
+        password: 'hubot',
+      })
+    }).then(result => {
+        console.log(result.json());
+    })
+  }
   render() {
     return (
       <div className="LoginPage container">
@@ -26,13 +42,13 @@ class LoginPage extends Component {
               <form class="register-form">
                 
                 <h1>Rejestracja</h1>
-                <input type="text" placeholder="Login...*" required/>
-                <input type="password" placeholder="Hasło...*" required/>
-                <input type="password" placeholder="Powtórz hasło...*" required/>
-                <input type="text" placeholder="E-mail...*" required/>
-                <input type="text" placeholder="Imie..."/>
-                <input type="text" placeholder="Nazwisko..."/>
-                <input type="text" placeholder="Numer telefonu..."/>
+                <input type="text" placeholder="Login*" required/>
+                <input type="password" placeholder="Hasło*" required/>
+                <input type="password" placeholder="Powtórz hasło*" required/>
+                <input type="text" placeholder="E-mail*" required/>
+                <input type="text" placeholder="Imie"/>
+                <input type="text" placeholder="Nazwisko"/>
+                <input type="text" placeholder="Numer telefonu"/>
                 <button>Stwórz konto</button>
                 <p class="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
                 <p class="message">Pola oznaczone * są obowiązkowe</p>
@@ -43,7 +59,7 @@ class LoginPage extends Component {
                 <h1>Logowanie</h1>
                 <input type="text" placeholder="Login..." required/>
                 <input type="password" placeholder="Hasło..." required/>
-                <button>Zaloguj</button>
+                <button onClick = {this.addUser}>Zaloguj</button>
                 <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               
               </form>
