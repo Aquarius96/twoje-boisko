@@ -48,17 +48,22 @@
     cursor: pointer;
   }
 
-  .button1 {
+  .button {
     background-color: white; 
     color: black; 
     border: 2px solid #4CAF50;
 }
 
-.button1:hover {
+.button:hover {
     background-color: #4CAF50;
     color: white;
 }
 
-th.nazwa { width: 45%; }
-th.miasto { width: 45%; }
+th.nazwa { width: 45%; cursor: pointer; }
+th.miasto { width: 45%; cursor: pointer; }
 th.przycisk { width: 10%; }
+
+i{
+  width: 10px;
+  text-align: center;
+}

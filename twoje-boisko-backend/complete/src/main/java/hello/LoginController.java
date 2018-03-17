@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     
+<<<<<<< HEAD
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/logowanie", method = RequestMethod.POST)
@@ -25,6 +26,16 @@ public class LoginController {
         else zalogowany = new User(index);
         return  zalogowany;
         
+=======
+    //todo do przetestowania jak bd Front ogarniety  
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value ="/something", method = RequestMethod.POST)
+    @ResponseBody
+    public User_abs testujemy(@ModelAttribute("user_abs") User_abs user_abs) {
+ 
+        return user_abs;
+        //("witaj "+user_abs.getLogin() + " ktory masz haslo: "+user_abs.getPassword());
+>>>>>>> 2ad552e31ad7ebdc54e151443842910814982114
     }
 
     

@@ -1,0 +1,81 @@
+.login-page {
+    width: 450px;
+    padding: 2% 0 0;
+    margin: auto;
+  }
+  
+  .form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 450px;
+    margin: 0 auto 100px;
+    padding: 25px;
+    text-align: center;
+    border: 2px solid #e7e7e7;
+  }
+
+  .form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f3f3f3;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 18px;
+    border: 2px solid #e7e7e7;
+    color:#777777;
+  }
+
+  .form input:required {
+    box-shadow:none;
+}
+
+  .form button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .form button{
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+  }
+
+  .form button:hover,.form button:active,.form button:focus {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+  }
+
+  .form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .form .register-form {
+    display: none;
+  } 
+
+  .form h1{
+    font-size: 40px;
+    margin-bottom: 25px;
+    color: #b1b1b1;
+}
