@@ -4,7 +4,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    border: 1px solid #e7e7e7;
+    border: 2px solid #e7e7e7;
     background-color: #f3f3f3;
 }
 
@@ -20,88 +20,12 @@ li a{
     text-decoration: none;
 }
 
-li a.active {
-    color: white;
-    background-color: #497F28;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
+li a:hover{
     background-color: #ddd;
-    text-decoration: none;
     color:black;
+    text-decoration: none;
 }
 
 Modal{
     display: block;
-}
-
-/* login */
-/* -------------------------------------------*/
-/* -------------------------------------------*/
-
-#myInput2 {
-    width: 60%;
-    font-size: 16px;
-    padding: 12px 20px 12px ;
-    border: 2px solid #ddd;
-    margin-bottom: 12px;
-    
-  }
-
-/* TU JEST TEN ZWYKLY BUTTON */
-/*.mybutton {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 60%;
-}
-
-.mybutton:hover {
-    opacity: 0.85;
-}
-*/
-
-/* TU SIE ZACZYNA TEN LADNY BUTTON */
-.mybutton {
-    background-color: #4CAF50; 
-    border: none;
-    color: white;
-    padding: 8px 8px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    width: 60%;
-  }
-
-  .mybutton {
-    background-color: white; 
-    color: black; 
-    border: 2px solid #4CAF50;
-}
-
-.mybutton:hover {
-    background-color: #4CAF50;
-    color: white;
-}
-
-/* A TU SIE KONCZY TEN LADNY BUTTON */
-
-.container {
-    padding: 16px;
-}
-
-.column {
-    float: left;
-    width: 45%;
-    margin: auto;
-    padding: 12px 20px 12px ;
-    border: 2px solid #ddd;
-    margin-top: 0px;
 }

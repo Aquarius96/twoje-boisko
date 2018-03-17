@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
+import './LoginPage.css';
+import $ from 'jquery'
+
 class LoginPage extends Component {
-  constructor(props){
+
+  constructor(props)
+  {
     super(props);
+    this.switchwindows = this.switchwindows.bind(this);
     this.addUser=this.addUser.bind(this);
+  }
+
+  switchwindows()
+  {
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
   }
 
   addUser(){
@@ -24,41 +34,40 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="LoginPage container">
-      
-        <div class="container">
 
-          <div class="row">
+          <div class="login-page">
 
-            <div class ="column">
-              <center>
-                <h2>Logowanie</h2>
-                <input type="text" id="myInput2" placeholder="Wpisz login..." name="uname" required></input>
-                <br />
-                <input type="password" id="myInput2" placeholder="Wpisz haslo..." name="psw" required></input>
-                <br />
-                <button onClick={this.addUser}class ="mybutton" type="submit">Zaloguj</button>
-              </center>
+            <div class="form">
+
+              <form class="register-form">
+                
+                <h1>Rejestracja</h1>
+                <input type="text" placeholder="Login*" required/>
+                <input type="password" placeholder="Hasło*" required/>
+                <input type="password" placeholder="Powtórz hasło*" required/>
+                <input type="text" placeholder="E-mail*" required/>
+                <input type="text" placeholder="Imie"/>
+                <input type="text" placeholder="Nazwisko"/>
+                <input type="text" placeholder="Numer telefonu"/>
+                <button>Stwórz konto</button>
+                <p class="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
+                <p class="message">Pola oznaczone * są obowiązkowe</p>
+              </form>
+              
+              <form class="login-form">
+              
+                <h1>Logowanie</h1>
+                <input type="text" placeholder="Login..." required/>
+                <input type="password" placeholder="Hasło..." required/>
+                <button onClick = {this.addUser}>Zaloguj</button>
+                <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
+              
+              </form>
+            
             </div>
+          
+          </div>  
     
-          <div class ="column">
-            <center>
-            <h2>Rejestracja</h2>
-            <input type="text" id="myInput2" placeholder="Wpisz login..." name="uname" required></input>
-            <br />
-            <input type="password" id="myInput2" placeholder="Wpisz haslo..." name="psw" required></input>
-            <br />
-            <input type="password" id="myInput2" placeholder="Powtorz haslo..." name="psw2" required></input>
-            <br />
-            <input type="text" id="myInput2" placeholder="Wpisz e-mail..." name="email" required></input>
-            <br />
-            <input type="text" id="myInput2" placeholder="Wpisz numer telefonu..." name="tel" ></input>
-            <br />
-            <button class ="mybutton" type="submit">Zarejestruj</button>
-            </center>
-        
-          </div>
-        </div>
-      </div>
     </div>
     );
   }
