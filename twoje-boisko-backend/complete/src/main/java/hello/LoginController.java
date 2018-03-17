@@ -12,12 +12,13 @@ public class LoginController {
 
     
     //todo do przetestowania jak bd Front ogarniety  
-    
-    @RequestMapping(value =" /something", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value ="/something", method = RequestMethod.POST)
     @ResponseBody
-    public String testujemy(@ModelAttribute("user_abs") User_abs user_abs) {
+    public User_abs testujemy(@ModelAttribute("user_abs") User_abs user_abs) {
  
-        return ("witaj "+user_abs.getLogin() + " ktory masz haslo: "+user_abs.getPassword());
+        return user_abs;
+        //("witaj "+user_abs.getLogin() + " ktory masz haslo: "+user_abs.getPassword());
     }
     
 

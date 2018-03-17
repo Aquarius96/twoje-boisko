@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
-
+import $ from 'jquery';
 class LoginPage extends Component {
+  constructor(props){
+    super(props);
+    this.addUser=this.addUser.bind(this);
+  }
+
+  addUser(){
+    fetch('http://localhost:8080/something', {
+      method: 'POST',
+      mode:'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: 'Hubot',
+        password: 'hubot',
+      })
+    }).then(result => {
+        console.log(result.json());
+    })
+  }
   render() {
     return (
       <div className="LoginPage container">
@@ -16,7 +36,7 @@ class LoginPage extends Component {
                 <br />
                 <input type="password" id="myInput2" placeholder="Wpisz haslo..." name="psw" required></input>
                 <br />
-                <button class ="mybutton" type="submit">Zaloguj</button>
+                <button onClick={this.addUser}class ="mybutton" type="submit">Zaloguj</button>
               </center>
             </div>
     
