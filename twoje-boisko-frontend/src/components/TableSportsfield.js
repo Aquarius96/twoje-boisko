@@ -45,8 +45,8 @@ class TableSportsfield extends Component {
     }
     render() {
     var mockTableRows = {
-        "one":{"name":'Orlik przy szkole podstawowej nr 6',"address":'Szczytno ul. Polska 12'},
-        "two":{"name":"Orlik przy zespole szkół nr 3","address":'Szczytno ul. Polska 12'},
+        "one":{"name":'Orlik przy szkole podstawowej nr 6',"address":'Wawa ul. Polska 12'},
+        "two":{"name":"Orlik przy zespole szkół nr 3","address":'Olsztyn ul. Polska 12'},
         "three":{"name":"Orlik przy szkole podstawowej nr 23","address":'Szczytno ul. Polska 12'}
     }
     var mockTableRowsTab = [];
@@ -66,7 +66,7 @@ class TableSportsfield extends Component {
                  <tr>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
-                    <td><button class="button button1" onClick={() => this.sortTable(0)}>Szczegóły</button></td>
+                    <td><button class="button button1" onClick={() => this.sortTable(1)}>Szczegóły</button></td>
                 </tr>
                 )}
         </table>

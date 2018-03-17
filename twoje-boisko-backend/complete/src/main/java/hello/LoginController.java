@@ -54,7 +54,7 @@ public class LoginController {
 	public String index() {
         return "welcome in my word";
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allUsers")
     public List<User> getUsers(){
         UserService con = new UserService();
