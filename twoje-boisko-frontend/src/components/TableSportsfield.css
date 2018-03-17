@@ -59,6 +59,11 @@
     color: white;
 }
 
-th.nazwa { width: 45%; }
-th.miasto { width: 45%; }
+th.nazwa { width: 45%; cursor: pointer; }
+th.miasto { width: 45%; cursor: pointer; }
 th.przycisk { width: 10%; }
+
+i{
+  width: 10px;
+  text-align: center;
+}
