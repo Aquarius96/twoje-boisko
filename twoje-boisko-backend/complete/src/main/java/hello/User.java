@@ -13,7 +13,9 @@ public class User {
   public User(){
 
   }
-
+  public User(Integer id){ //* errouser 
+    this.id = id;
+  }
   public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone){
     this.id = id;
     this.username = username;
@@ -32,6 +34,12 @@ public class User {
     this.password = password;
   }
   
+
+  @Override
+  public String toString(){
+    return ("witaj "+this.username +" nazwisko i wiecej nie trzeba: "+this.lastname);
+  }
+
   public Integer getId() {  
   return id;  
   }

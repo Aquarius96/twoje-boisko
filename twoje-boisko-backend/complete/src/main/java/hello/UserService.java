@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import org.json.JSONObject;
-
-
-
 
 public class UserService{
 
@@ -37,20 +33,22 @@ public class UserService{
         return result;
     }
     //! juz dodaje tlyko cos z tym jsonem trzeba zrobic  jak doda to niech zwroci usera jak nie to error
-    public JSONObject addUser(User user) {
-        JSONObject userJSON = new JSONObject();
+    public User addUser(User user) {
+        User user_ = new User();
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"');";
             Integer tmp = st.executeUpdate(task);
-            //userJSON.put("username", user.getFirstname());
-            userJSON.put("user", user);
+            user_ = user;
+            
         }catch (Exception exception){
             System.out.println("Error: "+exception);
+            user_.setId(-2);
         }
-        return userJSON;
+        return user_;
     }
 
     public Boolean deleteUser(Integer id){
+        if (id == -1) return false;
         Boolean result;
         try{
             System.out.println("id: "+id);
@@ -66,6 +64,7 @@ public class UserService{
     }
     public Integer checkUser(User_abs user){
         Boolean login_exist = false, password_correct = false;
+        Integer id = null;
         
         try{
             String task = "SELECT * FROM users WHERE username=\""+user.getLogin()+"\"";
@@ -77,6 +76,7 @@ public class UserService{
 
                 if (user.getPassword().equals(rs.getString("password")) ){
                     password_correct = true;
+                    id = rs.getInt("id");
                 }
             }
             
@@ -84,12 +84,12 @@ public class UserService{
             System.out.println("Error: "+exception);
         }
         
-        if (!login_exist) return 1;
-        else if (!password_correct) return 2;
+        if (!login_exist) return -1;
+        else if (!password_correct) return -2;
         
-        return 0;
+        return id;
     }
-    public Integer checkUser(User user){
+    public Integer checkUser(NewUser user){
         Boolean login_exist = false, password_correct = false;
         
         try{
