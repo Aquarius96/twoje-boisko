@@ -33,12 +33,7 @@ public class User {
     this.username = username;
     this.password = password;
   }
-  
 
-  @Override
-  public String toString(){
-    return ("witaj "+this.username +" nazwisko i wiecej nie trzeba: "+this.lastname);
-  }
 
   public Integer getId() {  
   return id;  

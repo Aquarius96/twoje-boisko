@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     
-<<<<<<< HEAD
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/logowanie", method = RequestMethod.POST)
     @ResponseBody
-    public User testujemy(@RequestBody User_abs user_abs) {
+    public User logging(@RequestBody User_abs user_abs) {
         UserService con = new UserService();
         Integer index = con.checkUser(user_abs);
         User zalogowany;
@@ -26,28 +25,19 @@ public class LoginController {
         else zalogowany = new User(index);
         return  zalogowany;
         
-=======
-    //todo do przetestowania jak bd Front ogarniety  
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value ="/something", method = RequestMethod.POST)
-    @ResponseBody
-    public User_abs testujemy(@ModelAttribute("user_abs") User_abs user_abs) {
- 
-        return user_abs;
-        //("witaj "+user_abs.getLogin() + " ktory masz haslo: "+user_abs.getPassword());
->>>>>>> 2ad552e31ad7ebdc54e151443842910814982114
     }
 
     
 
     //! dodawanie dziala ale ze zwroceniem dobrego objectu jest cos probelm
-    @RequestMapping(value = "/add")
-    public User addUSer(@RequestParam(value="login", required = true) String login,
-                                @RequestParam(value="passwd", required = true) String password) {
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/add", method = RequestMethod.POST)
+    @ResponseBody
+    public User addUSer(@RequestBody NewUser newuser) {
         UserService con = new UserService();
-        User nowy = new User(con.getfreeId(),login,password,"Bilbo","Baggins","brak","22");
-        Integer tmp = con.checkUser(nowy);  //todo zwraca: 0-> brak bledu 1-> brak uzytkownika o wskazanym loginie (username) 2-> zle hasla
-
+        Integer tmp = con.checkUser(newuser); 
+        User nowy = new User(con.getfreeId(),newuser.getUsername(),newuser.getPassword(),newuser.getFirstname(),newuser.getLastname(),newuser.getEmail(),newuser.getPhone());
+        
         if (tmp == 1){
             return con.addUser(nowy);
         }
