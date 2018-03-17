@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
-import $ from 'jquery'
+import $ from 'jquery';
 
 class LoginPage extends Component {
 
@@ -11,6 +11,7 @@ class LoginPage extends Component {
     this.switchwindows = this.switchwindows.bind(this);
     this.login=this.login.bind(this);
     this.register=this.register.bind(this);
+    console.log(this.state.login);
   }
 
   switchwindows()
@@ -53,7 +54,8 @@ class LoginPage extends Component {
     }
   }
 
-  login(){
+  login(e){
+    e.preventDefault();
     fetch('http://localhost:8080/logowanie', {
       method: 'POST',
       mode:'cors',
@@ -66,10 +68,12 @@ class LoginPage extends Component {
       })
     }).then(result => {
         console.log(result.json());
+        //window.alert("nic");
     })
   }
 
-  register(){
+  register(e){
+    e.preventDefault();
     fetch('http://localhost:8080/add', {
       method: 'POST',
       mode:'cors',
@@ -77,7 +81,7 @@ class LoginPage extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        login: this.state.login,
+        username: this.state.login,
         password: this.state.password,
         firstname: this.state.firstname,
         lastname: this.state.lastname,
@@ -120,7 +124,7 @@ class LoginPage extends Component {
                 <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               
               </form>
-            
+             
             </div>
           
           </div>  
