@@ -29,24 +29,27 @@ public class LoginController {
 
     
 
-    //! dodawanie dziala ale ze zwroceniem dobrego objectu jest cos probelm
+    //! przerobic 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public User addUSer(@RequestBody NewUser newuser) {
         UserService con = new UserService();
         Integer tmp = con.checkUser(newuser); 
-        User nowy = new User(con.getfreeId(),newuser.getUsername(),newuser.getPassword(),newuser.getFirstname(),newuser.getLastname(),newuser.getEmail(),newuser.getPhone());
-        
-        if (tmp == 1){
+
+        if (tmp == 0){
+            User nowy = new User(con.getfreeId(),newuser.getUsername(),newuser.getPassword(),newuser.getFirstname(),newuser.getLastname(),newuser.getEmail(),newuser.getPhone());
             return con.addUser(nowy);
         }
-        return new User(-1);
+        else if (tmp==1) return new User(-1); //* zajety username
+        else if (tmp==2) return new User(-2); //* zajety email
+        return new User(-3); //* zajete wszystko XD
     }
 
 
     //! dziala ale parametry trzeba zminic na body
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ResponseBody
     public String deleteUser(@RequestParam(value="id", required = true) String id) {
         UserService con = new UserService();
         Boolean tmp = con.deleteUser(Integer.parseInt(id));

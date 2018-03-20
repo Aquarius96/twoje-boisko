@@ -23,13 +23,34 @@ public class UserService{
             st = con.createStatement();
 
         }catch(Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error connection: "+exception);
         }
     }
 
-    public Boolean updateUser(Integer id){
-        Boolean result = false;
-        // tutaj powinno byc sqlowskie zapytanie z st.executeUpdate o UPDATE ale to juz pozniej 
+    public User updateUser(Integer id, NewUser user){
+        User result = new User();
+        try{
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"' WHERE id = '"+id+";";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp == 1) {
+                result.setId(id);
+                result.setUsername(user.getUsername());
+                result.setPassword(user.getPassword());
+                result.setFirstname(user.getFirstname());
+                result.setLastname(user.getLastname());
+                result.setEmail(user.getEmail());
+                result.setPhone(user.getPhone());
+            }
+            else {
+                System.out.println("Error update: zle dane najprawdopodnobnmiej");
+                result.setId(-1);
+            }
+                
+        }catch (Exception exception){
+            System.out.println("Error update: "+exception);
+            result.setId(-1);
+        }
+        
         return result;
     }
     //! juz dodaje tlyko cos z tym jsonem trzeba zrobic  jak doda to niech zwroci usera jak nie to error
@@ -38,26 +59,32 @@ public class UserService{
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"');";
             Integer tmp = st.executeUpdate(task);
-            user_ = user;
+            if (tmp==1) user_ = user;
+            else {
+                user_.setId(-1);System.out.println("Error add_user: zle dane najprawdopodnobnmiej");
+            }
             
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
-            user_.setId(-2);
+            System.out.println("Error add_user: "+exception);
+            user_.setId(-1);
         }
         return user_;
     }
 
     public Boolean deleteUser(Integer id){
-        if (id == -1) return false;
+        if (id == 0) return false;
         Boolean result;
         try{
-            System.out.println("id: "+id);
             String task = "DELETE FROM users WHERE id=\""+id+"\"";
-            Integer count = st.executeUpdate(task);
-            result = true;
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) result = true;
+            else {
+                System.out.println("Error delete_user: zle id");
+                result = false;
+            }
         
         }catch(Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error delete_user: "+exception);
             result = false;
         }
         return result;
@@ -81,7 +108,7 @@ public class UserService{
             }
             
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error check_user(login): "+exception);
         }
         
         if (!login_exist) return -1;
@@ -89,30 +116,31 @@ public class UserService{
         
         return id;
     }
+
     public Integer checkUser(NewUser user){
-        Boolean login_exist = false, password_correct = false;
-        
+        Integer user_name = 0, email = 0;
         try{
-            String task = "SELECT * FROM users WHERE username=\""+user.getUsername()+"\"";
+            String task = "SELECT * FROM users WHERE username='"+user.getUsername()+"'";
             rs = st.executeQuery(task);
 
             if (rs.next()){
-                
-                login_exist = true;
-
-                if (user.getPassword().equals(rs.getString("password")) ){
-                    password_correct = true;
-                }
+                user_name = 1;
             }
+            task = "SELECT * FROM users WHERE email='"+user.getEmail()+"'";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                email = 2;
+            }
+
+            return user_name + email;
+
             
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error check_user(register): "+exception);
+            return -1;
         }
         
-        if (!login_exist) return 1;
-        else if (!password_correct) return 2;
-        
-        return 0;
     }
 
     public User findUser(Integer id){
@@ -132,7 +160,7 @@ public class UserService{
             }
             
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error find_user(id): "+exception);
         }
         return result;
     }
@@ -153,7 +181,7 @@ public class UserService{
             }
             
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error find_user(username): "+exception);
         }
         return result;
     }
@@ -164,10 +192,11 @@ public class UserService{
             rs = st.executeQuery(task);
             result = 0;
             while (rs.next()){
-            if (rs.getInt("id")!=result) break;
-            result +=1;
-        }
+                if (rs.getInt("id")!=result) break;
+                result +=1;
+            }
         }catch(Exception exception){
+            System.out.println("Error free_id: "+exception);
             result = -1;
         }
         return result;
@@ -191,7 +220,7 @@ public class UserService{
                 outList.add(tmp);
             }
         }catch (Exception exception){
-            System.out.println("Error: "+exception);
+            System.out.println("Error all_users: "+exception);
         }
 		return outList;
     }
