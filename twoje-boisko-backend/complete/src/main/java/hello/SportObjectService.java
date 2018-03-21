@@ -28,7 +28,7 @@ public class SportObjectService{
     public SportObject updateSportObject(SportObject sportObject){
         SportObject result = new SportObject();
         try{
-            String task = "UPDATE sportobjects  SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"' WHERE id = '"+sportObject.getId()+";";
+            String task = "UPDATE sportobjects SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"' WHERE id = '"+sportObject.getId()+";";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(sportObject.getId());
