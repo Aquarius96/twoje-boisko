@@ -16,6 +16,9 @@ public class SportObject{
     public SportObject(){
 
     }
+    public SportObject(Integer id){
+        this.id = id;
+    }
 
     public SportObject(Integer id, String name, String type, String openDays, String openHours, String city, String street, String streetNumber, String priceList, String contact){
         this.id = id;

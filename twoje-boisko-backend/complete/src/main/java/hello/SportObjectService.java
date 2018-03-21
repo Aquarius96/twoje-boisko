@@ -28,7 +28,7 @@ public class SportObjectService{
     public SportObject updateSportObject(SportObject sportObject){
         SportObject result = new SportObject();
         try{
-            String task = "UPDATE sportobjects SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"' WHERE id = '"+sportObject.getId()+";";
+            String task = "UPDATE sportsobjects SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"' WHERE id = '"+sportObject.getId()+";";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(sportObject.getId());
@@ -58,7 +58,7 @@ public class SportObjectService{
     public SportObject addSportObject(SportObject sportObject) {
         SportObject sportObject_ = new SportObject();
         try{
-            String task = "INSERT INTO sportobjects (`id`, `name`, `type`, `openDays`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`) VALUES ('"+sportObject.getId()+"', '"+sportObject.getName()+"', '"+sportObject.getType()+"', '"+sportObject.getOpenDays()+"', '"+sportObject.getOpenHours()+"', '"+sportObject.getCity()+"', '"+sportObject.getStreet()+"', '"+sportObject.getStreetNumber()+"', '"+sportObject.getPriceList()+"', '"+sportObject.getContact()+"');";
+            String task = "INSERT INTO sportsobjects (`id`, `name`, `type`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`) VALUES ('"+sportObject.getId()+"', '"+sportObject.getName()+"', '"+sportObject.getType()+"', '"+sportObject.getOpenDays()+"', '"+sportObject.getOpenHours()+"', '"+sportObject.getCity()+"', '"+sportObject.getStreet()+"', '"+sportObject.getStreetNumber()+"', '"+sportObject.getPriceList()+"', '"+sportObject.getContact()+"');";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) sportObject_ = sportObject;
             else {
@@ -67,7 +67,7 @@ public class SportObjectService{
             
         }catch (Exception exception){
             System.out.println("Error add_sportobject: "+exception);
-            sportObject_.setId(-1);
+            sportObject_.setId(-2);
         }
         return sportObject_;
     }
@@ -76,7 +76,7 @@ public class SportObjectService{
         if (id == 0) return false;
         Boolean result;
         try{
-            String task = "DELETE FROM sportobjects WHERE id=\""+id+"\"";
+            String task = "DELETE FROM sportsobjects WHERE id=\""+id+"\"";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) result = true;
             else {
@@ -94,7 +94,7 @@ public class SportObjectService{
     public SportObject findSportObject(Integer id){
         SportObject result = new SportObject();
         try{
-            String task = "SELECT * FROM sportobjects WHERE id=\""+id+"\"";
+            String task = "SELECT * FROM sportsobjects WHERE id=\""+id+"\"";
             rs = st.executeQuery(task);
 
             if (rs.next()){
@@ -137,7 +137,7 @@ public class SportObjectService{
     public List<SportObject> getAllSportObjects(){
         outList = new ArrayList<>();
         try{
-            String task = "SELECT * FROM sportobjects";
+            String task = "SELECT * FROM sportsobjects";
             rs = st.executeQuery(task);
             
 			while (rs.next()){
@@ -162,7 +162,7 @@ public class SportObjectService{
     public List<SportObject> findSportObjectsCity(String city){
         outList = new ArrayList<>();
         try{
-            String task = "SELECT * FROM sportobjects WHERE city=\""+city+"\"";
+            String task = "SELECT * FROM sportsobjects WHERE city=\""+city+"\"";
             rs = st.executeQuery(task);
 
             while (rs.next()){

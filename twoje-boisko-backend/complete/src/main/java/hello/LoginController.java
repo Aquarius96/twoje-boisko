@@ -73,7 +73,7 @@ public class LoginController {
     public List<User> getUsers(){
         UserService con = new UserService();
         return con.getAllUsers();
-    }
+    }               
 
 
     //! te tu moga sie przydac ale raczej bd pozniej do wywalenia
