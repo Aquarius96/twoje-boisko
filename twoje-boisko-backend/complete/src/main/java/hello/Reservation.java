@@ -13,10 +13,6 @@ public class Reservation{
 
     }
 
-    public Reservation(Integer id){
-        this.id = id;
-    }
-
     public Reservation(Integer id, String dDay, String hStart, String hEnd, Integer idObject, Integer idUser){
         this.id = id;
         this.dateDay=dDay;

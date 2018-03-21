@@ -67,7 +67,7 @@ public class NewsService{
         return result;
     }
 
-    public Boolean deleteReservation(Integer id){
+    public Boolean deleteNews(Integer id){
         
         Boolean result;
         try{
