@@ -71,6 +71,7 @@ public class UserService{
         return user_;
     }
 
+    
     public Boolean deleteUser(Integer id){
         if (id == 0) return false;
         Boolean result;
@@ -164,6 +165,7 @@ public class UserService{
         }
         return result;
     }
+
     public User findUser(String username){
         User result = new User();
         try{
@@ -202,6 +204,7 @@ public class UserService{
         return result;
         
     }
+    
     public List<User> getAllUsers(){
         outList = new ArrayList<>();
         try{
