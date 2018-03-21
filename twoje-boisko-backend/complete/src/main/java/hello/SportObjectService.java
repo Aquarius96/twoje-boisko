@@ -159,4 +159,30 @@ public class SportObjectService{
         }
 		return outList;
     }
+    public List<SportObject> findSportObjectsCity(String city){
+        outList = new ArrayList<>();
+        try{
+            String task = "SELECT * FROM sportobjects WHERE city=\""+city+"\"";
+            rs = st.executeQuery(task);
+
+            while (rs.next()){
+                SportObject result = new SportObject();
+                result.setId(rs.getInt("id"));
+                result.setName(rs.getString("name"));
+                result.setType(rs.getString("type"));
+                result.setOpenDays(rs.getString("openDays"));
+                result.setOpenHours(rs.getString("openHours"));
+                result.setCity(rs.getString("city"));
+                result.setStreet(rs.getString("street"));
+                result.setStreetNumber(rs.getString("streetNumber"));
+                result.setPriceList(rs.getString("priceList"));
+                result.setContact(rs.getString("contact"));
+                outList.add(result);
+            }
+
+        }catch (Exception exception){
+            System.out.println("Error find_sportobjects(id): "+exception);
+        }
+        return outList;
+    }
 }
