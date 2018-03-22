@@ -58,15 +58,15 @@ class TableSportsfield extends Component {
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
             <table id="myTable">
                 <tr class="header">
-                    <th class ="nazwa">Nazwa Boiska</th>
-                    <th class ="miasto">Adres</th>            
+                    <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska<i class="fas fa-angle-down fa-2x"></i></th>
+                    <th onClick={() => this.sortTable(1)}class ="miasto">Adres</th>            
                     <th class ="przycisk"></th>       
                 </tr>
                 {mockTableRowsTab.map(item => 
                  <tr>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
-                    <td><button class="button button1" onClick={() => this.sortTable(1)}>Szczegóły</button></td>
+                    <td><button class="button button1">Szczegóły</button></td>
                 </tr>
                 )}
         </table>
