@@ -84,3 +84,28 @@
     background-color: #4CAF50;
     color: white;
 }
+
+.profile{
+  width: 45%;
+}
+.profile label{
+  padding: 5px;
+  text-align: right;
+}
+.profile .row{
+  margin: 10px;
+}
+.edit{
+  width: 55%;
+}
+
+.edit label{
+  padding: 5px;
+  text-align: right;
+}
+.edit .row{
+  margin: 10px;
+}
+#editPassword{
+  display: none;
+}
