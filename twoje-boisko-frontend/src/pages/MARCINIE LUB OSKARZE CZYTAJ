@@ -7,3 +7,10 @@ przejzyj sobie w tyle (complete src main hello) przejzyj sobie controllery by ok
 dla przykladu /allUsers to teraz /user/allUsers
 
 powodzonka :*
+
+obiekt 1 id=1
+    boisko 1 id=1
+    boisko 2 id=2
+obiekt 2 id=2
+    boisko 1 id=3
+    boisko 2 id=4

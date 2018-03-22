@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Route} from 'react-router-dom';
 import './LoginPage.css';
 import $ from 'jquery';
 
@@ -14,6 +15,8 @@ class LoginPage extends Component {
     this.saveUserData=this.saveUserData.bind(this);
     console.log(this.state.login);
   }
+
+  
 
   switchwindows()
   {
@@ -69,14 +72,20 @@ class LoginPage extends Component {
       })
     }).then(response => response.json())
     .then(result => this.saveUserData(result));
-       
+
+    
+    
     }
-  
+
     saveUserData(data){
-      localStorage.setItem('loggedUser', data);
+      localStorage.setItem('loggedUser', JSON.stringify(data));
       this.setState({loggedUser:data});
-      console.log(data.firstname);
+      if(this.state.loggedUser.id > 0){
+        console.log(this.state.loggedUser.id);
+        this.props.history.push('/myProfilePage'); 
+      }
     }
+
   register(e){
     e.preventDefault();
     fetch('http://localhost:8080/user/signup', {
@@ -99,6 +108,16 @@ class LoginPage extends Component {
   }
 
   render() {
+    const Button = () => (
+      <Route render={({ history}) => (
+        <button
+          type='button'
+          onClick={() => { history.push('/myProfilePage') }}
+        >
+          Click Me!
+        </button>
+      )} />
+    )
     return (
       <div className="LoginPage container">
 
@@ -133,7 +152,7 @@ class LoginPage extends Component {
             </div>
           
           </div>
-          <div>Zalogowany user to {this.state.loggedUser.firstname}</div>  
+          <div>Zalogowany user to {this.state.loggedUser.id} {localStorage.loggedUser}</div>  
     
     </div>
     );

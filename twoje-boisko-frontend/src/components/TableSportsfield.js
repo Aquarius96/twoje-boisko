@@ -1,12 +1,41 @@
 import React, { Component } from 'react';
 import './TableSportsfield.css';
+import $ from 'jquery';
 
 class TableSportsfield extends Component {
     constructor(props){
         super(props);
+        this.state=({objects:[]});
+        this.sortTable=this.sortTable.bind(this);
+        this.switchArrow=this.switchArrow.bind(this);
+        this.componentDidMount=this.componentDidMount.bind(this);
+    }
+
+    componentDidMount(){
+      fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
+              .then(response => response.json())
+              .then(data =>{
+              var dataTab = [];
+              Object.keys(data).forEach(function(key){
+                dataTab.push(data[key]);
+            });
+              this.setState({objects:dataTab});
+              console.log("state of objects", this.state.objects);
+            })          
+    }
+
+    switchArrow(id){
+      if ($('#'+id).hasClass('fa-arrow-up')){
+        $('#'+id).toggleClass('fas fa-arrow-down');
+      }
+      else{
+        $('#'+id).toggleClass('fas fa-arrow-up');
+      }
+      
     }
 
     sortTable(n){
+      this.switchArrow(n);
       var table, rows, switching, i, x, y, shouldSwitch, asc, switchcount = 0;
       var table = document.getElementById("myTable");
       var rows = table.getElementsByTagName("TR");
@@ -36,7 +65,7 @@ class TableSportsfield extends Component {
           switching = true;
           switchcount ++; 
         } else {
-          if (switchcount == 0 && asc) {
+          if (switchcount === 0 && asc) {
             asc = false;
             switching = true;
           }
@@ -45,27 +74,24 @@ class TableSportsfield extends Component {
     }
     render() {
     var mockTableRows = {
-        "one":{"name":'Orlik przy szkole podstawowej nr 6',"address":'Wawa ul. Polska 12'},
-        "two":{"name":"Orlik przy zespole szkół nr 3","address":'Olsztyn ul. Polska 12'},
-        "three":{"name":"Orlik przy szkole podstawowej nr 23","address":'Szczytno ul. Polska 12'}
+        "one":{"name":'Orlik przy szkole podstawowej nr 6',"city":'Wawa','street':'ul.Polska','streetNumber':'15'},
+        "two":{"name":"Orlik przy zespole szkół nr 3","city":'Szczytno','street':'ul.Polna','streetNumber':'15'},
+        "three":{"name":"Orlik przy szkole podstawowej nr 23","city":'Szczytno','street':'ul.Polska','streetNumber':'15'}
     }
-    var mockTableRowsTab = [];
-    Object.keys(mockTableRows).forEach(function(key){
-        mockTableRowsTab.push(mockTableRows[key]);
-    });
+   
     return (
       <div class="tableContainer">
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
             <table id="myTable">
                 <tr class="header">
-                    <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska<i class="fas fa-angle-down fa-2x"></i></th>
-                    <th onClick={() => this.sortTable(1)}class ="miasto">Adres</th>            
-                    <th class ="przycisk"></th>       
+                    <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska <i id="0"class="fas fa-arrow-down"></i></th>
+                    <th onClick={() => this.sortTable(1)}class ="miasto">Adres <i id="1"class="fas fa-arrow-down"></i></th>
+                    <th class ="przycisk"></th>    
                 </tr>
-                {mockTableRowsTab.map(item => 
+                {this.state.objects.map(item => 
                  <tr>
                     <td>{item.name}</td>
-                    <td>{item.address}</td>
+                    <td>{item.city}, {item.street} {item.streetNumber}</td>                   
                     <td><button class="button button1">Szczegóły</button></td>
                 </tr>
                 )}

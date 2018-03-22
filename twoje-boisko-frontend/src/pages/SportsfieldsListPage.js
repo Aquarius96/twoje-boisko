@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import TableSportsfield from '../components/TableSportsfield';
-import 'whatwg-fetch';
-import { resolve } from 'path';
 class SportsfieldsListPage extends Component {
   constructor(props){
     super(props);
