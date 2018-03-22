@@ -118,7 +118,7 @@ public class UserService{
         return id;
     }
 
-    public Integer checkUser(NewUser user){
+    public Integer checkUser(User user){
         Integer user_name = 0, email = 0;
         try{
             String task = "SELECT * FROM users WHERE username='"+user.getUsername()+"'";

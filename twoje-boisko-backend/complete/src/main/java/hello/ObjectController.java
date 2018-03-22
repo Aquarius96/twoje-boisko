@@ -34,6 +34,14 @@ public class ObjectController{
 
     }
 
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    @ResponseBody
+    public SportObject updateObject(@RequestBody SportObject object) {
+        SportObjectService con = new SportObjectService();
+        return con.updateSportObject(object);
+    }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allObjects")
     public List<SportObject> getSportObject(){

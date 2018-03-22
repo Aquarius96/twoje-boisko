@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(value = "/logging")
+@RequestMapping(value = "/user")
 @RestController
 public class UserController {
 
@@ -31,17 +31,25 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signup", method = RequestMethod.POST)
     @ResponseBody
-    public User addUSer(@RequestBody NewUser newuser) {
+    public User addUser(@RequestBody User user) {
         UserService con = new UserService();
-        Integer tmp = con.checkUser(newuser); 
+        Integer tmp = con.checkUser(user); 
 
         if (tmp == 0){
-            User nowy = new User(con.getfreeId(),newuser.getUsername(),newuser.getPassword(),newuser.getFirstname(),newuser.getLastname(),newuser.getEmail(),newuser.getPhone());
-            return con.addUser(nowy);
+            user.setId(con.getfreeId());
+            return con.addUser(user);
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email
         return new User(-3); //* zajete wszystko XD
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    @ResponseBody
+    public User updateUser(@RequestBody User user) {
+        UserService con = new UserService();
+        return con.updateUser(user);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

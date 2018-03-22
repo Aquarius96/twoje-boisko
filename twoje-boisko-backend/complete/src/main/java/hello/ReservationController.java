@@ -27,8 +27,7 @@ public class ReservationController {
     @ResponseBody
     public Reservation updateReservation(@RequestBody Reservation reservation) {
         ReservationsService con = new ReservationsService();
-        con.updateReservation(reservation);
-        return con.addReservation(reservation);
+        return con.updateReservation(reservation);
         
     }
 
