@@ -1,0 +1,86 @@
+
+.ProfileForm {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 350px;
+    margin: 0 auto 100px;
+    padding: 25px;
+    text-align: center;
+    border: 2px solid #e7e7e7;
+  }
+
+  .ProfileForm h1{
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #b1b1b1;
+}
+
+  .ProfileForm p{
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .ProfileForm .info{
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 14px;
+  }
+
+  #ReservationTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #ddd;
+    font-size: 18px;
+  }
+  
+  #ReservationTable th {
+    text-align: left;
+    padding: 12px;
+    background-color: #ddd;
+  }
+
+  #ReservationTable td {
+    text-align: left;
+    padding: 12px;
+  }
+  
+  #ReservationTable tr {
+    border-bottom: 2px solid #f2f2f2;
+  }
+  
+  #ReservationTable tr:nth-child(even){background-color: #f2f2f2;}
+
+  #ReservationTable tr:hover {background-color: #ddd;}
+
+  th.obiekt { width: 25%;  }
+  th.adresObiektu { width: 25%;  }
+  th.godzinaRezerwacji { width: 20%; }
+  th.dataRezerwacji { width: 20%; }
+  th.przyciskAnulujTabela { width: 10%; }
+
+  .przyciskAnuluj {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+
+  .przyciskAnuluj {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+  .przyciskAnuluj:hover {
+    background-color: #4CAF50;
+    color: white;
+}
