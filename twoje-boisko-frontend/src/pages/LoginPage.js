@@ -57,8 +57,8 @@ class LoginPage extends Component {
               <form class="login-form">
               
                 <h1>Logowanie</h1>
-                <input type="text" placeholder="Login..." required/>
-                <input type="password" placeholder="Hasło..." required/>
+                <input type="text" placeholder="Login" required/>
+                <input type="password" placeholder="Hasło" required/>
                 <button onClick = {this.addUser}>Zaloguj</button>
                 <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               
