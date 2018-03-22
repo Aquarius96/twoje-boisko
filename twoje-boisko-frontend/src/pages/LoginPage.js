@@ -7,10 +7,11 @@ class LoginPage extends Component {
   constructor(props)
   {
     super(props);
-    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:""})
+    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:"",loggedUser:JSON.parse(localStorage.getItem('loggedUser'))});
     this.switchwindows = this.switchwindows.bind(this);
     this.login=this.login.bind(this);
     this.register=this.register.bind(this);
+    this.saveUserData=this.saveUserData.bind(this);
     console.log(this.state.login);
   }
 
@@ -56,7 +57,7 @@ class LoginPage extends Component {
 
   login(e){
     e.preventDefault();
-    fetch('http://localhost:8080/logowanie', {
+    fetch('http://localhost:8080/user/signin', {
       method: 'POST',
       mode:'cors',
       headers: {
@@ -66,15 +67,19 @@ class LoginPage extends Component {
         login: this.state.login,
         password: this.state.password,
       })
-    }).then(result => {
-        console.log(result.json());
-        //window.alert("nic");
-    })
-  }
-
+    }).then(response => response.json())
+    .then(result => this.saveUserData(result));
+       
+    }
+  
+    saveUserData(data){
+      localStorage.setItem('loggedUser', data);
+      this.setState({loggedUser:data});
+      console.log(data.firstname);
+    }
   register(e){
     e.preventDefault();
-    fetch('http://localhost:8080/add', {
+    fetch('http://localhost:8080/user/signup', {
       method: 'POST',
       mode:'cors',
       headers: {
@@ -127,7 +132,8 @@ class LoginPage extends Component {
              
             </div>
           
-          </div>  
+          </div>
+          <div>Zalogowany user to {this.state.loggedUser.firstname}</div>  
     
     </div>
     );

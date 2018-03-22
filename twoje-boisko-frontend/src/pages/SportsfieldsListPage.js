@@ -8,7 +8,7 @@ class SportsfieldsListPage extends Component {
     this.state=({items:[]});
   }
   componentDidMount(){
-    fetch(`http://localhost:8080/allUsers`,{mode:'cors'}) 
+    fetch(`http://localhost:8080/user/allUsers`,{mode:'cors'}) 
             .then(result=> {
             return result.json();
           }).then(data =>{
