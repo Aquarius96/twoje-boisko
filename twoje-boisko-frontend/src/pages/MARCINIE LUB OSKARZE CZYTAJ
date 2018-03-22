@@ -1,0 +1,9 @@
+zmienily sie jakby linki ja wiem... mappping po ktorym odbieracie informacje od nas 
+w sensie jak bylo to 
+@RequestMapping(value = "/allUsers")
+to musisz to przejzec jeslichcesz info 
+bo poniewaz zrobilismy male uporzadkowanie i mappping sie zmienil na abrdziej poukladany 
+przejzyj sobie w tyle (complete src main hello) przejzyj sobie controllery by okreslic nowy maping 
+dla przykladu /allUsers to teraz /user/allUsers
+
+powodzonka :*
