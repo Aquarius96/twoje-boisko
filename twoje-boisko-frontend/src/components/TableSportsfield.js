@@ -88,8 +88,6 @@ class TableSportsfield extends Component {
       <div class="tableContainer">
       
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
-      
-     
             <table id="myTable">
                 <tr class="header">
                     <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska <i id="0"class="fas fa-arrow-up"></i></th>

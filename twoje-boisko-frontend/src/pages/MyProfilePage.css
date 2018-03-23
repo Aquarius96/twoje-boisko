@@ -88,7 +88,6 @@
 }
 
 .profile{
-  width: 45%;
   height:220px;
   border: 2px solid #e7e7e7;
   overflow: hidden;
@@ -107,14 +106,12 @@
 
 .dane{
   padding-top: 10px;
-  float: left;
 }
 .haslo{
   padding-top: 10px;
-  float: left;
 }
 .hasloinput{
-  float: right;
+  padding-right: 40px;
   margin-left: 30px;
 }
 input{
@@ -122,45 +119,60 @@ input{
   margin-bottom: 3px;
   padding-left: 10px;
 }
-.edit{
-  width: 55%;
-}
-
-.edit label{
-  padding: 5px;
-  text-align: right;
-  
-}
-.edit .row{
-  margin: 10px;
-}
-#editPassword{
-  display: none;
-}
-
-.column {
-  float: left;
-  padding: 10px;
-}
-
-.column.left {
-  width: 30%;
-}
-
-.column.right {
-  width: 70%;
-}
-.right{
-  float: right;
-  width: 50%;
-}
 
 .myProfileData{
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
-.col-sm-9{
-  width: 70%;
+.przyciskZapiszZmiany {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 8px 71px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin: 0.5px 30px;
+}
+
+.przyciskZapiszZmiany {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+.przyciskZapiszZmiany:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.przyciskEdytuj {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 8px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 14px 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.przyciskEdytuj {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+.przyciskEdytuj:hover {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .row{
@@ -168,3 +180,6 @@ input{
   margin-right: 0;
 }
 
+#editPassword{
+  display: none;
+}

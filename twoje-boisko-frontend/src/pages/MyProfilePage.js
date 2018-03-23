@@ -8,15 +8,8 @@ class MyProfilePage extends Component {
     this.showEditPassword=this.showEditPassword.bind(this);
   }
 
-  switchwindows()
-  {
-    $('form').animate({width: "toggle", opacity: "toggle"}, "slow");
-  }
-
   showEditPassword(){
-    $(".profile").animate({
-      width: "toggle"
-    });
+    $('#editPassword').toggle({duration: 1000});
     }
     
 
@@ -31,9 +24,10 @@ class MyProfilePage extends Component {
         <p> marcinzapadka33@gmail.com </p>
         <p class="info"> telefon: </p>
         <p> 518 799 424 </p>
+        <button class="przyciskEdytuj" onClick = {this.showEditPassword}>Edytuj dane osobowe</button>
         </div>
        </div>
-       <div className="col-9 profile">
+       <div className="col-sm-9 profile" id = "editPassword">
         <div className="row">
         <div className="col-sm-7 dane">
         <div class="row">
@@ -67,15 +61,16 @@ class MyProfilePage extends Component {
           
           <input type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
           </div>
+          
           <div class="row">
-          <button id="zapisz" class="przyciskAnuluj right">Zapisz zmiany</button>
+          <button id="zapisz" class="przyciskZapiszZmiany right">Zapisz zmiany</button>
           </div>
         
         
         </div>
         </div>
        </div>
-      
+       
        </div>
 
 
