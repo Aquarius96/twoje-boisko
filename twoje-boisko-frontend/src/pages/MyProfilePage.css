@@ -100,7 +100,25 @@
 }
 
 .profile .row{
-  margin: 10px;
+  margin-bottom: 10px;
+}
+
+.dane{
+  padding-top: 10px;
+  float: left;
+}
+.haslo{
+  padding-top: 10px;
+  float: left;
+}
+.hasloinput{
+  float: right;
+  margin-left: 30px;
+}
+input{
+  height:40px;
+  margin-bottom: 3px;
+  padding-left: 10px;
 }
 .edit{
   width: 55%;
@@ -129,4 +147,7 @@
 
 .column.right {
   width: 70%;
+}
+.right{
+  float: right;
 }

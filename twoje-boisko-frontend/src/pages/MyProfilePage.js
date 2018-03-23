@@ -42,42 +42,56 @@ class MyProfilePage extends Component {
         
 
         <div class="row">
-        <div class="profile col-sm-9">
+        <div class="profile col-sm-10">
+          
           <div class="row">
-          <label class="col-sm-2">Imię:</label>
-          <input class="col-sm-10"placeholder="Marcin"></input>
+            <div class="dane col-sm-7">
+            <div class="row">
+          <label class="col-sm-4">Imię:</label>
+          <input class="col-sm-8"placeholder="Marcin"></input>
           </div>
           <div class="row">
-          <label class="col-sm-2">Nazwisko:</label>
-          <input class="col-sm-10"placeholder="Zapadka"></input>
+          <label class="col-sm-4">Nazwisko:</label>
+          <input class="col-sm-8"placeholder="Zapadka"></input>
           </div>
           <div class="row">
-          <label class="col-sm-2">Email:</label>
-          <input class="col-sm-10"placeholder="marcinzapadka33@wp.pl"></input>
+          <label class="col-sm-4">Email:</label>
+          <input class="col-sm-8"placeholder="marcinzapadka33@wp.pl"></input>
           </div>
           <div class="row">
-          <label class="col-sm-2">Telefon:</label>
-          <input class="col-sm-10"placeholder="518799424"></input>
+          <label class="col-sm-4">Telefon:</label>
+          <input class="col-sm-8"placeholder="518799424"></input>
           </div>
+            </div>
+
+            <div class="haslo col-sm-5">
+            <div class="row">
+          
+          <input type="password"class="hasloinput" placeholder="Stare hasło"></input>
+          </div>
+          <div class="row">
+          
+          <input type="password"class="hasloinput" placeholder="Nowe hasło"></input>
+          </div>
+          <div class="row">
+          
+          <input type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
+          </div>
+          
+          <button id="zapisz" class="przyciskAnuluj right">Zapisz zmiany</button>
+          </div>
+          
+            </div>
+          
+          
         </div>
         
 
-        <div class="edit col-sm-3">
-        <button class="przyciskAnuluj" onClick={this.showEditPassword}>Zmień hasło</button>
-        <button id="zapisz" class="przyciskAnuluj">Zapisz zmiany</button>
+        <div class="edit col-sm-2">
+        <button class="przyciskAnuluj">Edytuj dane osobowe</button>
+        
         <div id="editPassword">
-        <div class="row">
-          <label class="col-sm-3">Stare hasło:</label>
-          <input type="password"class="col-sm-9"></input>
-          </div>
-          <div class="row">
-          <label class="col-sm-3">Nowe hasło:</label>
-          <input type="password"class="col-sm-9"></input>
-          </div>
-          <div class="row">
-          <label class="col-sm-3">Powtórz hasło:</label>
-          <input type="password"class="col-sm-9"></input>
-          </div>
+        
         </div>
         </div>
         </div>
