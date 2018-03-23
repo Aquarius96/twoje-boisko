@@ -27,26 +27,20 @@ class MyProfilePage extends Component {
     render() {
       return (
         <div className="MyProfile container">
-       
-        <div class = "column left">
-        <div class = "ProfileForm">
+       <div className="row myProfileData">
+       <div className="col-sm-3">
+       <div class = "ProfileForm">
         <h1> Marcin Zapadka </h1>
         <p class="info"> e-mail: </p>
         <p> marcinzapadka33@gmail.com </p>
         <p class="info"> telefon: </p>
         <p> 518 799 424 </p>
         </div>
-        </div>
-
-        <div class = "column right">
-        
-
+       </div>
+       <div className="col-sm-7 profile">
+        <div className="row">
+        <div className="col-sm-7 dane">
         <div class="row">
-        <div class="profile col-sm-10">
-          
-          <div class="row">
-            <div class="dane col-sm-7">
-            <div class="row">
           <label class="col-sm-4">Imię:</label>
           <input class="col-sm-8"placeholder="Marcin"></input>
           </div>
@@ -62,10 +56,10 @@ class MyProfilePage extends Component {
           <label class="col-sm-4">Telefon:</label>
           <input class="col-sm-8"placeholder="518799424"></input>
           </div>
-            </div>
-
-            <div class="haslo col-sm-5">
-            <div class="row">
+        </div>
+        <div className="col-sm-5 haslo">
+        
+        <div class="row">
           
           <input type="password"class="hasloinput" placeholder="Stare hasło"></input>
           </div>
@@ -77,25 +71,21 @@ class MyProfilePage extends Component {
           
           <input type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
           </div>
-          
+          <div class="row offset-6">
           <button id="zapisz" class="przyciskAnuluj right">Zapisz zmiany</button>
           </div>
-          
-            </div>
-          
-          
-        </div>
         
+        
+        </div>
+        </div>
+       </div>
+       <div className="col-sm-2">
+       <button class="przyciskAnuluj">Edytuj dane osobowe</button>
+       </div>
+       </div>
 
-        <div class="edit col-sm-2">
-        <button class="przyciskAnuluj">Edytuj dane osobowe</button>
-        
-        <div id="editPassword">
-        
-        </div>
-        </div>
-        </div>
-        </div>
+
+       
 
         <table id="ReservationTable">
             <tr class="header">

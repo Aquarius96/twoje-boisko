@@ -151,3 +151,7 @@ input{
 .right{
   float: right;
 }
+
+.myProfileData{
+  margin-bottom: 10px;
+}
