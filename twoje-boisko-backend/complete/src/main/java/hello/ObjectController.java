@@ -50,11 +50,19 @@ public class ObjectController{
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    @RequestMapping(value = "/findC", method = RequestMethod.GET)
     @ResponseBody
-    public List<SportObject> findObject(@RequestParam(value="city", required = true) String city) {
+    public List<SportObject> findObjectC(@RequestParam(value="city", required = true) String city) {
         SportObjectService con = new SportObjectService();
         return con.findSportObjectsCity(city);
+
+    }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    @ResponseBody
+    public SportObject findObject(@RequestParam(value="id", required = true) String id) {
+        SportObjectService con = new SportObjectService();
+        return con.findSportObject(Integer.parseInt(id));
 
     }
 
