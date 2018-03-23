@@ -11,6 +11,7 @@ public class SportObjectService{
     private ResultSet rs;
 
     private List<SportObject> outList;
+    private List<String> outListS;
 
     public SportObjectService(){
         
@@ -137,7 +138,7 @@ public class SportObjectService{
     public List<SportObject> getAllSportObjects(){
         outList = new ArrayList<>();
         try{
-            String task = "SELECT * FROM sportsobjects";
+            String task = "SELECT * FROM sportsobjects ORDER BY name,city,street,CAST(streetNumber AS UNSIGNED)";
             rs = st.executeQuery(task);
             
 			while (rs.next()){
@@ -185,4 +186,20 @@ public class SportObjectService{
         }
         return outList;
     }
+
+    public List<String> getAllTypes(){
+        outListS = new ArrayList<>();
+        try{
+            String task = "SELECT DISTINCT type FROM sportsobjects";
+            rs = st.executeQuery(task);
+
+            while (rs.next()){
+                outListS.add(rs.getString("type"));
+            }
+        }catch (Exception exception){
+            System.out.println("Error all_types: "+exception);
+        }
+        return outListS;
+    }
+
 }

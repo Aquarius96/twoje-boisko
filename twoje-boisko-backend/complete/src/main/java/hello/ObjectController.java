@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/object")
 public class ObjectController{
 
-    @CrossOrigin(origins = "http://localhost:3000/")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public SportObject addSportObject(@RequestBody SportObject sportObject) {
@@ -34,7 +34,7 @@ public class ObjectController{
 
     }
 
-    @CrossOrigin(origins = "http://localhost:3000/")
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public SportObject updateObject(@RequestBody SportObject object) {
@@ -56,5 +56,12 @@ public class ObjectController{
         SportObjectService con = new SportObjectService();
         return con.findSportObjectsCity(city);
 
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/allTypes")
+    public List<String> getTypes(){
+        SportObjectService con = new SportObjectService();
+        return con.getAllTypes();
     }
 }

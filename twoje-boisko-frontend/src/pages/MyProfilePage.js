@@ -9,7 +9,7 @@ class MyProfilePage extends Component {
   }
 
   showEditPassword(){
-    $('#editPassword').toggle();
+    $('#editPassword').slideToggle();
     if(document.getElementById("zapisz").innerHTML!="Zapisz hasło"){
       document.getElementById("zapisz").innerHTML="Zapisz hasło";
     }
