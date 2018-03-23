@@ -152,7 +152,7 @@ class LoginPage extends Component {
             </div>
           
           </div>
-          <div>Zalogowany user to {this.state.loggedUser.id} {localStorage.loggedUser}</div>  
+            
     
     </div>
     );

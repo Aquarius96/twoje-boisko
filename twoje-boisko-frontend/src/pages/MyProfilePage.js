@@ -8,6 +8,11 @@ class MyProfilePage extends Component {
     this.showEditPassword=this.showEditPassword.bind(this);
   }
 
+  switchwindows()
+  {
+    $('form').animate({width: "toggle", opacity: "toggle"}, "slow");
+  }
+
   showEditPassword(){
     $('#editPassword').slideToggle();
     if(document.getElementById("zapisz").innerHTML!="Zapisz hasło"){
@@ -22,6 +27,8 @@ class MyProfilePage extends Component {
     render() {
       return (
         <div className="MyProfile container">
+       
+        <div class = "column left">
         <div class = "ProfileForm">
         <h1> Marcin Zapadka </h1>
         <p class="info"> e-mail: </p>
@@ -29,8 +36,13 @@ class MyProfilePage extends Component {
         <p class="info"> telefon: </p>
         <p> 518 799 424 </p>
         </div>
+        </div>
+
+        <div class = "column right">
+        
+
         <div class="row">
-        <div class="profile col-sm-6">
+        <div class="profile col-sm-9">
           <div class="row">
           <label class="col-sm-2">Imię:</label>
           <input class="col-sm-10"placeholder="Marcin"></input>
@@ -48,7 +60,9 @@ class MyProfilePage extends Component {
           <input class="col-sm-10"placeholder="518799424"></input>
           </div>
         </div>
-        <div class="edit col-sm-6">
+        
+
+        <div class="edit col-sm-3">
         <button class="przyciskAnuluj" onClick={this.showEditPassword}>Zmień hasło</button>
         <button id="zapisz" class="przyciskAnuluj">Zapisz zmiany</button>
         <div id="editPassword">
@@ -67,7 +81,7 @@ class MyProfilePage extends Component {
         </div>
         </div>
         </div>
-        
+        </div>
 
         <table id="ReservationTable">
             <tr class="header">
