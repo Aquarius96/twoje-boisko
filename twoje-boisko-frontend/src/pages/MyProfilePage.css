@@ -4,10 +4,11 @@
     z-index: 1;
     background: #FFFFFF;
     max-width: 350px;
-    margin: 0 auto 100px;
+    margin: left;
     padding: 25px;
     text-align: center;
     border: 2px solid #e7e7e7;
+    height:220px;
   }
 
   .ProfileForm h1{
@@ -87,11 +88,17 @@
 
 .profile{
   width: 45%;
+  height:220px;
+  border: 2px solid #e7e7e7;
 }
 .profile label{
   padding: 5px;
   text-align: right;
 }
+.profile input{
+  border: 2px solid #e7e7e7;
+}
+
 .profile .row{
   margin: 10px;
 }
@@ -102,10 +109,24 @@
 .edit label{
   padding: 5px;
   text-align: right;
+  
 }
 .edit .row{
   margin: 10px;
 }
 #editPassword{
   display: none;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.column.left {
+  width: 30%;
+}
+
+.column.right {
+  width: 70%;
 }
