@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 import './TableSportsfield.css';
 import $ from 'jquery';
 
@@ -81,10 +86,10 @@ class TableSportsfield extends Component {
    
     return (
       <div class="tableContainer">
-      <div class="row">
+      
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
       
-      </div>
+     
             <table id="myTable">
                 <tr class="header">
                     <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska <i id="0"class="fas fa-arrow-up"></i></th>
@@ -95,7 +100,7 @@ class TableSportsfield extends Component {
                  <tr>
                     <td>{item.name}</td>
                     <td>{item.city}, {item.street} {item.streetNumber}</td>                   
-                    <td><button class="button button1">Szczegóły</button></td>
+                    <td><Link to={"/object/"+item.id} class="button button1">Szczegóły</Link></td>
                 </tr>
                 )}
         </table>

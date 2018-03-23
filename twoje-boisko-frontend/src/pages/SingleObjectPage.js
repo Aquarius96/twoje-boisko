@@ -22,6 +22,15 @@ class SingleObjectPage extends Component {
   render() {
     return (
       <div className=" container">
+      <h1>Orlik przy szkole podstawowej nr 6 w Szczytnie</h1>
+      <div class="row">
+      <div class="map col-sm-7">
+
+      </div>
+      <div class="col-sm-5">
+      
+      </div>
+      </div>
         <p>{this.props.match.params.id}</p>
       </div>
     );

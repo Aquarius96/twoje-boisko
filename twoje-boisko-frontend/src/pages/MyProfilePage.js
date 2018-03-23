@@ -14,13 +14,9 @@ class MyProfilePage extends Component {
   }
 
   showEditPassword(){
-    $('#editPassword').slideToggle();
-    if(document.getElementById("zapisz").innerHTML!="Zapisz hasło"){
-      document.getElementById("zapisz").innerHTML="Zapisz hasło";
-    }
-    else{
-      document.getElementById("zapisz").innerHTML="Zapisz zmiany";
-    }
+    $(".profile").animate({
+      width: "toggle"
+    });
     }
     
 
@@ -28,7 +24,7 @@ class MyProfilePage extends Component {
       return (
         <div className="MyProfile container">
        <div className="row myProfileData">
-       <div className="col-sm-3">
+       <div className="col-3">
        <div class = "ProfileForm">
         <h1> Marcin Zapadka </h1>
         <p class="info"> e-mail: </p>
@@ -37,7 +33,7 @@ class MyProfilePage extends Component {
         <p> 518 799 424 </p>
         </div>
        </div>
-       <div className="col-sm-7 profile">
+       <div className="col-9 profile">
         <div className="row">
         <div className="col-sm-7 dane">
         <div class="row">
@@ -71,7 +67,7 @@ class MyProfilePage extends Component {
           
           <input type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
           </div>
-          <div class="row offset-6">
+          <div class="row">
           <button id="zapisz" class="przyciskAnuluj right">Zapisz zmiany</button>
           </div>
         
@@ -79,9 +75,7 @@ class MyProfilePage extends Component {
         </div>
         </div>
        </div>
-       <div className="col-sm-2">
-       <button class="przyciskAnuluj">Edytuj dane osobowe</button>
-       </div>
+      
        </div>
 
 
