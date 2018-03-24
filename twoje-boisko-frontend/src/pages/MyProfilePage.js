@@ -5,11 +5,24 @@ import $ from 'jquery';
 class MyProfilePage extends Component {
   constructor(props){
     super(props);
+    this.state=({loggedUser:""});
     this.showEditPassword=this.showEditPassword.bind(this);
+    
   }
 
+  componentDidMount(){
+    try {
+      this.setState({
+        loggedUser:JSON.parse(localStorage.getItem('loggedUser'))
+      });
+    }
+    catch(err) {
+        console.log("error");
+    }
+  }
   showEditPassword(){
     $('#editPassword').toggle({duration: 1000});
+    console.log(this.state.loggedUser);
     }
     
 
@@ -19,11 +32,11 @@ class MyProfilePage extends Component {
        <div className="row myProfileData">
        <div className="col-3">
        <div class = "ProfileForm">
-        <h1> Marcin Zapadka </h1>
+        <h1>{this.state.loggedUser.firstname} {this.state.loggedUser.lastname}</h1>
         <p class="info"> e-mail: </p>
-        <p> marcinzapadka33@gmail.com </p>
+        <p>{this.state.loggedUser.email}</p>
         <p class="info"> telefon: </p>
-        <p> 518 799 424 </p>
+        <p>{this.state.loggedUser.phone}</p>
         <button class="przyciskEdytuj" onClick = {this.showEditPassword}>Edytuj dane osobowe</button>
         </div>
        </div>
@@ -32,19 +45,19 @@ class MyProfilePage extends Component {
         <div className="col-sm-7 dane">
         <div class="row">
           <label class="col-sm-4">Imię:</label>
-          <input class="col-sm-8"placeholder="Marcin"></input>
+          <input class="col-sm-8"placeholder={this.state.loggedUser.firstname}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Nazwisko:</label>
-          <input class="col-sm-8"placeholder="Zapadka"></input>
+          <input class="col-sm-8"placeholder={this.state.loggedUser.lastname}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Email:</label>
-          <input class="col-sm-8"placeholder="marcinzapadka33@wp.pl"></input>
+          <input class="col-sm-8"placeholder={this.state.loggedUser.email}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Telefon:</label>
-          <input class="col-sm-8"placeholder="518799424"></input>
+          <input class="col-sm-8"placeholder={this.state.loggedUser.phone}></input>
           </div>
         </div>
         <div className="col-sm-5 haslo">

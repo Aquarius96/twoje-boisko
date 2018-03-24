@@ -8,7 +8,7 @@ class LoginPage extends Component {
   constructor(props)
   {
     super(props);
-    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:"",loggedUser:JSON.parse(localStorage.getItem('loggedUser'))});
+    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:""});
     this.switchwindows = this.switchwindows.bind(this);
     this.login=this.login.bind(this);
     this.register=this.register.bind(this);
@@ -58,6 +58,10 @@ class LoginPage extends Component {
     }
   }
 
+  validateData(){
+    
+  }
+
   login(e){
     e.preventDefault();
     fetch('http://localhost:8080/user/signin', {
@@ -72,14 +76,12 @@ class LoginPage extends Component {
       })
     }).then(response => response.json())
     .then(result => this.saveUserData(result));
-
-    
-    
     }
 
     saveUserData(data){
       localStorage.setItem('loggedUser', JSON.stringify(data));
       this.setState({loggedUser:data});
+      localStorage.setItem('isLoggedIn', true);
       if(this.state.loggedUser.id > 0){
         console.log(this.state.loggedUser.id);
         this.props.history.push('/myProfilePage'); 
@@ -107,17 +109,7 @@ class LoginPage extends Component {
     })
   }
 
-  render() {
-    const Button = () => (
-      <Route render={({ history}) => (
-        <button
-          type='button'
-          onClick={() => { history.push('/myProfilePage') }}
-        >
-          Click Me!
-        </button>
-      )} />
-    )
+  render() {  
     return (
       <div className="LoginPage container">
 
@@ -146,7 +138,6 @@ class LoginPage extends Component {
                 <input value={this.state.password} onChange={evt => this.updateInputValue(evt,2)} type="password" placeholder="Hasło..." required/>
                 <button onClick = {this.login}>Zaloguj</button>
                 <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
-              
               </form>
              
             </div>
