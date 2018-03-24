@@ -20,7 +20,7 @@ class LoginPage extends Component {
 
   switchwindows()
   {
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $('form').animate({height: "toggle", opacity: "toggle"}, {duration:1000});
   }
 
   updateInputValue(evt,x){
