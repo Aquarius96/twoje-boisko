@@ -1,4 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
     constructor(props){
@@ -28,7 +32,7 @@ class SingleObjectPage extends Component {
 
       </div>
       <div class="col-sm-5">
-      
+      <DatePicker />
       </div>
       </div>
         <p>{this.props.match.params.id}</p>
