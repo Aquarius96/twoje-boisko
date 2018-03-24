@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Route} from 'react-router-dom';
 import './MyProfilePage.css';
 import $ from 'jquery';
 
@@ -7,7 +8,7 @@ class MyProfilePage extends Component {
     super(props);
     this.state=({loggedUser:""});
     this.showEditPassword=this.showEditPassword.bind(this);
-    
+    this.saveUserData=this.saveUserData.bind(this);
   }
 
   componentDidMount(){
@@ -24,15 +25,76 @@ class MyProfilePage extends Component {
     $('#editPassword').toggle({duration: 1000});
     console.log(this.state.loggedUser);
     }
-    
 
+    saveUserData(data){
+      localStorage.setItem('loggedUser', JSON.stringify(data));
+      this.setState({loggedUser:data});
+      localStorage.setItem('isLoggedIn', true);
+    }
+    
+    validateUpdateData(){
+      const reg = document.editForm;
+      var passwordPattern=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+      var emailPattern=/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      var phonePattern=/^[0-9]{9,}/;
+      if(reg.firstname.value == "") reg.firstname.value = this.state.loggedUser.firstname;
+      if(reg.lastname.value == "") reg.lastname.value = this.state.loggedUser.lastname;
+      if(reg.email.value == "") reg.email.value = this.state.loggedUser.email;
+      if(reg.phone.value == "") reg.phone.value = this.state.loggedUser.phone;
+      if(reg.newPassword.value == "") reg.newPassword.value = this.state.loggedUser.password;
+      if(reg.checkPassword.value == "") reg.checkPassword.value = this.state.loggedUser.password;
+      if(!passwordPattern.test(reg.newPassword.value)){
+        window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
+        return false;
+      }
+      else if(reg.newPassword.value != reg.checkPassword.value){
+        window.alert("Podane hasła nie zgadzają się");
+        return false;
+      }
+      else if(!emailPattern.test(reg.email.value)){
+        window.alert("Podany adres e-mail jest nieprawidłowy");
+        return false;
+      }
+      else if(!phonePattern.test(reg.phone.value)){
+        window.alert("Podany numer telefonu jest nieprawidłowy");
+        return false;
+      }
+      window.alert("Pomyślnie zaktualizowano dane");
+      return true;
+    }
+
+    updateUserData = (e) =>{
+      e.preventDefault();
+      if(this.validateUpdateData()){
+        fetch('http://localhost:8080/user/update', {
+          method: 'POST',
+          mode:'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: JSON.parse(localStorage.getItem('loggedUser')).id,
+            username: JSON.parse(localStorage.getItem('loggedUser')).username,
+            password: document.editForm.newPassword.value,
+            firstname: document.editForm.firstname.value,
+            lastname: document.editForm.lastname.value,
+            email: document.editForm.email.value,
+            phone: document.editForm.phone.value
+          })
+        }).then(response => response.json())
+        .then(result => this.saveUserData(result));
+      }
+     
+    }
+
+    
     render() {
       return (
         <div className="MyProfile container">
        <div className="row myProfileData">
        <div className="col-3">
        <div class = "ProfileForm">
-        <h1>{this.state.loggedUser.firstname} {this.state.loggedUser.lastname}</h1>
+        <h1>{this.state.loggedUser.username}</h1>
         <p class="info"> e-mail: </p>
         <p>{this.state.loggedUser.email}</p>
         <p class="info"> telefon: </p>
@@ -40,49 +102,50 @@ class MyProfilePage extends Component {
         <button class="przyciskEdytuj" onClick = {this.showEditPassword}>Edytuj dane osobowe</button>
         </div>
        </div>
-       <div className="col-sm-9 profile" id = "editPassword">
+       <form name="editForm" className="col-sm-9 profile" id = "editPassword">
         <div className="row">
         <div className="col-sm-7 dane">
         <div class="row">
           <label class="col-sm-4">Imię:</label>
-          <input class="col-sm-8"placeholder={this.state.loggedUser.firstname}></input>
+          <input name="firstname" class="col-sm-8"placeholder={this.state.loggedUser.firstname}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Nazwisko:</label>
-          <input class="col-sm-8"placeholder={this.state.loggedUser.lastname}></input>
+          <input name="lastname" class="col-sm-8"placeholder={this.state.loggedUser.lastname}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Email:</label>
-          <input class="col-sm-8"placeholder={this.state.loggedUser.email}></input>
+          <input name="email" class="col-sm-8"placeholder={this.state.loggedUser.email}></input>
           </div>
           <div class="row">
           <label class="col-sm-4">Telefon:</label>
-          <input class="col-sm-8"placeholder={this.state.loggedUser.phone}></input>
+          <input name="phone" class="col-sm-8"placeholder={this.state.loggedUser.phone}></input>
           </div>
         </div>
         <div className="col-sm-5 haslo">
         
         <div class="row">
           
-          <input type="password"class="hasloinput" placeholder="Stare hasło"></input>
+          <input name="password" type="password"class="hasloinput" placeholder="Stare hasło"></input>
           </div>
           <div class="row">
           
-          <input type="password"class="hasloinput" placeholder="Nowe hasło"></input>
+          <input name="newPassword" type="password"class="hasloinput" placeholder="Nowe hasło"></input>
           </div>
           <div class="row">
           
-          <input type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
+          <input name="checkPassword" type="password"class="hasloinput" placeholder="Powtórz hasło"></input>
           </div>
           
           <div class="row">
-          <button id="zapisz" class="przyciskZapiszZmiany right">Zapisz zmiany</button>
+          
+          <button id="zapisz" class="przyciskZapiszZmiany right"onClick={this.updateUserData}>Zapisz zmiany</button>
           </div>
         
         
         </div>
         </div>
-       </div>
+       </form>
        
        </div>
 

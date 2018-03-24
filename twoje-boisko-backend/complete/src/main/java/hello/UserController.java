@@ -41,7 +41,8 @@ public class UserController {
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email
-        return new User(-3); //* zajete wszystko XD
+        else if (tmp==3) return new User(-3);// zajete wszystko
+        return new User(-4); //* blad z polaczeniem
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
