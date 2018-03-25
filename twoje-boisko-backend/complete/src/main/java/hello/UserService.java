@@ -90,6 +90,7 @@ public class UserService{
         }
         return result;
     }
+
     public Integer checkUser(User_abs user){
         Boolean login_exist = false, password_correct = false;
         Integer id = null;
@@ -116,6 +117,24 @@ public class UserService{
         else if (!password_correct) return -2;
         
         return id;
+    }
+
+    public Boolean checkUpdater(User user){
+        try{
+            String task = "SELECT * FROM users WHERE email='"+user.getEmail()+"' AND id!='"+user.getId()+"';";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                return false;
+            }
+            return true;
+
+            
+        }catch (Exception exception){
+            System.out.println("Error check_user(updater): "+exception);
+            return false;
+        }
+        
     }
 
     public Integer checkUser(User user){

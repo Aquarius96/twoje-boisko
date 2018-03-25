@@ -50,7 +50,8 @@ public class UserController {
     @ResponseBody
     public User updateUser(@RequestBody User user) {
         UserService con = new UserService();
-        return con.updateUser(user);
+        if (con.checkUpdater(user)) return con.updateUser(user);
+        return new User(-1);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
