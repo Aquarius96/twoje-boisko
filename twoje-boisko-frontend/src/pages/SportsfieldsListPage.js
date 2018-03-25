@@ -17,7 +17,7 @@ class SportsfieldsListPage extends Component {
             this.setState({objects:dataTab});
             setTimeout(() => {
               this.setState({dataCollected:true});
-            },2000);
+            },Math.random()*1500);
             console.log("state of objects", this.state.objects);
           })          
   }

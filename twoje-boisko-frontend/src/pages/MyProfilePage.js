@@ -26,11 +26,33 @@ class MyProfilePage extends Component {
     }
 
     saveUserData(data){
-      localStorage.setItem('loggedUser', JSON.stringify(data));
-      this.setState({loggedUser:data});
-      localStorage.setItem('isLoggedIn', true);
+      if(user.id == -1){
+        window.alert("Użytkownik o podanym adresie e-mail już istnieje");
+      }
+      else{
+        localStorage.setItem('loggedUser', JSON.stringify(data));
+        this.setState({loggedUser:data});
+        window.alert("Pomyślnie zaktualizowano dane");
+      }
+    
     }
     
+    checkUpdateData(user){
+      if(user.id == -1){
+        this.saveUserData(user);
+      }
+      switch(user.id){
+        case -1:
+        window.alert("Podano nieprawidłowy login");
+        break;
+        case -2:
+        window.alert("Podano nieprawidłowe hasło");
+        break;
+        default:
+        this.props.history.push('/myProfilePage');
+      }
+    }
+
     validateUpdateData(){
       const reg = document.editForm;
       var passwordPattern=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
@@ -58,7 +80,7 @@ class MyProfilePage extends Component {
         window.alert("Podany numer telefonu jest nieprawidłowy");
         return false;
       }
-      window.alert("Pomyślnie zaktualizowano dane");
+      //window.alert("Pomyślnie zaktualizowano dane");
       return true;
     }
 

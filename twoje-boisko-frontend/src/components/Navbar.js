@@ -11,7 +11,7 @@ class Navbar extends Component {
 
   logOut(){
     localStorage.setItem('isLoggedIn',false);
-    localStorage.setItem('loggedUser',{});
+    localStorage.removeItem('loggedUser');
   }
     render() {
       if(localStorage.getItem('isLoggedIn') == "true"){
