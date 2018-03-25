@@ -26,7 +26,7 @@ class MyProfilePage extends Component {
     }
 
     saveUserData(data){
-      if(user.id == -1){
+      if(data.id == -1){
         window.alert("Użytkownik o podanym adresie e-mail już istnieje");
       }
       else{
@@ -37,21 +37,7 @@ class MyProfilePage extends Component {
     
     }
     
-    checkUpdateData(user){
-      if(user.id == -1){
-        this.saveUserData(user);
-      }
-      switch(user.id){
-        case -1:
-        window.alert("Podano nieprawidłowy login");
-        break;
-        case -2:
-        window.alert("Podano nieprawidłowe hasło");
-        break;
-        default:
-        this.props.history.push('/myProfilePage');
-      }
-    }
+    
 
     validateUpdateData(){
       const reg = document.editForm;
