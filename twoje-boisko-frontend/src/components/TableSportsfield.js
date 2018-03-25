@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
-  Route,
   Link
 } from 'react-router-dom';
 import './TableSportsfield.css';
@@ -17,16 +15,7 @@ class TableSportsfield extends Component {
     }
 
     componentDidMount(){
-      fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
-              .then(response => response.json())
-              .then(data =>{
-              var dataTab = [];
-              Object.keys(data).forEach(function(key){
-                dataTab.push(data[key]);
-            });
-              this.setState({objects:dataTab});
-              console.log("state of objects", this.state.objects);
-            })          
+      this.setState({objects:this.props.objects});
     }
 
     switchArrow(id){
@@ -42,8 +31,8 @@ class TableSportsfield extends Component {
     sortTable(n){
       this.switchArrow(n);
       var table, rows, switching, i, x, y, shouldSwitch, asc, switchcount = 0;
-      var table = document.getElementById("myTable");
-      var rows = table.getElementsByTagName("TR");
+      table = document.getElementById("myTable");
+      rows = table.getElementsByTagName("TR");
       switching = true;
       asc = true; 
       while (switching) {
@@ -78,15 +67,8 @@ class TableSportsfield extends Component {
       }
     }
     render() {
-    var mockTableRows = {
-        "one":{"name":'Orlik przy szkole podstawowej nr 6',"city":'Wawa','street':'ul.Polska','streetNumber':'15'},
-        "two":{"name":"Orlik przy zespole szkół nr 3","city":'Szczytno','street':'ul.Polna','streetNumber':'15'},
-        "three":{"name":"Orlik przy szkole podstawowej nr 23","city":'Szczytno','street':'ul.Polska','streetNumber':'15'}
-    }
-   
     return (
-      <div class="tableContainer">
-      
+      <div class="tableContainer">    
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
             <table id="myTable">
                 <tr class="header">

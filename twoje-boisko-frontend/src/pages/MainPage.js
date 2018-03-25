@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './MainPage.css';
-import News from '../components/News';
 import NewsTab from '../components/NewsTab';
 class MainPage extends Component {
   render() {
@@ -10,6 +9,7 @@ class MainPage extends Component {
       <NewsTab />
       <NewsTab />
       <NewsTab />
+      
       </div>
       </div>
     );

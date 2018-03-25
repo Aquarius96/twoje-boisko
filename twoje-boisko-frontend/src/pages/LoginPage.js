@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
 import './LoginPage.css';
 import $ from 'jquery';
 
@@ -29,7 +28,7 @@ class LoginPage extends Component {
     var passwordPattern=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
     var emailPattern=/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var phonePattern=/^[0-9]{9,}/;
-    if(reg.login.value == "" || reg.password.value == "" || reg.checkPassword.value == "" || reg.email.value == ""){
+    if(reg.login.value === "" || reg.password.value === "" || reg.checkPassword.value === "" || reg.email.value === ""){
       window.alert("Proszę wypełnić wszystkie pola oznaczone symbolem *");
       return false;
     }
@@ -41,7 +40,7 @@ class LoginPage extends Component {
       window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
       return false;
     }
-    else if(reg.password.value != reg.checkPassword.value){
+    else if(reg.password.value !== reg.checkPassword.value){
       window.alert("Podane hasła nie zgadzają się");
       return false;
     }
@@ -82,12 +81,21 @@ class LoginPage extends Component {
       localStorage.setItem('loggedUser', JSON.stringify(data));
       this.setState({loggedUser:data});
       localStorage.setItem('isLoggedIn', true);
-      if(this.state.loggedUser.id > 0){
-        console.log(this.state.loggedUser.id);
-        this.props.history.push('/myProfilePage'); 
-      }
+      this.checkLoginData(data);
     }
 
+    checkLoginData(user){
+      switch(user.id){
+        case -1:
+        window.alert("Podano nieprawidłowy login");
+        break;
+        case -2:
+        window.alert("Podano nieprawidłowe hasło");
+        break;
+        default:
+        this.props.history.push('/myProfilePage');
+      }
+    }
     checkRegisterData(user){
       switch(user.id){
         case -1:
@@ -135,11 +143,11 @@ class LoginPage extends Component {
     return (
       <div className="LoginPage container">
 
-          <div class="login-page">
+          <div className="login-page">
 
-            <div class="form">
+            <div className="form">
 
-              <form name="registerForm" class="register-form">
+              <form name="registerForm" className="register-form">
                 
                 <h1>Rejestracja</h1>
                 
@@ -153,16 +161,16 @@ class LoginPage extends Component {
                 
                 
                 <button onClick={this.register} >Stwórz konto</button>
-                <p class="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
-                <p class="message">Pola oznaczone * są obowiązkowe</p>
+                <p className="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
+                <p className="message">Pola oznaczone * są obowiązkowe</p>
               </form>
               
-              <form name="loginForm" class="login-form">
+              <form name="loginForm" className="login-form">
                 <h1>Logowanie</h1>
                 <input name="login" type="text" placeholder="Login..." required/>
                 <input name="password" type="password" placeholder="Hasło..." required/>
                 <button onClick = {this.login}>Zaloguj</button>
-                <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
+                <p className="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               </form>
              
             </div>

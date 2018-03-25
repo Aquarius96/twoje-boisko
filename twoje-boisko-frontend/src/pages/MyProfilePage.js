@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
 import './MyProfilePage.css';
 import $ from 'jquery';
 
@@ -37,17 +36,17 @@ class MyProfilePage extends Component {
       var passwordPattern=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
       var emailPattern=/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       var phonePattern=/^[0-9]{9,}/;
-      if(reg.firstname.value == "") reg.firstname.value = this.state.loggedUser.firstname;
-      if(reg.lastname.value == "") reg.lastname.value = this.state.loggedUser.lastname;
-      if(reg.email.value == "") reg.email.value = this.state.loggedUser.email;
-      if(reg.phone.value == "") reg.phone.value = this.state.loggedUser.phone;
-      if(reg.newPassword.value == "") reg.newPassword.value = this.state.loggedUser.password;
-      if(reg.checkPassword.value == "") reg.checkPassword.value = this.state.loggedUser.password;
+      if(reg.firstname.value === "") reg.firstname.value = this.state.loggedUser.firstname;
+      if(reg.lastname.value === "") reg.lastname.value = this.state.loggedUser.lastname;
+      if(reg.email.value === "") reg.email.value = this.state.loggedUser.email;
+      if(reg.phone.value === "") reg.phone.value = this.state.loggedUser.phone;
+      if(reg.newPassword.value === "") reg.newPassword.value = this.state.loggedUser.password;
+      if(reg.checkPassword.value === "") reg.checkPassword.value = this.state.loggedUser.password;
       if(!passwordPattern.test(reg.newPassword.value)){
         window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
         return false;
       }
-      else if(reg.newPassword.value != reg.checkPassword.value){
+      else if(reg.newPassword.value !== reg.checkPassword.value){
         window.alert("Podane hasła nie zgadzają się");
         return false;
       }

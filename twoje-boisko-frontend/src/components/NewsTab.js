@@ -3,10 +3,6 @@ import './NewsTab.css';
 import News from '../components/News';
 
 class NewsTab extends Component {
-    constructor(props){
-        super(props);
-       
-    }
   render() {
     var mockNews = {
         "one":{"header":'Joe'},"two":{"header":"Jane"},"three":{"header":"Fado"}
