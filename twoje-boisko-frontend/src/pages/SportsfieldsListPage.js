@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
 import TableSportsfield from '../components/TableSportsfield';
+import Spinner from '../components/Spinner';
 class SportsfieldsListPage extends Component {
   constructor(props){
     super(props);
-    this.state=({items:[]});
+    this.state=({objects:[],dataCollected:false});
   }
   componentDidMount(){
-    fetch(`http://localhost:8080/user/allUsers`,{mode:'cors'}) 
-            .then(result=> {
-            return result.json();
-          }).then(data =>{
-            console.log(data);
+    fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
+            .then(response => response.json())
+            .then(data =>{
             var dataTab = [];
             Object.keys(data).forEach(function(key){
               dataTab.push(data[key]);
           });
-            this.setState({items:dataTab});
-            console.log("state", this.state.items);
-          })
-             
+            this.setState({objects:dataTab});
+            setTimeout(() => {
+              this.setState({dataCollected:true});
+            },Math.random()*1500);
+            console.log("state of objects", this.state.objects);
+          })          
   }
   render() {
-    return (
-      <div className="container">
-      <TableSportsfield />
-      <div>{this.state.items.map(item => <p>{item.password}</p>)}</div>
-      </div>
-    );
+    if(this.state.dataCollected){
+      return (
+        <div className="container">
+        <TableSportsfield objects={this.state.objects}/>
+        </div>
+      );
+    }
+    else{
+      return <Spinner />
+    }
+    
   }
 }
 

@@ -41,7 +41,8 @@ public class UserController {
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email
-        return new User(-3); //* zajete wszystko XD
+        else if (tmp==3) return new User(-3);// zajete wszystko
+        return new User(-4); //* blad z polaczeniem
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
@@ -49,7 +50,8 @@ public class UserController {
     @ResponseBody
     public User updateUser(@RequestBody User user) {
         UserService con = new UserService();
-        return con.updateUser(user);
+        if (con.checkUpdater(user)) return con.updateUser(user);
+        return new User(-1);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

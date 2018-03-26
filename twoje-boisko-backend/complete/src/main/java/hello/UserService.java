@@ -30,7 +30,7 @@ public class UserService{
     public User updateUser(User user){
         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"' WHERE id = '"+user.getId()+";";
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"' WHERE id = '"+user.getId()+"';";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(user.getId());
@@ -90,6 +90,7 @@ public class UserService{
         }
         return result;
     }
+
     public Integer checkUser(User_abs user){
         Boolean login_exist = false, password_correct = false;
         Integer id = null;
@@ -116,6 +117,24 @@ public class UserService{
         else if (!password_correct) return -2;
         
         return id;
+    }
+
+    public Boolean checkUpdater(User user){
+        try{
+            String task = "SELECT * FROM users WHERE email='"+user.getEmail()+"' AND id!='"+user.getId()+"';";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                return false;
+            }
+            return true;
+
+            
+        }catch (Exception exception){
+            System.out.println("Error check_user(updater): "+exception);
+            return false;
+        }
+        
     }
 
     public Integer checkUser(User user){

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
 import './LoginPage.css';
 import $ from 'jquery';
 
@@ -13,7 +12,7 @@ class LoginPage extends Component {
     this.login=this.login.bind(this);
     this.register=this.register.bind(this);
     this.saveUserData=this.saveUserData.bind(this);
-    console.log(this.state.login);
+    this.checkRegisterData=this.checkRegisterData.bind(this);
   }
 
   
@@ -23,121 +22,155 @@ class LoginPage extends Component {
     $('form').animate({height: "toggle", opacity: "toggle"}, {duration:1000});
   }
 
-  updateInputValue(evt,x){
-    switch(x){
-      case 1:
-      this.setState({
-        login: evt.target.value 
-      });
-      break;
-      case 2:
-      this.setState({
-        password: evt.target.value 
-      });
-      break;
-      case 3:
-      this.setState({
-        email: evt.target.value 
-      });
-      break;
-      case 4:
-      this.setState({
-        firstname: evt.target.value 
-      });
-      break;
-      case 5:
-      this.setState({
-        lastname: evt.target.value 
-      });
-      break;
-      case 6:
-      this.setState({
-        phone: evt.target.value 
-      });
-      break;
+  validateRegisterData(){
+    const reg = document.registerForm;
+    var loginPattern = /^[a-zA-Z0-9]{3,16}/;
+    var passwordPattern=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+    var emailPattern=/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var phonePattern=/^[0-9]{9,}/;
+    if(reg.login.value === "" || reg.password.value === "" || reg.checkPassword.value === "" || reg.email.value === ""){
+      window.alert("Proszę wypełnić wszystkie pola oznaczone symbolem *");
+      return false;
     }
-  }
-
-  validateData(){
-    
+    else if(!loginPattern.test(reg.login.value)){
+      window.alert("Podaj login długości od 3 do 16 znaków składający się tylko z liter oraz cyfr");
+      return false;
+    }
+    else if(!passwordPattern.test(reg.password.value)){
+      window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
+      return false;
+    }
+    else if(reg.password.value !== reg.checkPassword.value){
+      window.alert("Podane hasła nie zgadzają się");
+      return false;
+    }
+    else if(!emailPattern.test(reg.email.value)){
+      window.alert("Podany adres e-mail jest nieprawidłowy");
+      return false;
+    }
+    else if(!phonePattern.test(reg.phone.value)){
+      window.alert("Podany numer telefonu jest nieprawidłowy");
+      return false;
+    }
+    return true;
   }
 
   login(e){
     e.preventDefault();
-    fetch('http://localhost:8080/user/signin', {
-      method: 'POST',
-      mode:'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        password: this.state.password,
-      })
-    }).then(response => response.json())
-    .then(result => this.saveUserData(result));
+    if(document.loginForm.login.value !== "" && document.loginForm.password.value !== ""){
+      fetch('http://localhost:8080/user/signin', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          login: document.loginForm.login.value,
+          password: document.loginForm.password.value,
+        })
+      }).then(response => response.json())
+      .then(result => this.saveUserData(result));
+    }
+    else{
+      window.alert("Podaj login oraz hasło");
+    }
+   
     }
 
     saveUserData(data){
       localStorage.setItem('loggedUser', JSON.stringify(data));
       this.setState({loggedUser:data});
       localStorage.setItem('isLoggedIn', true);
-      if(this.state.loggedUser.id > 0){
-        console.log(this.state.loggedUser.id);
-        this.props.history.push('/myProfilePage'); 
+      this.checkLoginData(data);
+    }
+
+    checkLoginData(user){
+      switch(user.id){
+        case -1:
+        window.alert("Podano nieprawidłowy login");
+        break;
+        case -2:
+        window.alert("Podano nieprawidłowe hasło");
+        break;
+        default:
+        this.props.history.push('/myProfilePage');
+      }
+    }
+    checkRegisterData(user){
+      switch(user.id){
+        case -1:
+        window.alert("Podany login jest już zajęty");
+        break;
+        case -2:
+        window.alert("Podany adres e-mail jest już zajęty");
+        break;
+        case -3:
+        window.alert("Podany adres e-mail oraz login są już zajęte");
+        break;
+        case -4:
+        window.alert("Problem z połączeniem. Spróbuj ponownie później");
+        break;
+        default:
+        window.alert("Zarejestrowano pomyślnie");
+        this.switchwindows();
       }
     }
 
   register(e){
     e.preventDefault();
-    fetch('http://localhost:8080/user/signup', {
-      method: 'POST',
-      mode:'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.login,
-        password: this.state.password,
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        email: this.state.email,
-        phone: this.state.phone
-      })
-    }).then(result => {
-        console.log(result.json());
-    })
+    if(this.validateRegisterData()){
+      fetch('http://localhost:8080/user/signup', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: document.registerForm.login.value,
+          password: document.registerForm.password.value,
+          firstname: document.registerForm.firstname.value,
+          lastname: document.registerForm.lastname.value,
+          email: document.registerForm.email.value,
+          phone: document.registerForm.phone.value
+        })
+      }).then(result => result.json())
+      .then(response => this.checkRegisterData(response))
+    }
+    
   }
 
   render() {  
     return (
       <div className="LoginPage container">
 
-          <div class="login-page">
+          <div className="login-page">
 
-            <div class="form">
+            <div className="form">
 
-              <form class="register-form">
+              <form name="registerForm" className="register-form">
                 
                 <h1>Rejestracja</h1>
-                <input value={this.state.login} onChange={evt => this.updateInputValue(evt,1)} type="text" placeholder="Login*" required/>
-                <input value={this.state.password} onChange={evt => this.updateInputValue(evt,2)} type="password" placeholder="Hasło*" required/>
-                <input type="password" placeholder="Powtórz hasło*" required/>
-                <input value={this.state.email} onChange={evt => this.updateInputValue(evt,3)} type="text" placeholder="E-mail*" required/>
-                <input value={this.state.firstname} onChange={evt => this.updateInputValue(evt,4)} type="text" placeholder="Imie"/>
-                <input value={this.state.lastname} onChange={evt => this.updateInputValue(evt,5)} type="text" placeholder="Nazwisko"/>
-                <input value={this.state.phone} onChange={evt => this.updateInputValue(evt,6)} type="text" placeholder="Numer telefonu"/>
+                
+                <input name="login" type="text" placeholder="Login*" required/>
+                <input name="password" type="password" placeholder="Hasło*" required/>
+                <input name="checkPassword" type="password" placeholder="Powtórz hasło*" required/>
+                <input name="email" type="text" placeholder="E-mail*" required/>
+                <input name="firstname" type="text" placeholder="Imie"/>
+                <input name="lastname" type="text" placeholder="Nazwisko"/>
+                <input name="phone" type="text" placeholder="Numer telefonu"/>
+                
+                
                 <button onClick={this.register} >Stwórz konto</button>
-                <p class="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
-                <p class="message">Pola oznaczone * są obowiązkowe</p>
+                <p className="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
+                <p className="message">Pola oznaczone * są obowiązkowe</p>
               </form>
               
-              <form class="login-form">
+              <form name="loginForm" className="login-form">
                 <h1>Logowanie</h1>
-                <input value={this.state.login} onChange={evt => this.updateInputValue(evt,1)} type="text" placeholder="Login..." required/>
-                <input value={this.state.password} onChange={evt => this.updateInputValue(evt,2)} type="password" placeholder="Hasło..." required/>
+                <input name="login" type="text" placeholder="Login..." required/>
+                <input name="password" type="password" placeholder="Hasło..." required/>
                 <button onClick = {this.login}>Zaloguj</button>
-                <p class="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
+                <p className="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               </form>
              
             </div>
