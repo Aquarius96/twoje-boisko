@@ -7,14 +7,16 @@ class Spinner extends Component {
       return (
           <div>
         <div className="filler"></div>
-        <div className="cssload-container">
-        
-		<div className="cssload-sphere cssload-s-gold"></div>
-		<div className="cssload-sphere cssload-s-5"></div>
-		<div className="cssload-sphere cssload-s-4"></div>
-		<div className="cssload-sphere cssload-s-3"></div>
-		<div className="cssload-sphere cssload-s-2"></div>
-		<div className="cssload-sphere cssload-s-1"></div>
+        <div class="sk-cube-grid">
+  <div class="sk-cube sk-cube1"></div>
+  <div class="sk-cube sk-cube2"></div>
+  <div class="sk-cube sk-cube3"></div>
+  <div class="sk-cube sk-cube4"></div>
+  <div class="sk-cube sk-cube5"></div>
+  <div class="sk-cube sk-cube6"></div>
+  <div class="sk-cube sk-cube7"></div>
+  <div class="sk-cube sk-cube8"></div>
+  <div class="sk-cube sk-cube9"></div>
 </div></div>
       );
   }
