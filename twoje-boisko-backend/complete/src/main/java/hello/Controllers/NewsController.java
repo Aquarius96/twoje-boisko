@@ -1,6 +1,9 @@
-package hello;
+package hello.Controllers;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
+
+import hello.Models.*;
+import hello.Services.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController

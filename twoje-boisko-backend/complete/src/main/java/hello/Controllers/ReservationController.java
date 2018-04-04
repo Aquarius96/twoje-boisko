@@ -1,5 +1,6 @@
-package hello;
-
+package hello.Controllers;
+import hello.Models.*;
+import hello.Services.*;
 
 import java.util.List;
 

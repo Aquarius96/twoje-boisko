@@ -1,4 +1,4 @@
-package hello;
+package hello.Models;
 
 public class News{
 

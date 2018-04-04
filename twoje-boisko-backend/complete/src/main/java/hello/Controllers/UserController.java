@@ -1,8 +1,8 @@
-package hello;
+package hello.Controllers;
 
-
+import hello.Models.*;
+import hello.Services.*;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
