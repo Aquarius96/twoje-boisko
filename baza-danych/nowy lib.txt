@@ -1,0 +1,4 @@
+do classpath dodac 
+	<classpathentry kind="lib" path="src/lib/mail.jar"/>
+
+i zaktualizowac tabele usersow tzn usunac ta ktora macie i dodac aktualna z usders.sql
