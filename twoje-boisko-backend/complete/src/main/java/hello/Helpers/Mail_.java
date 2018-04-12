@@ -24,12 +24,12 @@ public class Mail_
     
     public User start(User user_) throws AddressException, MessagingException {
 
-        if (generateAndSendEmail(user_)) ;
+       generateAndSendEmail(user_);
         return user_;
     }
 
 
-    public static boolean generateAndSendEmail(User user) throws AddressException, MessagingException {
+    public static void generateAndSendEmail(User user) throws AddressException, MessagingException {
         
         try{
         // Step1
@@ -56,11 +56,10 @@ public class Mail_
 		transport.connect("smtp.gmail.com", "piwerkobuissnes@gmail.com", "zaq1@WSX");
 		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
-        return true;
         }
         catch(AddressException e)
         {
-            return false;
+            System.out.println("Error mail: "+e);
         }
 
 		
