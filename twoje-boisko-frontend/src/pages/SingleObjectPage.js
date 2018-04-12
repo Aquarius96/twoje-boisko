@@ -58,7 +58,7 @@ class SingleObjectPage extends Component {
           break;
         }
       }
-      
+
       if(wynik){
           console.log("rezerwujemy");
       }
@@ -169,7 +169,7 @@ class SingleObjectPage extends Component {
 
         </table>
         </div>
-        <button onClick={this.reserve}>Rezerwuj</button>
+        <button onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
       </div>
     );
   }

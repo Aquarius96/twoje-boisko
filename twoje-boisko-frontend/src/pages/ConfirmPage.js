@@ -8,12 +8,18 @@ class MainPage extends Component {
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
   componentDidMount(){
 
-    fetch(`http://localhost:8080/test/getjwt`,{mode:'cors'}) //tutaj wysle kod i id usera do backendu
-            .then(response => response.json())
-            .then(data =>{
-              console.log(data);
-              console.log(jwtDecode(data.value));
-          })      
+    fetch('http://localhost:8080/user/confirm', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.props.match.params.id,
+          value: this.props.match.params.value,
+        })
+      }).then(response => response.json())
+      .then(result => console.log(result));
   }
 
   render() {
