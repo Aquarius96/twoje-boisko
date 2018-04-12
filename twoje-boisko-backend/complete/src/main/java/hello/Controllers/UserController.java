@@ -28,12 +28,12 @@ public class UserController {
 
         UserService con = new UserService();
         User tmp = con.findUser(index.getId());
-        if (tmp.getCode()==index.getValue()) {
+        if (tmp.getCode().equals(index.getValue())) {
             tmp.setConfirm(true);
             tmp.setCode(null);
             return con.updateUser(tmp);
         }
-        else return new User(-1); //zly confirmcode czy cos
+        else return new User(-10); //zly confirmcode czy cos
         
     }
 

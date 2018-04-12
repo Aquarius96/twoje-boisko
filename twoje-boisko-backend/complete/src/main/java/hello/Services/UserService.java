@@ -31,7 +31,7 @@ public class UserService{
     public User updateUser(User user){
         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+", isConfirmed='"+user.getConfirm().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(user.getId());
