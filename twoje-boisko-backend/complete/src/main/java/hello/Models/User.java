@@ -9,6 +9,8 @@ public class User {
   private String lastname;  
   private String email;  
   private String phone;
+  private String confirmationCode;
+  private Boolean isConfirmed;
 
   public User(){
 
@@ -16,7 +18,7 @@ public class User {
   public User(Integer id){ //* errouser 
     this.id = id;
   }
-  public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone){
+  public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone,String code,Boolean isConfirmed_){
     this.id = id;
     this.username = username;
     this.password = password;
@@ -24,6 +26,8 @@ public class User {
     this.lastname = lastname;
     this.email = email;
     this.phone = phone;
+    this.confirmationCode = code;
+    this.isConfirmed = isConfirmed_;
   }
 
   //? po cos tam moze kiedys sie przyda 
@@ -34,6 +38,21 @@ public class User {
     this.password = password;
   }
 
+  public Boolean getConfirm(){
+    return isConfirmed;
+  }
+
+  public void setConfirm(Boolean confirm){
+    this.isConfirmed = confirm;
+  }
+  
+  public String getCode(){
+    return confirmationCode;
+  }
+  
+  public void setCode(String code){
+    this.confirmationCode = code;
+  }
 
   public Integer getId() {  
   return id;  

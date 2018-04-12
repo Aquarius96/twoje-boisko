@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 16 Mar 2018, 21:10
+-- Czas generowania: 12 Kwi 2018, 13:48
 -- Wersja serwera: 10.1.31-MariaDB
 -- Wersja PHP: 7.2.3
 
@@ -35,16 +35,18 @@ CREATE TABLE `zeto`.`users` (
   `firstname` varchar(30) COLLATE utf8_bin NOT NULL,
   `lastname` varchar(30) COLLATE utf8_bin NOT NULL,
   `email` varchar(30) COLLATE utf8_bin NOT NULL,
-  `phone` varchar(30) COLLATE utf8_bin NOT NULL
+  `phone` varchar(30) COLLATE utf8_bin NOT NULL,
+  `confirmationCode` varchar(120) COLLATE utf8_bin NOT NULL,
+  `isConfirmed` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Zrzut danych tabeli `users`
 --
 
-INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`) VALUES
-(0, 'Admin', 'zaqwsx', 'Im', 'Legion', 'brak ;*', 'nie pokaze'),
-(2, 'Isard', 'Haslo123', 'Marcin', 'Zapadka', 'zapadka@wp.pl', '666240823');
+INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES
+(0, 'Admin', 'zaqwsx', 'Im', 'Legion', 'brak ;*', 'nie pokaze', '', 1),
+(2, 'Isard', 'Haslo123', 'Marcin', 'Zapadka', 'zapadka@wp.pl', '666240823', '', 1);
 
 --
 -- Indeksy dla zrzutów tabel

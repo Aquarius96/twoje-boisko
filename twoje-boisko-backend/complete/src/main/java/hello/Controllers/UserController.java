@@ -1,10 +1,17 @@
 package hello.Controllers;
 
+import hello.Helpers.Index_;
+import hello.Helpers.Mail_;
 import hello.Models.*;
 import hello.Services.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
+
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 
 
@@ -14,6 +21,22 @@ import java.util.List;
 public class UserController {
 
     
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/confirm",method = RequestMethod.POST)
+    @ResponseBody
+    public User Confirm(@RequestBody Index_ index) {
+
+        UserService con = new UserService();
+        User tmp = con.findUser(index.getId());
+        if (tmp.getCode()==index.getValue()) {
+            tmp.setConfirm(true);
+            tmp.setCode(null);
+            return con.updateUser(tmp);
+        }
+        else return new User(-1); //zly confirmcode czy cos
+        
+    }
+
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
@@ -31,13 +54,17 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signup", method = RequestMethod.POST)
     @ResponseBody
-    public User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) throws AddressException, MessagingException {
         UserService con = new UserService();
         Integer tmp = con.checkUser(user); 
 
         if (tmp == 0){
+            Mail_ mail = new Mail_();
             user.setId(con.getfreeId());
-            return con.addUser(user);
+            user.setConfirm(false);
+            UUID uuid = UUID.randomUUID();
+            user.setCode(uuid.toString());
+            return con.addUser(mail.start(user));
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email

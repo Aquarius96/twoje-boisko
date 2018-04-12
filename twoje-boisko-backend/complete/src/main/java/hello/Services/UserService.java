@@ -31,7 +31,7 @@ public class UserService{
     public User updateUser(User user){
         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"' WHERE id = '"+user.getId()+"';";
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+", isConfirmed='"+user.getConfirm()+"' WHERE id = '"+user.getId()+"';";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(user.getId());
@@ -41,6 +41,8 @@ public class UserService{
                 result.setLastname(user.getLastname());
                 result.setEmail(user.getEmail());
                 result.setPhone(user.getPhone());
+                result.setCode(user.getCode());
+                result.setConfirm(user.getConfirm());
             }
             else {
                 System.out.println("Error update user: zle dane najprawdopodnobnmiej");
@@ -58,7 +60,7 @@ public class UserService{
     public User addUser(User user) {
         User user_ = new User();
         try{
-            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"');";
+            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm()+"');";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) user_ = user;
             else {
@@ -165,7 +167,7 @@ public class UserService{
     }
 
     public User findUser(Integer id){
-        User result = new User();
+        User result = new User(-1);
         try{
             String task = "SELECT * FROM users WHERE id=\""+id+"\"";
             rs = st.executeQuery(task);
@@ -178,6 +180,8 @@ public class UserService{
                 result.setLastname(rs.getString("lastname"));
                 result.setEmail(rs.getString("email"));
                 result.setPhone(rs.getString("phone"));
+                result.setCode(rs.getString("confirmationCode"));
+                result.setConfirm(rs.getBoolean("isConfirmed"));
             }
             
         }catch (Exception exception){
@@ -219,6 +223,8 @@ public class UserService{
                 tmp.setLastname(rs.getString("lastname"));
                 tmp.setEmail(rs.getString("email"));
                 tmp.setPhone(rs.getString("phone"));
+                tmp.setCode(rs.getString("confirmationCode"));
+                tmp.setConfirm(rs.getBoolean("isConfirmed"));
                 outList.add(tmp);
             }
         }catch (Exception exception){
