@@ -4,10 +4,10 @@ public class Index_{
     private Integer id;
     private String value;
 
-
     public Index_ (){
-        
+
     }
+    
     public Index_ (Integer id_, String vlue_){
         this.value = vlue_;
         this.id=id_;
