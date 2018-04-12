@@ -46,7 +46,7 @@ public class Mail_
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
 		generateMailMessage.setSubject(user.getUsername() + " witamy w naszym serwisie!");
-		String emailBody = "W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: " + "<br>" + "http://localhost:3000/confirm/" + user.getId() + "/" + user.getCode() + "<br />Link aktywacyjny<br />Klucz : " + user.getCode() + "<br />UserId : " + user.getId() + "<br><br> Usciski, <br>AdminBOT";
+		String emailBody = "W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: " + "<br>" + "<a href=\"http://localhost:3000/confirm/" + user.getId() + "/" + user.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user.getCode() + "<br />UserId : " + user.getId() + "<br><br> Usciski, <br>AdminBOT";
 		generateMailMessage.setContent(emailBody, "text/html");
 		//System.out.println("Mail Session has been created successfully..");
  
