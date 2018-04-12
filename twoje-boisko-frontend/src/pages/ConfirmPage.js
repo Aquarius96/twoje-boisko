@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 //import './MainPage.css';
+import Spinner from '../components/Spinner';
 class MainPage extends Component {
   constructor(props){
     super(props);
-    this.setState({userId:null,confirmationCode:""});
+    this.state = ({userId:null,confirmationCode:"",dataCollected:false});
   }
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
   componentDidMount(){
@@ -19,15 +20,27 @@ class MainPage extends Component {
           value: this.props.match.params.value,
         })
       }).then(response => response.json())
-      .then(result => console.log(result));
+      .then(result => {
+        this.setState({dataCollected:true});
+        console.log(this.props.match.params.id);
+        console.log(this.props.match.params.value);
+        
+        console.log(result);
+      });
   }
 
   render() {
-    return (
-      <div className="MainPage container">
-        <p>Email został potwierdzony, teraz przekierujemy Cię do strony logowania...</p>
-      </div>
-    );
+      if(this.state.dataCollected){
+        return (
+            <div className="MainPage container">
+              <p>Email został potwierdzony, teraz przekierujemy Cię do strony logowania...</p>
+            </div>
+          );
+      }
+      else{
+          return <Spinner />
+      }
+    
   }
 }
 
