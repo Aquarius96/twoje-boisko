@@ -111,7 +111,7 @@ class SingleObjectPage extends Component {
         <div id="ObjectReservationTable-scroll">
         <table id="ObjectReservationTable">
         
-            <tr class="header">
+            <tr class="header file">
             <th class="godzinyRezerwacji">Godziny rezerwacji obiektu sportowego</th>
             <th class="rezerwacja">Rezerwacja</th>
             </tr>
