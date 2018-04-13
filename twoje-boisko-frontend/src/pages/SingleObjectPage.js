@@ -13,8 +13,12 @@ class SingleObjectPage extends Component {
         this.countInArray = this.countInArray.bind(this);
         this.reserve=this.reserve.bind(this);
         this.addReservation = this.addReservation.bind(this);
+        this.blockReservations = this.blockReservations.bind(this);
+        this.insertToday=this.insertToday.bind(this);
     }
-
+    componentDidUpdate(){
+      this.blockReservations();
+    }
     componentDidMount(){
       try {
         this.setState({
@@ -34,9 +38,40 @@ class SingleObjectPage extends Component {
             });
               this.setState({reservations:dataTab});
               console.log("state of reservations", this.state.reservations);
+              this.blockReservations();
             });          
     }
 
+    insertToday(item,tab){
+      if(item.dateDay==this.state.startDate.format("DD-MM-YYYY")){
+        tab.push(item);
+      }
+    }
+
+    blockReservations(){
+      var blockTab = [];
+      var res=this.state.reservations;
+      var resToday=[];
+      for(var k = 0;k<res.length;k++){
+        this.insertToday(res[k],resToday);
+      }
+      console.log(resToday);
+      for(var i =0; i < resToday.length; i++){
+        for(var j=Number(resToday[i].hourStart);j<Number(resToday[i].hourEnd);j++){
+          if(blockTab.indexOf(j.toString().concat("-",(j+1).toString()))<0){
+            blockTab.push(j.toString().concat("-",(j+1).toString()));
+          }
+        }
+      }
+
+      var inputs = document.getElementsByClassName("reserve");
+      for(var i=0;i<inputs.length;i++){
+        if(blockTab.indexOf(inputs[i].value)>=0){
+          inputs[i].disabled=true;
+        } else inputs[i].disabled=false;
+      }
+      console.log(blockTab);
+    }
     addReservation(){
       fetch('http://localhost:8080/reser/add', {
         method: 'POST',
@@ -58,13 +93,14 @@ class SingleObjectPage extends Component {
     handleChange(date) {
       this.setState({
         startDate: date
-      });
+      },()=>{console.log(this.state.startDate)});
+      this.blockReservations();
     }
 
     reserve(){
       var hours = $("input[name=reserve]:checked").map(
         function () {return this.value;}).get().toString().split("-").join(",");
-        var hoursTab = hours.split(',').map(function(item) {
+      var hoursTab = hours.split(',').map(function(item) {
           return parseInt(item, 10);
       });
 
@@ -179,7 +215,7 @@ class SingleObjectPage extends Component {
             
             <tr>
             <td>12-13</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><input type="checkbox" className="reserve" name="reserve" value="12-13" /></td>
             </tr>
             
             <tr>
