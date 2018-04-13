@@ -1,0 +1,66 @@
+@background_color_1: #ddd;
+@background_color_2: #f2f2f2;
+@background_color_3: indianred;
+
+.Table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 2px solid #ddd;
+	font-size: 18px;
+	
+	&-scroll {
+		height: 350px;
+		overflow: auto;
+		margin-top: 20px;
+	}
+	th {
+		text-align: left;
+		padding: 12px;
+		background-color: @background_color_1;
+		position: -webkit-sticky;
+		position: -moz-sticky;
+		position: -ms-sticky;
+		position: -o-sticky;
+		position: sticky;
+		top: 0;
+	}
+	td {
+		text-align: left;
+		padding: 12px;
+	}
+	tr {
+		border-bottom: 2px solid #f2f2f2;
+		&:hover {
+			background-color: @background_color_1;
+		}
+		&:nth-child(even) {
+			background-color: @background_color_2;
+			&:hover {
+				background-color: @background_color_1;
+			}
+		}
+	}
+}
+
+.myTable {
+	.Table;
+	th.nazwa {width: 45%; cursor: pointer;}
+	th.miasto {width: 45%; cursor: pointer;}
+	th.przycisk {width: 10%;}
+}
+
+.ObjectReservationTable {
+	.Table;
+	th.godzinyRezerwacji {width: 70%;}
+	th.rezerwacja {width: 30%;}
+}
+
+.ReservationTable{
+	.Table;
+ 	 th.obiekt { width: 25%;  }
+ 	 th.adresObiektu { width: 25%;  }
+ 	 th.godzinaRezerwacji { width: 20%; }
+ 	 th.dataRezerwacji { width: 20%; }
+ 	 th.przyciskAnulujTabela { width: 10%; }
+}
+

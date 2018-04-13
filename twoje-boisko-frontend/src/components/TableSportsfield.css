@@ -6,7 +6,7 @@
     margin-bottom: 12px;
   }
   
-  #myTable {
+ /* #myTable {
     border-collapse: collapse;
     width: 100%;
     border: 2px solid #ddd;
@@ -17,6 +17,12 @@
     text-align: left;
     padding: 12px;
     background-color: #ddd;
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 0;
   }
 
   #myTable td {
@@ -32,7 +38,13 @@
 
   #myTable tr:hover {background-color: #ddd;}
 
-  .button {
+  #ObjectReservationTable-scroll {
+    height:350px;
+    overflow:auto;  
+    margin-top:20px;
+  }
+
+  /*.przyciskSzczegoly {
     background-color: #4CAF50; 
     border: none;
     color: white;
@@ -47,16 +59,16 @@
     cursor: pointer;
   }
 
-  .button {
+  .przyciskSzczegoly {
     background-color: white; 
     color: black; 
     border: 2px solid #4CAF50;
 }
 
-.button:hover {
+.przyciskSzczegoly:hover {
     background-color: #4CAF50;
     color: white;
-}
+}  
 
 th.nazwa { 
   width: 45%; 
@@ -72,3 +84,4 @@ i{
   background-color: indianred;
 }
 
+*/

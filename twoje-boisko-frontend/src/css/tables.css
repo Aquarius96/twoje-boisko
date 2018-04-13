@@ -1,0 +1,184 @@
+.Table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #ddd;
+  font-size: 18px;
+}
+.Table-scroll {
+  height: 350px;
+  overflow: auto;
+  margin-top: 20px;
+}
+.Table th {
+  text-align: left;
+  padding: 12px;
+  background-color: #ddd;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+}
+.Table td {
+  text-align: left;
+  padding: 12px;
+}
+.Table tr {
+  border-bottom: 2px solid #f2f2f2;
+}
+.Table tr:hover {
+  background-color: #ddd;
+}
+.Table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.Table tr:nth-child(even):hover {
+  background-color: #ddd;
+}
+.myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #ddd;
+  font-size: 18px;
+}
+.myTable-scroll {
+  height: 350px;
+  overflow: auto;
+  margin-top: 20px;
+}
+.myTable th {
+  text-align: left;
+  padding: 12px;
+  background-color: #ddd;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+}
+.myTable td {
+  text-align: left;
+  padding: 12px;
+}
+.myTable tr {
+  border-bottom: 2px solid #f2f2f2;
+}
+.myTable tr:hover {
+  background-color: #ddd;
+}
+.myTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.myTable tr:nth-child(even):hover {
+  background-color: #ddd;
+}
+.myTable th.nazwa {
+  width: 45%;
+  cursor: pointer;
+}
+.myTable th.miasto {
+  width: 45%;
+  cursor: pointer;
+}
+.myTable th.przycisk {
+  width: 10%;
+}
+.ObjectReservationTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #ddd;
+  font-size: 18px;
+}
+.ObjectReservationTable-scroll {
+  height: 350px;
+  overflow: auto;
+  margin-top: 20px;
+}
+.ObjectReservationTable th {
+  text-align: left;
+  padding: 12px;
+  background-color: #ddd;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+}
+.ObjectReservationTable td {
+  text-align: left;
+  padding: 12px;
+}
+.ObjectReservationTable tr {
+  border-bottom: 2px solid #f2f2f2;
+}
+.ObjectReservationTable tr:hover {
+  background-color: #ddd;
+}
+.ObjectReservationTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.ObjectReservationTable tr:nth-child(even):hover {
+  background-color: #ddd;
+}
+.ObjectReservationTable th.godzinyRezerwacji {
+  width: 70%;
+}
+.ObjectReservationTable th.rezerwacja {
+  width: 30%;
+}
+.ReservationTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #ddd;
+  font-size: 18px;
+}
+.ReservationTable-scroll {
+  height: 350px;
+  overflow: auto;
+  margin-top: 20px;
+}
+.ReservationTable th {
+  text-align: left;
+  padding: 12px;
+  background-color: #ddd;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+}
+.ReservationTable td {
+  text-align: left;
+  padding: 12px;
+}
+.ReservationTable tr {
+  border-bottom: 2px solid #f2f2f2;
+}
+.ReservationTable tr:hover {
+  background-color: #ddd;
+}
+.ReservationTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.ReservationTable tr:nth-child(even):hover {
+  background-color: #ddd;
+}
+.ReservationTable th.obiekt {
+  width: 25%;
+}
+.ReservationTable th.adresObiektu {
+  width: 25%;
+}
+.ReservationTable th.godzinaRezerwacji {
+  width: 20%;
+}
+.ReservationTable th.dataRezerwacji {
+  width: 20%;
+}
+.ReservationTable th.przyciskAnulujTabela {
+  width: 10%;
+}

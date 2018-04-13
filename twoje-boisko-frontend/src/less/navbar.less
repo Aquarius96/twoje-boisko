@@ -1,0 +1,32 @@
+@color_1: #666;
+@color_2: black;
+@background_color_1: #f3f3f3;
+@background_color_2: #ddd;
+
+ul {
+	float: right;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 2px solid #e7e7e7;
+	background-color: @background_color_1;
+	li {
+		float: left;
+		a {
+			display: block;
+			color: @color_1;
+			text-align: center;
+			padding: 10px 30px;
+			text-decoration: none;
+			&:hover {
+				background-color: @background_color_2;
+				color: @color_2;
+				text-decoration: none;
+			}
+			Modal {
+				display: block;
+			}
+		}
+	}
+}

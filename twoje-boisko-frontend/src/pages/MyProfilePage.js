@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './MyProfilePage.css';
+import '../css/buttons.css';
+import '../css/tables.css';
 import $ from 'jquery';
 
 class MyProfilePage extends Component {
@@ -159,7 +161,7 @@ class MyProfilePage extends Component {
 
        
 
-        <table id="ReservationTable">
+        <table class="ReservationTable">
             <tr class="header">
             <th class="obiekt">Obiekt</th>
             <th class="adresObiektu">Adres</th>
