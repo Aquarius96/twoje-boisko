@@ -7,25 +7,52 @@ import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
     constructor(props){
         super(props);
-        this.state=({object:{},startDate:moment()});
+        this.state=({object:{},reservations:{},startDate:moment(),hourStart:null,hourEnd:null,userId:null});
         this.handleChange=this.handleChange.bind(this); 
         this.countInArray = this.countInArray.bind(this);
         this.reserve=this.reserve.bind(this);
+        this.addReservation = this.addReservation.bind(this);
     }
 
     componentDidMount(){
-        fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
+      try {
+        this.setState({
+          userId:JSON.parse(localStorage.getItem('loggedUser')).id
+        });
+      }
+      catch(err) {
+          console.log("error");
+      }
+        fetch(`http://localhost:8080/reser/find_o/?id=`+this.props.match.params.id,{
+              mode:'cors'}) 
               .then(response => response.json())
               .then(data =>{
               var dataTab = [];
               Object.keys(data).forEach(function(key){
                 dataTab.push(data[key]);
             });
-              this.setState({objects:dataTab});
-              console.log("state of objects", this.state.objects);
-            })          
+              this.setState({reservations:dataTab});
+              console.log("state of reservations", this.state.reservations);
+            });          
     }
 
+    addReservation(){
+      fetch('http://localhost:8080/reser/add', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dateDay: this.state.startDate.format("DD-MM-YYYY"),
+          hourStart: this.state.hourStart,
+          hourEnd: this.state.hourEnd,
+          idObject: this.props.match.params.id, 
+          idUser: this.state.userId
+        })
+      }).then(response => response.json())
+      .then(result => console.log(result));
+    }
     
     handleChange(date) {
       this.setState({
@@ -42,7 +69,7 @@ class SingleObjectPage extends Component {
 
       var wynik = true;
       var min = hoursTab[0];
-      var max = hoursTab[0];
+      var max = hoursTab[1];
       
       for(var i = 0; i < hoursTab.length; i++){
         if(hoursTab[i]>max) max = hoursTab[i];
@@ -51,16 +78,28 @@ class SingleObjectPage extends Component {
 
       console.log("min"+min);
       console.log("max"+max);
-
       for(var i = min+1; i < max; i++){
+        console.log("test");
         if(this.countInArray(hoursTab,i)!=2){
           wynik = false;
           break;
         }
       }
-
       if(wynik){
           console.log("rezerwujemy");
+          
+          if(min>0&&max>0&&this.state.userId){
+            this.setState({hourStart:min,hourEnd:max}, () =>
+            this.addReservation()
+          );
+            console.log(this.state.hourStart);
+            console.log(this.state.hourEnd);
+            console.log(this.state.userId);
+          }
+          
+      }
+      else{
+        window.alert("Podaj poprawne godziny rezerwacji");
       }
     }
 
@@ -169,6 +208,8 @@ class SingleObjectPage extends Component {
 
         </table>
         </div>
+        <p>{this.state.startDate.format("DD-MM-YYYY")}</p>
+        <p>{JSON.parse(localStorage.getItem("loggedUser")).id}</p>
         <button onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
       </div>
     );
