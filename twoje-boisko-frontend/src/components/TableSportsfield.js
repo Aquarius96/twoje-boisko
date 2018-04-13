@@ -3,6 +3,8 @@ import {
   Link
 } from 'react-router-dom';
 import './TableSportsfield.css';
+import '../css/buttons.css';
+import '../css/tables.css';
 import $ from 'jquery';
 
 class TableSportsfield extends Component {
@@ -31,7 +33,8 @@ class TableSportsfield extends Component {
     sortTable(n){
       this.switchArrow(n);
       var table, rows, switching, i, x, y, shouldSwitch, asc, switchcount = 0;
-      table = document.getElementById("myTable");
+      table = document.getElementsByClassName("myTable");
+      table = table[0];
       rows = table.getElementsByTagName("TR");
       switching = true;
       asc = true; 
@@ -70,7 +73,7 @@ class TableSportsfield extends Component {
     return (
       <div class="tableContainer">    
       <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input>
-            <table id="myTable">
+            <table class="myTable">
                 <tr class="header">
                     <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska <i id="0"class="fas fa-arrow-up"></i></th>
                     <th onClick={() => this.sortTable(1)}class ="miasto">Adres <i id="1"class="fas fa-arrow-up"></i></th>
@@ -80,7 +83,7 @@ class TableSportsfield extends Component {
                  <tr>
                     <td>{item.name}</td>
                     <td>{item.city}, {item.street} {item.streetNumber}</td>                   
-                    <td><Link to={"/object/"+item.id} class="button button1">Szczegóły</Link></td>
+                    <td><Link to={"/object/"+item.id} class="przyciskSzczegoly">Szczegóły</Link></td>
                 </tr>
                 )}
         </table>

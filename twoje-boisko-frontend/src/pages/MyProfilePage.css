@@ -28,7 +28,7 @@
     font-size: 14px;
   }
 
-  #ReservationTable {
+  /*#ReservationTable {
     border-collapse: collapse;
     width: 100%;
     border: 2px solid #ddd;
@@ -59,8 +59,8 @@
   th.godzinaRezerwacji { width: 20%; }
   th.dataRezerwacji { width: 20%; }
   th.przyciskAnulujTabela { width: 10%; }
-
-  .przyciskAnuluj {
+*/
+  /*.przyciskAnuluj {
     background-color: #4CAF50; 
     border: none;
     color: white;
@@ -86,7 +86,7 @@
     background-color: #4CAF50;
     color: white;
 }
-
+*/
 .profile{
   height:220px;
   border: 2px solid #e7e7e7;
@@ -124,7 +124,7 @@ input{
   margin-bottom: 30px;
 }
 
-.przyciskZapiszZmiany {
+/*.przyciskZapiszZmiany {
   background-color: #4CAF50; 
   border: none;
   color: white;
@@ -173,7 +173,7 @@ input{
 .przyciskEdytuj:hover {
   background-color: #4CAF50;
   color: white;
-}
+}*/
 
 .row{
   margin-left: -15px;

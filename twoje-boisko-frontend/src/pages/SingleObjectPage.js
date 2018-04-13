@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import $ from 'jquery';
+import '../css/tables.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
@@ -147,8 +148,8 @@ class SingleObjectPage extends Component {
       </div>
         
 
-        <div id="ObjectReservationTable-scroll">
-        <table id="ObjectReservationTable">
+        <div class="ObjectReservationTable-scroll">
+        <table class="ObjectReservationTable">
         
             <tr class="header file">
             <th class="godzinyRezerwacji">Godziny rezerwacji obiektu sportowego</th>
