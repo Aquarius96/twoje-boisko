@@ -123,7 +123,7 @@ public class SportObjectService{
         try{
             String task = "SELECT * FROM sportobjects";
             rs = st.executeQuery(task);
-            result = 0;
+            result = 1;
             while (rs.next()){
                 if (rs.getInt("id")!=result) break;
                 result +=1;
