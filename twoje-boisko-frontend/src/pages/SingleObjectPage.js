@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import $ from 'jquery';
 import '../css/tables.css';
+import '../css/buttons.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
@@ -117,11 +118,16 @@ class SingleObjectPage extends Component {
             <th class="rezerwacja">Rezerwacja</th>
             </tr>
 
+
+            
             <tr>
             <td>8-9</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="8-9" />
+            <td><input type="checkbox" id="checkbox"  className="reserve" name="reserve" value="8-9" />
+            <label for="checkbox">Zarezerwuj</label>
             </td>
             </tr>
+            
+
 
             <tr>
             <td>9-10</td>
@@ -170,7 +176,7 @@ class SingleObjectPage extends Component {
 
         </table>
         </div>
-        <button onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
+        <button class = "przyciskRezerwuj" onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
       </div>
     );
   }
