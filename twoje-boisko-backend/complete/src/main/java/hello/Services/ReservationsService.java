@@ -161,7 +161,7 @@ public class ReservationsService{
         try{
             String task = "SELECT * FROM reservations";
             rs = st.executeQuery(task);
-            result = 0;
+            result = 1;
             while (rs.next()){
                 if (rs.getInt("id")!=result) break;
                 result +=1;

@@ -11,6 +11,7 @@ import SportsfieldsListPage from '../pages/SportsfieldsListPage.js';
 import MyProfilePage from '../pages/MyProfilePage.js';
 import SingleObjectPage from '../pages/SingleObjectPage';
 import ConfirmPage from '../pages/ConfirmPage';
+import AdminPage from '../pages/AdminPage'
 class App extends Component {
   render() {
     return (
@@ -23,6 +24,7 @@ class App extends Component {
           <Route exact path="/MyProfilePage" component={MyProfilePage} />
           <Route path="/object/:id" component={SingleObjectPage}/>
           <Route path ="/confirm/:id/:value" component={ConfirmPage}/>
+          <Route path ="/panelAdmina" component={AdminPage}/>
         </div>
       </Router>
     );

@@ -245,9 +245,7 @@ class SingleObjectPage extends Component {
 
         </table>
         </div>
-        <p>{this.state.startDate.format("DD-MM-YYYY")}</p>
-        <p>{JSON.parse(localStorage.getItem("loggedUser")).id}</p>
-        <button onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
+        <button onClick={this.reserve}>Rezerwuj</button>
       </div>
     );
   }

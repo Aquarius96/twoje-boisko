@@ -8,25 +8,53 @@ import {
 class Navbar extends Component {
   constructor(props){
     super(props);
+    this.state=({"loggedUser":{}});
   }
-
+  
+  componentDidMount(){
+    try {
+      this.setState({
+        loggedUser:JSON.parse(localStorage.getItem('loggedUser'))
+      });
+    }
+    catch(err) {
+        console.log("error");
+    }
+  }
   logOut(){
     localStorage.setItem('isLoggedIn',false);
     localStorage.removeItem('loggedUser');
   }
     render() {
       if(localStorage.getItem('isLoggedIn') == "true"){
-        return (
-          <div className="navbar container">
-          <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
-           <ul>
-              <li><Link className='a' to="/">Strona Główna</Link></li>
-              <li><Link to="/listaBoisk">Lista Boisk</Link></li>
-              <li><Link to="/MyProfilePage">Mój Profil</Link></li>
-              <li><Link to="/" onClick={this.logOut}>Wyloguj</Link> </li>
-           </ul>
-          </div>
-        );
+        if(this.state.loggedUser.id == 0){
+          return (
+            <div className="navbar container">
+            <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
+             <ul>
+                <li><Link className='a' to="/">Strona Główna</Link></li>
+                <li><Link to="/listaBoisk">Lista Boisk</Link></li>
+                <li><Link to="/MyProfilePage">Mój Profil</Link></li>
+                <li><Link to="/" onClick={this.logOut}>Wyloguj</Link> </li>
+                <li><Link to="/panelAdmina">Panel admina</Link> </li>
+             </ul>
+            </div>
+          );
+        }
+        else{
+          return (
+            <div className="navbar container">
+            <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
+             <ul>
+                <li><Link className='a' to="/">Strona Główna</Link></li>
+                <li><Link to="/listaBoisk">Lista Boisk</Link></li>
+                <li><Link to="/MyProfilePage">Mój Profil</Link></li>
+                <li><Link to="/" onClick={this.logOut}>Wyloguj</Link> </li>
+             </ul>
+            </div>
+          );
+        }
+        
       }
       else{
         return (
