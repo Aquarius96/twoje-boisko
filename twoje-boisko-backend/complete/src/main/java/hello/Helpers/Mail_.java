@@ -53,7 +53,7 @@ public class Mail_
 		// Step3
 		//System.out.println("\n\n 3rd ===> Get Session and Send mail");
 		Transport transport = getMailSession.getTransport("smtp");
-		transport.connect("smtp.gmail.com", "piwerkobuissnes@gmail.com", "zaq1@WSX");
+		transport.connect("smtp.gmail.com", "twojeboisko@gmail.com", "zaq1@WSX");
 		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
         }
