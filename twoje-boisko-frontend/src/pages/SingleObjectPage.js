@@ -9,42 +9,105 @@ import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
     constructor(props){
         super(props);
-        this.state=({object:{},startDate:moment()});
+        this.state=({object:{},reservations:{},startDate:moment(),hourStart:null,hourEnd:null,userId:null});
         this.handleChange=this.handleChange.bind(this); 
         this.countInArray = this.countInArray.bind(this);
         this.reserve=this.reserve.bind(this);
+        this.addReservation = this.addReservation.bind(this);
+        this.blockReservations = this.blockReservations.bind(this);
+        this.insertToday=this.insertToday.bind(this);
     }
-
+    componentDidUpdate(){
+      this.blockReservations();
+    }
     componentDidMount(){
-        fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
+      try {
+        this.setState({
+          userId:JSON.parse(localStorage.getItem('loggedUser')).id
+        });
+      }
+      catch(err) {
+          console.log("error");
+      }
+        fetch(`http://localhost:8080/reser/find_o/?id=`+this.props.match.params.id,{
+              mode:'cors'}) 
               .then(response => response.json())
               .then(data =>{
               var dataTab = [];
               Object.keys(data).forEach(function(key){
                 dataTab.push(data[key]);
             });
-              this.setState({objects:dataTab});
-              console.log("state of objects", this.state.objects);
-            })          
+              this.setState({reservations:dataTab});
+              console.log("state of reservations", this.state.reservations);
+              this.blockReservations();
+            });          
     }
 
+    insertToday(item,tab){
+      if(item.dateDay==this.state.startDate.format("DD-MM-YYYY")){
+        tab.push(item);
+      }
+    }
+
+    blockReservations(){
+      var blockTab = [];
+      var res=this.state.reservations;
+      var resToday=[];
+      for(var k = 0;k<res.length;k++){
+        this.insertToday(res[k],resToday);
+      }
+      console.log(resToday);
+      for(var i =0; i < resToday.length; i++){
+        for(var j=Number(resToday[i].hourStart);j<Number(resToday[i].hourEnd);j++){
+          if(blockTab.indexOf(j.toString().concat("-",(j+1).toString()))<0){
+            blockTab.push(j.toString().concat("-",(j+1).toString()));
+          }
+        }
+      }
+
+      var inputs = document.getElementsByClassName("reserve");
+      for(var i=0;i<inputs.length;i++){
+        if(blockTab.indexOf(inputs[i].value)>=0){
+          inputs[i].disabled=true;
+        } else inputs[i].disabled=false;
+      }
+      console.log(blockTab);
+    }
+    addReservation(){
+      fetch('http://localhost:8080/reser/add', {
+        method: 'POST',
+        mode:'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dateDay: this.state.startDate.format("DD-MM-YYYY"),
+          hourStart: this.state.hourStart,
+          hourEnd: this.state.hourEnd,
+          idObject: this.props.match.params.id, 
+          idUser: this.state.userId
+        })
+      }).then(response => response.json())
+      .then(result => console.log(result));
+    }
     
     handleChange(date) {
       this.setState({
         startDate: date
-      });
+      },()=>{console.log(this.state.startDate)});
+      this.blockReservations();
     }
 
     reserve(){
       var hours = $("input[name=reserve]:checked").map(
         function () {return this.value;}).get().toString().split("-").join(",");
-        var hoursTab = hours.split(',').map(function(item) {
+      var hoursTab = hours.split(',').map(function(item) {
           return parseInt(item, 10);
       });
 
       var wynik = true;
       var min = hoursTab[0];
-      var max = hoursTab[0];
+      var max = hoursTab[1];
       
       for(var i = 0; i < hoursTab.length; i++){
         if(hoursTab[i]>max) max = hoursTab[i];
@@ -53,16 +116,28 @@ class SingleObjectPage extends Component {
 
       console.log("min"+min);
       console.log("max"+max);
-
       for(var i = min+1; i < max; i++){
+        console.log("test");
         if(this.countInArray(hoursTab,i)!=2){
           wynik = false;
           break;
         }
       }
-
       if(wynik){
           console.log("rezerwujemy");
+          
+          if(min>0&&max>0&&this.state.userId){
+            this.setState({hourStart:min,hourEnd:max}, () =>
+            this.addReservation()
+          );
+            console.log(this.state.hourStart);
+            console.log(this.state.hourEnd);
+            console.log(this.state.userId);
+          }
+          
+      }
+      else{
+        window.alert("Podaj poprawne godziny rezerwacji");
       }
     }
 
@@ -146,7 +221,7 @@ class SingleObjectPage extends Component {
             
             <tr>
             <td>12-13</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><input type="checkbox" className="reserve" name="reserve" value="12-13" /></td>
             </tr>
             
             <tr>
@@ -177,6 +252,8 @@ class SingleObjectPage extends Component {
         </table>
         </div>
         <button class = "przyciskRezerwuj" onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
+       
+        <button onClick={this.reserve}>Rezerwuj </button>
       </div>
     );
   }
