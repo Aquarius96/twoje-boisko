@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(value = "/reser")
+@RequestMapping(value = "/res")
 @RestController
 public class ReservationController {
 
