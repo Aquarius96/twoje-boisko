@@ -92,7 +92,7 @@ public class NewsService{
         try{
             String task = "SELECT * FROM news";
             rs = st.executeQuery(task);
-            result = 0;
+            result = 1;
             while (rs.next()){
                 if (rs.getInt("id")!=result) break;
                 result +=1;

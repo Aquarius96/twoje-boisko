@@ -251,7 +251,7 @@ class SingleObjectPage extends Component {
 
         </table>
         </div>
-        <button class = "przyciskRezerwuj" onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
+        <button class = "przyciskRezerwuj" onClick={this.reserve}>Rezerwuj</button>
        
      
       </div>
