@@ -197,8 +197,8 @@ class SingleObjectPage extends Component {
             
             <tr>
             <td>8-9</td>
-            <td><input type="checkbox" id="checkbox"  className="reserve" name="reserve" value="8-9" />
-            <label for="checkbox">Zarezerwuj</label>
+            <td><input type="checkbox" name="cb" id="cb1"  className="reserve" name="reserve" value="8-9" />
+            <label for="cb1">Wybrano Godzine</label>
             </td>
             </tr>
             
@@ -253,7 +253,7 @@ class SingleObjectPage extends Component {
         </div>
         <button class = "przyciskRezerwuj" onClick={this.reserve}>Rezerwuj {this.props.match.params.id}</button>
        
-        <button onClick={this.reserve}>Rezerwuj </button>
+     
       </div>
     );
   }

@@ -1,3 +1,7 @@
-/*body{
-    background-image: url('../utils/stadium.jpg');
-}*/
+body{
+    background-image: url('../utils/stadium2.jpg');
+}
+
+.container{
+    background-color : rgba(255,255,255,0.3);
+}

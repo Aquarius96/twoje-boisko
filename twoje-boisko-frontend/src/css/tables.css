@@ -19,21 +19,17 @@
   position: -o-sticky;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 .Table td {
   text-align: left;
   padding: 12px;
 }
 .Table tr {
-  border-bottom: 2px solid #f2f2f2;
-}
-.Table tr:hover {
-  background-color: #ddd;
-}
-.Table tr:nth-child(even) {
+  border-bottom: 1px solid #b3b3b3;
   background-color: #f2f2f2;
 }
-.Table tr:nth-child(even):hover {
+.Table tr:hover {
   background-color: #ddd;
 }
 .myTable {
@@ -57,21 +53,17 @@
   position: -o-sticky;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 .myTable td {
   text-align: left;
   padding: 12px;
 }
 .myTable tr {
-  border-bottom: 2px solid #f2f2f2;
-}
-.myTable tr:hover {
-  background-color: #ddd;
-}
-.myTable tr:nth-child(even) {
+  border-bottom: 1px solid #b3b3b3;
   background-color: #f2f2f2;
 }
-.myTable tr:nth-child(even):hover {
+.myTable tr:hover {
   background-color: #ddd;
 }
 .myTable th.nazwa {
@@ -106,21 +98,17 @@
   position: -o-sticky;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 .ObjectReservationTable td {
   text-align: left;
   padding: 12px;
 }
 .ObjectReservationTable tr {
-  border-bottom: 2px solid #f2f2f2;
-}
-.ObjectReservationTable tr:hover {
-  background-color: #ddd;
-}
-.ObjectReservationTable tr:nth-child(even) {
+  border-bottom: 1px solid #b3b3b3;
   background-color: #f2f2f2;
 }
-.ObjectReservationTable tr:nth-child(even):hover {
+.ObjectReservationTable tr:hover {
   background-color: #ddd;
 }
 .ObjectReservationTable th.godzinyRezerwacji {
@@ -150,21 +138,17 @@
   position: -o-sticky;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 .ReservationTable td {
   text-align: left;
   padding: 12px;
 }
 .ReservationTable tr {
-  border-bottom: 2px solid #f2f2f2;
-}
-.ReservationTable tr:hover {
-  background-color: #ddd;
-}
-.ReservationTable tr:nth-child(even) {
+  border-bottom: 1px solid #b3b3b3;
   background-color: #f2f2f2;
 }
-.ReservationTable tr:nth-child(even):hover {
+.ReservationTable tr:hover {
   background-color: #ddd;
 }
 .ReservationTable th.obiekt {
