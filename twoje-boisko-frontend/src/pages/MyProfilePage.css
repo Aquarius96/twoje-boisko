@@ -88,9 +88,11 @@
 }
 */
 .profile{
+  max-width: 840px;
   height:220px;
   border: 2px solid #4CAF50;
   overflow: hidden;
+  background-color:white;
 }
 .profile label{
   padding: 5px;
@@ -175,10 +177,8 @@ input{
   color: white;
 }*/
 
-.row{
-  margin-left: -15px;
-  margin-right: 0;
-}
+
+
 
 #editPassword{
   display: none;
