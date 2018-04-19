@@ -9,7 +9,7 @@
     background: #FFFFFF;
     padding: 25px;
     text-align: center;
-    border: 2px solid #e7e7e7;
+    border: 2px solid #4CAF50;
     height:375px;
   }
 
@@ -71,9 +71,6 @@
   th.godzinyRezerwacji { width: 70%;  }
   th.rezerwacja { width: 30%;  }
 */
-  .row{
-    margin-right: -14px;
-  }
 
   /*input[type="checkbox"],
   input[type="radio"] {
