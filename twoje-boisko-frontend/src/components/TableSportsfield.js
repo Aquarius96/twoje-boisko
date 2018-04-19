@@ -83,7 +83,7 @@ class TableSportsfield extends Component {
                  <tr>
                     <td>{item.name}</td>
                     <td>{item.city}, {item.street} {item.streetNumber}</td>                   
-                    <td><Link to={"/object/"+item.id} class="przyciskSzczegoly">Szczegóły</Link></td>
+                    <td><Link to={"/object/"+item.id}><button class="przyciskSzczegoly">Szczegóły</button></Link></td>
                 </tr>
                 )}
         </table>

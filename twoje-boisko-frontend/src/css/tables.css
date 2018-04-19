@@ -1,7 +1,6 @@
 .Table {
   border-collapse: collapse;
   width: 100%;
-  border: 2px solid #ddd;
   font-size: 18px;
 }
 .Table-scroll {
@@ -12,7 +11,7 @@
 .Table th {
   text-align: left;
   padding: 12px;
-  background-color: #ddd;
+  background-color: #D8D8D8;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -27,15 +26,14 @@
 }
 .Table tr {
   border-bottom: 1px solid #b3b3b3;
-  background-color: #f2f2f2;
+  background-color: #FFFFFF;
 }
 .Table tr:hover {
-  background-color: #ddd;
+  background-color: #F2F2F2;
 }
 .myTable {
   border-collapse: collapse;
   width: 100%;
-  border: 2px solid #ddd;
   font-size: 18px;
 }
 .myTable-scroll {
@@ -46,7 +44,7 @@
 .myTable th {
   text-align: left;
   padding: 12px;
-  background-color: #ddd;
+  background-color: #D8D8D8;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -61,10 +59,10 @@
 }
 .myTable tr {
   border-bottom: 1px solid #b3b3b3;
-  background-color: #f2f2f2;
+  background-color: #FFFFFF;
 }
 .myTable tr:hover {
-  background-color: #ddd;
+  background-color: #F2F2F2;
 }
 .myTable th.nazwa {
   width: 45%;
@@ -80,7 +78,6 @@
 .ObjectReservationTable {
   border-collapse: collapse;
   width: 100%;
-  border: 2px solid #ddd;
   font-size: 18px;
 }
 .ObjectReservationTable-scroll {
@@ -91,7 +88,7 @@
 .ObjectReservationTable th {
   text-align: left;
   padding: 12px;
-  background-color: #ddd;
+  background-color: #D8D8D8;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -106,10 +103,10 @@
 }
 .ObjectReservationTable tr {
   border-bottom: 1px solid #b3b3b3;
-  background-color: #f2f2f2;
+  background-color: #FFFFFF;
 }
 .ObjectReservationTable tr:hover {
-  background-color: #ddd;
+  background-color: #F2F2F2;
 }
 .ObjectReservationTable th.godzinyRezerwacji {
   width: 70%;
@@ -120,7 +117,6 @@
 .ReservationTable {
   border-collapse: collapse;
   width: 100%;
-  border: 2px solid #ddd;
   font-size: 18px;
 }
 .ReservationTable-scroll {
@@ -131,7 +127,7 @@
 .ReservationTable th {
   text-align: left;
   padding: 12px;
-  background-color: #ddd;
+  background-color: #D8D8D8;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -146,10 +142,10 @@
 }
 .ReservationTable tr {
   border-bottom: 1px solid #b3b3b3;
-  background-color: #f2f2f2;
+  background-color: #FFFFFF;
 }
 .ReservationTable tr:hover {
-  background-color: #ddd;
+  background-color: #F2F2F2;
 }
 .ReservationTable th.obiekt {
   width: 25%;

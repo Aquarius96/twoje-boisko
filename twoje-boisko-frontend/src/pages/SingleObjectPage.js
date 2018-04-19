@@ -4,6 +4,7 @@ import moment from 'moment';
 import $ from 'jquery';
 import '../css/tables.css';
 import '../css/buttons.css';
+import '../css/checkbox.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './SingleObjectPage.css';
 class SingleObjectPage extends Component {
@@ -198,7 +199,7 @@ class SingleObjectPage extends Component {
             <tr>
             <td>8-9</td>
             <td><input type="checkbox" name="cb" id="cb1"  className="reserve" name="reserve" value="8-9" />
-            <label for="cb1">Wybrano Godzine</label>
+            <label class="checkboxInput" for="cb1">Wybrano Godzine</label>
             </td>
             </tr>
             

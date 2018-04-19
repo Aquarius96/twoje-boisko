@@ -111,6 +111,8 @@ class MyProfilePage extends Component {
         <button class="przyciskEdytuj" onClick = {this.showEditPassword}>Edytuj dane osobowe</button>
         </div>
        </div>
+
+       
        <form name="editForm" className="col-sm-9 profile" id = "editPassword">
         <div className="row">
         <div className="col-sm-7 dane">

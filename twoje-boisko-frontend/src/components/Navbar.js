@@ -29,7 +29,7 @@ class Navbar extends Component {
       if(localStorage.getItem('isLoggedIn') == "true"){
         if(this.state.loggedUser.id == 0){
           return (
-            <div className="navbar container">
+            <div className="navbar ">
             <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
              <ul>
                 <li><Link className='a' to="/">Strona Główna</Link></li>
@@ -43,7 +43,7 @@ class Navbar extends Component {
         }
         else{
           return (
-            <div className="navbar container">
+            <div className="navbar">
             <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
              <ul>
                 <li><Link className='a' to="/">Strona Główna</Link></li>
@@ -58,7 +58,7 @@ class Navbar extends Component {
       }
       else{
         return (
-          <div className="navbar container">
+          <div className="navbar">
           <div><p>Tu na razie jest ściernisko ale będzie twoje-boisko</p></div>
            <ul>
               <li><Link className='a' to="/">Strona Główna</Link></li>

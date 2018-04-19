@@ -1,13 +1,13 @@
-@background_color_1: #ddd;
-@background_color_2: #f2f2f2;
+@background_color_1: #D8D8D8;
+@background_color_2: #FFFFFF;
 @background_color_3: indianred;
+@background_color_4: #F2F2F2;
+@background_color_5: #4CAF50;
 
 .Table {
 	border-collapse: collapse;
 	width: 100%;
-	border: 2px solid #ddd;
 	font-size: 18px;
-	
 	&-scroll {
 		height: 350px;
 		overflow: auto;
@@ -25,17 +25,19 @@
 		position: sticky;
 		top: 0;
 		z-index: 1;
+
 	}
 	td {
 		text-align: left;
 		padding: 12px;
+		
 	}
 	tr {
 		border-bottom: 1px solid #b3b3b3;
 		background-color: @background_color_2;
 
 		&:hover {
-			background-color: @background_color_1;
+			background-color: @background_color_4;
 		}
 		
 	}
