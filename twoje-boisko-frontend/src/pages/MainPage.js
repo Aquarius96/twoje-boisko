@@ -23,7 +23,7 @@ class MainPage extends Component {
 
   render() {
     return (
-      <div className="MainPage container">
+      <div className="MainPage">
       <div class="news-tab row">
       <NewsTab />
       <NewsTab />
