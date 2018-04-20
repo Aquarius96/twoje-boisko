@@ -5,8 +5,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -24,8 +24,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -47,16 +47,16 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
   border: 2px solid #4CAF50;
   border-radius: 8px;
-  padding: 8px 71px;
+  padding: 9px 89px;
   font-size: 12px;
-  margin: 0.5px 30px;
+  margin: 0px 30px;
 }
 .przyciskZapiszZmiany:hover {
   background-color: #4CAF50;
@@ -69,8 +69,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -91,8 +91,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -113,8 +113,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -135,8 +135,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;
@@ -157,8 +157,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
   cursor: pointer;
   background-color: white;
   color: #216224;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './MainPage.css';
 import NewsTab from '../components/NewsTab';
 var jwtDecode = require('jwt-decode');
 class MainPage extends Component {

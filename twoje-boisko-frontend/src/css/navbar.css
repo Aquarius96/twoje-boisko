@@ -1,7 +1,7 @@
 ul {
   position: relative;
   float: right;
-  margin-left: 200px;
+  margin-left: 22em;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -9,7 +9,8 @@ nav {
   height: 50px;
   background-color: inherit;
   opacity: 0.9;
-  background-color: black;
+  background-color: #8D8D8D;
+  margin-bottom: 15px;
 }
 .navbar {
   background-color: inherit;
@@ -32,8 +33,22 @@ nav {
   color: #ffffff;
 }
 .logo {
-  color: orange;
+  color: black;
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
+}
+.navbar-custom {
+  background-color: #D8D8D8;
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: black;
+}
+.navbar-custom .navbar-nav .nav-link {
+  color: black;
+}
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color: #4CAF50;
 }

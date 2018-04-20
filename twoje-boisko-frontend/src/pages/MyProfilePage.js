@@ -202,4 +202,4 @@ class MyProfilePage extends Component {
     }
   }
   
-  export default MyProfilePage;
+export default MyProfilePage;
