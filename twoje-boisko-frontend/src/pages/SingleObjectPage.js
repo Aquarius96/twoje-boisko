@@ -154,7 +154,7 @@ class SingleObjectPage extends Component {
 
   render() {
     return (
-      <div className=" container">
+      <div className="">
       
       <div class="row">
       <div class="map col-sm-8">

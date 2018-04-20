@@ -24,7 +24,7 @@ class SportsfieldsListPage extends Component {
   render() {
     if(this.state.dataCollected){
       return (
-        <div className="container">
+        <div className="">
         <TableSportsfield objects={this.state.objects}/>
         </div>
       );

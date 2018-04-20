@@ -142,7 +142,7 @@ class LoginPage extends Component {
 
   render() {  
     return (
-      <div className="LoginPage container">
+      <div className="LoginPage">
 
           <div className="login-page">
 

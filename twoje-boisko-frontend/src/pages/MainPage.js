@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './MainPage.css';
 import NewsTab from '../components/NewsTab';
 var jwtDecode = require('jwt-decode');
 class MainPage extends Component {
@@ -23,8 +22,8 @@ class MainPage extends Component {
 
   render() {
     return (
-      <div className="MainPage container">
-      <div class="news-tab row">
+      <div className="MainPage">
+      <div class="news-tab">
       <NewsTab />
       <NewsTab />
       <NewsTab />

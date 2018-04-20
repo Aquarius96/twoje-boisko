@@ -32,7 +32,7 @@ class MainPage extends Component {
   render() {
       if(this.state.dataCollected){
         return (
-            <div className="MainPage container">
+            <div className="MainPage">
               <p>Email został potwierdzony, teraz przekierujemy Cię do strony logowania...</p>
             </div>
           );

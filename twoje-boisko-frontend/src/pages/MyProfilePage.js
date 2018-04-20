@@ -99,7 +99,7 @@ class MyProfilePage extends Component {
     
     render() {
       return (
-        <div className="MyProfile container">
+        <div className="MyProfile">
        <div className="row myProfileData">
        <div className="col-3">
        <div class = "ProfileForm">
@@ -202,4 +202,4 @@ class MyProfilePage extends Component {
     }
   }
   
-  export default MyProfilePage;
+export default MyProfilePage;

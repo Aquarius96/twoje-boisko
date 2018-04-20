@@ -28,7 +28,7 @@ class MainPage extends Component {
   render() {
      
         return (
-            <div className="AdminPage container">
+            <div className="AdminPage">
               <p>I HAVE THE POWER!!!</p>
             </div>
           );
