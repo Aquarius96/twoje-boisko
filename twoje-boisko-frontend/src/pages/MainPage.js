@@ -24,7 +24,7 @@ class MainPage extends Component {
   render() {
     return (
       <div className="MainPage">
-      <div class="news-tab row">
+      <div class="news-tab">
       <NewsTab />
       <NewsTab />
       <NewsTab />

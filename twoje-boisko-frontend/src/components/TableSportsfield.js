@@ -71,20 +71,25 @@ class TableSportsfield extends Component {
     }
     render() {
     return (
-      <div class="tableContainer">    
-      <input type="text" id="myInput" placeholder="Wyszukaj miasto..." title="Wpisz miasto"></input> <button class="przyciskWyszukaj"> Wyszukaj </button>
+      <div class="tableContainer">
             <table class="myTable">
                 <tr class="header">
                     <th onClick={() => this.sortTable(0)}class ="nazwa">Nazwa Boiska <i id="0"class="fas fa-arrow-up"></i></th>
                     <th onClick={() => this.sortTable(1)}class ="miasto">Adres <i id="1"class="fas fa-arrow-up"></i></th>
                     <th class ="przycisk"></th>    
                 </tr>
-                {this.state.objects.map(item => 
-                 <tr>
+                {this.state.objects.map(item =>{
+                  if(item.name.toLowerCase().indexOf(this.props.searchText.toLowerCase()) !== -1 || item.city.toLowerCase().indexOf(this.props.searchText.toLowerCase()) !== -1 && (this.props.selectValue === "orlik" || this.props.selectValue.length ===0)){
+                    return (
+                <tr>
                     <td>{item.name}</td>
                     <td>{item.city}, {item.street} {item.streetNumber}</td>                   
                     <td><Link to={"/object/"+item.id}><button class="przyciskSzczegoly">Szczegóły</button></Link></td>
                 </tr>
+                    );
+                  }
+                } 
+                 
                 )}
         </table>
       </div>
