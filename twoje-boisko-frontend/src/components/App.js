@@ -3,15 +3,17 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
-import LoginPage from '../pages/LoginPage.js';
+
 import './App.css';
+import LoginPage from '../pages/LoginPage.js';
 import Navbar from './Navbar.js';
 import MainPage from '../pages/MainPage.js';
 import SportsfieldsListPage from '../pages/SportsfieldsListPage.js';
 import MyProfilePage from '../pages/MyProfilePage.js';
-import SingleObjectPage from '../pages/SingleObjectPage';
-import ConfirmPage from '../pages/ConfirmPage';
-import AdminPage from '../pages/AdminPage'
+import SingleObjectPage from '../pages/SingleObjectPage.js';
+import ConfirmPage from '../pages/ConfirmPage.js';
+import AdminPage from '../pages/AdminPage.js';
+
 class App extends Component {
   render() {
     return (
