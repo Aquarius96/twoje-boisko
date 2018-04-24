@@ -99,9 +99,9 @@ class MyProfilePage extends Component {
     
     render() {
       return (
-        <div className="MyProfile">
+       <div className="MyProfile">
        <div className="row myProfileData">
-       <div className="col-3">
+       <div className="col-xl-3">
        <div class = "ProfileForm">
         <h1>{this.state.loggedUser.username}</h1>
         <p class="info"> e-mail: </p>
@@ -113,27 +113,27 @@ class MyProfilePage extends Component {
        </div>
 
        
-       <form name="editForm" className="col-sm-9 profile" id = "editPassword">
+       <form name="editForm" className="col-xl-9 profile" id = "editPassword">
         <div className="row">
-        <div className="col-sm-7 dane">
+        <div className="col-xl-7 dane">
         <div class="row">
-          <label class="col-sm-4">Imię:</label>
-          <input name="firstname" class="col-sm-8"placeholder={this.state.loggedUser.firstname}></input>
+          <label class="col-xl-4">Imię:</label>
+          <input name="firstname" class="col-xl-8"placeholder={this.state.loggedUser.firstname}></input>
           </div>
           <div class="row">
-          <label class="col-sm-4">Nazwisko:</label>
-          <input name="lastname" class="col-sm-8"placeholder={this.state.loggedUser.lastname}></input>
+          <label class="col-xl-4">Nazwisko:</label>
+          <input name="lastname" class="col-xl-8"placeholder={this.state.loggedUser.lastname}></input>
           </div>
           <div class="row">
-          <label class="col-sm-4">Email:</label>
-          <input name="email" class="col-sm-8"placeholder={this.state.loggedUser.email}></input>
+          <label class="col-xl-4">Email:</label>
+          <input name="email" class="col-xl-8"placeholder={this.state.loggedUser.email}></input>
           </div>
           <div class="row">
-          <label class="col-sm-4">Telefon:</label>
-          <input name="phone" class="col-sm-8"placeholder={this.state.loggedUser.phone}></input>
+          <label class="col-xl-4">Telefon:</label>
+          <input name="phone" class="col-xl-8"placeholder={this.state.loggedUser.phone}></input>
           </div>
         </div>
-        <div className="col-sm-5 haslo">
+        <div className="col-xl-5 haslo">
         
         <div class="row">
           

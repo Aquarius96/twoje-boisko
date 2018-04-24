@@ -29,10 +29,12 @@ class Navbar extends Component {
       if(localStorage.getItem('isLoggedIn') == "true"){
         if(this.state.loggedUser.id == 0){
           return (
-            <nav class="navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <div className="logo">Tu na razie jest ściernisko ale będzie twoje-boisko</div>
-             <ul class="navbar-nav mr-auto">
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+             <ul class="navbar-nav ml-auto">
                <li class="nav-item"></li>
                 <li class="nav-item"><Link className="a nav-link" to="/">Strona Główna</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link></li>
@@ -47,20 +49,19 @@ class Navbar extends Component {
         else{
           return (
 
-          <nav class="gowno">
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <div className="logo">Tu na razie jest ściernisko ale będzie twoje-boisko</div>
-
-             <ul class="navbar-nav mr-auto">
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+             <ul class="navbar-nav ml-auto">
                <li class="nav-item"></li>
-                <li class="nav-item "><Link className="a nav-link" to="/">Strona Główna</Link></li>
+                <li class="nav-item"><Link className="a nav-link" to="/">Strona Główna</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/MyProfilePage">Mój Profil</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/" onClick={this.logOut}>Wyloguj</Link> </li>
              </ul>
              </div>
-
             </nav>
 
           );
@@ -70,17 +71,17 @@ class Navbar extends Component {
       else{
         return (
  
-          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <div className="logo">Tu na razie jest ściernisko ale będzie twoje-boisko</div>
-            <div className="right">
-            <ul class="navbar-nav mr-auto">
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+             <ul class="navbar-nav ml-auto">
+               <li class="nav-item"></li>
                 <li class="nav-item"><Link className="a nav-link" to="/">Strona Główna</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link></li>
                 <li class="nav-item"><Link className="a nav-link" to="/LoginPage">Logowanie</Link></li>
              </ul>
-            </div>
-             
             </div>
             </nav>
         );

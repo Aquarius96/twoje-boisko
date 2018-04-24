@@ -162,7 +162,7 @@ class LoginPage extends Component {
                 
                 
                 <button class = "przyciskZaloguj" onClick={this.register} >Stwórz konto</button>
-                <p className="message">Jesteś już zarejestrowany? <a onClick = {this.switchwindows}>Zaloguj się!</a></p>
+                <p className="message">Jesteś już zarejestrowany? <a className="beniz" onClick = {this.switchwindows}>Zaloguj się!</a></p>
                 <p className="message">Pola oznaczone * są obowiązkowe</p>
               </form>
               
@@ -171,14 +171,10 @@ class LoginPage extends Component {
                 <input name="login" type="text" placeholder="Login..." required/>
                 <input name="password" type="password" placeholder="Hasło..." required/>
                 <button class = "przyciskZaloguj" onClick = {this.login}>Zaloguj</button>
-                <p className="message">Nie masz konta? <a onClick = {this.switchwindows}>Zarejestruj się!</a></p>
+                <p className="message">Nie masz konta? <a className="beniz" onClick = {this.switchwindows}>Zarejestruj się!</a></p>
               </form>
-             
             </div>
-          
           </div>
-            
-    
     </div>
     );
   }

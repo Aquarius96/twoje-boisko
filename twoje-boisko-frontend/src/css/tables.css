@@ -11,7 +11,7 @@
 .Table th {
   text-align: left;
   padding: 12px;
-  background-color: #D8D8D8;
+  background-color: #3D4944;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -19,6 +19,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  color: white;
+  font-weight: normal;
 }
 .Table td {
   text-align: left;
@@ -44,7 +46,7 @@
 .myTable th {
   text-align: left;
   padding: 12px;
-  background-color: #D8D8D8;
+  background-color: #3D4944;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -52,6 +54,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  color: white;
+  font-weight: normal;
 }
 .myTable td {
   text-align: left;
@@ -88,7 +92,7 @@
 .ObjectReservationTable th {
   text-align: left;
   padding: 12px;
-  background-color: #D8D8D8;
+  background-color: #3D4944;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -96,6 +100,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  color: white;
+  font-weight: normal;
 }
 .ObjectReservationTable td {
   text-align: left;
@@ -127,7 +133,7 @@
 .ReservationTable th {
   text-align: left;
   padding: 12px;
-  background-color: #D8D8D8;
+  background-color: #3D4944;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
@@ -135,6 +141,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  color: white;
+  font-weight: normal;
 }
 .ReservationTable td {
   text-align: left;
