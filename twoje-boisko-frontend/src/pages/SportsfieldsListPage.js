@@ -4,7 +4,9 @@ import Spinner from '../components/Spinner';
 class SportsfieldsListPage extends Component {
   constructor(props){
     super(props);
-    this.state=({objects:[],dataCollected:false});
+    this.state=({objects:[],dataCollected:false,searchText:"",selectValue:""});
+    this.handleTextChange=this.handleTextChange.bind(this);
+    this.handleSelectChange=this.handleSelectChange.bind(this);
   }
   componentDidMount(){
     fetch(`http://localhost:8080/object/allObjects`,{mode:'cors'}) 
@@ -21,11 +23,27 @@ class SportsfieldsListPage extends Component {
             console.log("state of objects", this.state.objects);
           })          
   }
+
+  handleTextChange(e){
+    this.setState({searchText:e.target.value});
+  }
+
+  handleSelectChange(e){
+    this.setState({selectValue:e.target.value});
+  }
+
   render() {
     if(this.state.dataCollected){
       return (
         <div className="">
-        <TableSportsfield objects={this.state.objects}/>
+        <input type="text" id="myInput" placeholder="Wyszukaj obiekt..." title="Wpisz miasto" onChange={this.handleTextChange}></input>
+        <select name="selectMenu"
+          onChange={this.handleSelectChange}>
+          <option selected value="">Wybierz typ obiektu</option>
+          <option value="orlik">orlik</option>
+          <option value="stadion">stadion</option>
+        </select>
+        <TableSportsfield objects={this.state.objects} searchText={this.state.searchText} selectValue={this.state.selectValue}/>
         </div>
       );
     }
