@@ -154,14 +154,14 @@ class SingleObjectPage extends Component {
 
   render() {
     return (
-      <div className="">
+      <div className="xD">
       
       <div class="row">
-      <div class="map col-sm-8">
+      <div class="map col-xl-8">
       <h1> Tu bedzie mapa </h1>
 
       </div>
-      <div class="col-sm-4">
+      <div class="col-xl-4">
 
       <div class = "ObjectForm">
         <h1>Orlik przy szkole podstawowej nr 6 w Szczytnie</h1>
@@ -177,7 +177,7 @@ class SingleObjectPage extends Component {
         <p>136 821 952</p>
         </div>
       </div>
-      <div className="col-sm-2 offset-8">
+      <div className="col-xl-2 offset-8">
         <DatePicker
           selected={this.state.startDate}
           onChange={this.handleChange}
