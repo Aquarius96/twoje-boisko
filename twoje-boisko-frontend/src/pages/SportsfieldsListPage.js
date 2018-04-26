@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TableSportsfield from '../components/TableSportsfield';
 import Spinner from '../components/Spinner';
+import '../components/TableSportsfield.css';
 class SportsfieldsListPage extends Component {
   constructor(props){
     super(props);
@@ -36,13 +37,21 @@ class SportsfieldsListPage extends Component {
     if(this.state.dataCollected){
       return (
         <div className="">
+
+        <div className="ustawienieInputa">
         <input type="text" id="myInput" placeholder="Wyszukaj obiekt..." title="Wpisz miasto" onChange={this.handleTextChange}></input>
-        <select name="selectMenu"
-          onChange={this.handleSelectChange}>
+        </div>
+
+        <div className="ustawienieSelecta">
+
+        <div class="select">
+        <select name="selectMenu" onChange={this.handleSelectChange}>
           <option selected value="">Wybierz typ obiektu</option>
           <option value="orlik">orlik</option>
           <option value="stadion">stadion</option>
         </select>
+        </div>
+        </div>
         <TableSportsfield objects={this.state.objects} searchText={this.state.searchText} selectValue={this.state.selectValue}/>
         </div>
       );

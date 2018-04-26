@@ -29,13 +29,8 @@ class Navbar extends Component {
       if(localStorage.getItem('isLoggedIn') == "true"){
         if(this.state.loggedUser.id == 0){
           return (
-<<<<<<< HEAD
             <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-=======
-            <nav className="navbar navbar-expand-lg navbar-custom">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
->>>>>>> fe60b42f7f38a9fc492e8cfdb06ac14ef3c9daef
             <div className="logo">Tu na razie jest ściernisko ale będzie twoje-boisko</div>
             </div>
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">

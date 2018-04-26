@@ -4,13 +4,25 @@ import './News.css';
 class News extends Component {
   render() {
     return (
-      <div class="card border-secondary mb-3">
-        <div class="card-header">{this.props.header}</div>
-        <div class="card-body text-secondary">
-          <h5 class="card-title">Secondary card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <div class="news">
+  
+  
+  <div class="card">
+    
+      <div class="content">
+        <div class="title">
+          <p>Fado</p>
+        </div>
+        <div class="separator"></div>
+        <div class="text">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquam, turpis nec sollicitudin euismod,
+ sem lorem dignissim libero, eget iaculis lectus tellus sed velit. Curabitur vitae accumsan lacus. Nullam urna ante volutpat.     
+        </div>
         </div>
       </div>
+  
+</div>
+
            );
   }
 }
