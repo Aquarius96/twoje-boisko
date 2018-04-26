@@ -27,7 +27,6 @@ class MainPage extends Component {
       <NewsTab />
       <NewsTab />
       <NewsTab />
-      
       </div>
       </div>
     );

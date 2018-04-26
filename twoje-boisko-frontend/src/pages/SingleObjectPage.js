@@ -30,7 +30,7 @@ class SingleObjectPage extends Component {
       catch(err) {
           console.log("error");
       }
-        fetch(`http://localhost:8080/reser/find_o/?id=`+this.props.match.params.id,{
+        fetch(`http://localhost:8080/res/find_o/?id=`+this.props.match.params.id,{
               mode:'cors'}) 
               .then(response => response.json())
               .then(data =>{

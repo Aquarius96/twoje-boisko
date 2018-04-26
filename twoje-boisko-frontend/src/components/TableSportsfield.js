@@ -79,7 +79,7 @@ class TableSportsfield extends Component {
                     <th class ="przycisk"></th>    
                 </tr>
                 {this.state.objects.map(item =>{
-                  if(item.name.toLowerCase().indexOf(this.props.searchText.toLowerCase()) !== -1 || item.city.toLowerCase().indexOf(this.props.searchText.toLowerCase()) !== -1 && (this.props.selectValue === "orlik" || this.props.selectValue.length ===0)){
+                  if((item.name.toLowerCase().indexOf(this.props.searchText.toLowerCase()) !== -1 || item.city.toLowerCase().indexOf(this.props.searchText.toLowerCase())) !== -1 && (this.props.selectValue === "orlik" || this.props.selectValue.length ===0)){
                     return (
                 <tr>
                     <td>{item.name}</td>
