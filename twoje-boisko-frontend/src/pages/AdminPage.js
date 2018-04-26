@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 //import './MainPage.css';
 import Spinner from '../components/Spinner';
-class MainPage extends Component {
+import AdminNews from '../components/AdminNews';
+import AdminObjects from '../components/AdminObjects';
+import AdminUsers from '../components/AdminUsers';
+class AdminPage extends Component {
   constructor(props){
     super(props);
     this.state = ({"cos":0});
@@ -26,16 +29,16 @@ class MainPage extends Component {
   }
 
   render() {
-     
-        return (
-            <div className="AdminPage">
-              <p>I HAVE THE POWER!!!</p>
-            </div>
-          );
-     
-      
-    
+    switch(this.props.match.params.url){
+      case "obiekty":
+      return <AdminObjects />
+      case "aktualnosci":
+      return <AdminNews />
+      case "uzytkownicy":
+      return <AdminUsers />
+      default: return <p>admin</p>
+    }
   }
 }
 
-export default MainPage;
+export default AdminPage;

@@ -70,8 +70,6 @@ margin-bottom: 30px;
 #editPassword{
 display: none;
 }
-.kolor{
-  background-color: black;
+.row{
+  padding-right:15px;
 }
-
-

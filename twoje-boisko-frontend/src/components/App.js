@@ -26,7 +26,7 @@ class App extends Component {
           <Route exact path="/MyProfilePage" component={MyProfilePage} />
           <Route path="/object/:id" component={SingleObjectPage}/>
           <Route path ="/confirm/:id/:value" component={ConfirmPage}/>
-          <Route path ="/panelAdmina" component={AdminPage}/>
+          <Route path ="/panelAdmina/:url" component={AdminPage}/>
         </div>
       </Router>
     );

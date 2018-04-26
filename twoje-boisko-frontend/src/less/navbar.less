@@ -1,3 +1,21 @@
+ul {
+	position: relative;
+	float: right;
+	//margin-left:22em;
+	padding-top: 10px;
+	padding-bottom:10px;
+}
+nav{
+	height: 50px;
+	background-color: inherit;
+	opacity: 0.9;
+	background-color: #8D8D8D;
+	margin-bottom:15px;
+}
+.navbar{
+	background-color: inherit;
+	z-index: 2;
+}
 
 .logo{
 	color: white;
@@ -6,17 +24,60 @@
 	text-align: center;
 }
 
-.navbar-custom {
+.navbar-custom,
+.navbar-custom .nav-link-dropdown {
     background-color: #3D4944;
 }
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
     color: white;
 }
-.navbar-custom .navbar-nav .nav-link {
+.navbar-custom .navbar-nav .nav-link{
     color:white;
 }
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
     color: #4CAF50;
 }
+
+.navbar-custom .nav-item.active .nav-link-dropdown,
+.navbar-custom .nav-item:hover .nav-link-dropdown {
+    color: white;
+}
+
+.navbar-custom .nav-item.active .nav-link-dropdown:hover,
+.navbar-custom .nav-item:hover .nav-link-dropdown:hover {
+	color: #4CAF50;
+}
+
+.dropbtn {
+	cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+/*.dropbtn:hover, .dropbtn:focus {
+	
+}*/
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	text-align: center;
+    display: none;
+    position: absolute;
+    width: 116px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);	
+}
+
+.show {display:block;}
+
+.fa-power-off{
+  font-size:1.25em;
+}
+
+
