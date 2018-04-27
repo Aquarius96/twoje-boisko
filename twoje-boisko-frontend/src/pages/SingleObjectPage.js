@@ -198,8 +198,11 @@ class SingleObjectPage extends Component {
             
             <tr>
             <td>8-9</td>
-            <td><input type="checkbox" name="cb" id="cb1"  className="reserve" name="reserve" value="8-9" />
-            <label class="checkboxInput" for="cb1">Wybrano Godzine</label>
+            <td>
+            <label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="8-9"/>
+            <div class="box"></div>
+            </label>
             </td>
             </tr>
             
@@ -207,47 +210,83 @@ class SingleObjectPage extends Component {
 
             <tr>
             <td>9-10</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="9-10" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="9-10"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>10-11</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="10-11" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="10-11"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>11-12</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="11-12" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="11-12"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
             
             <tr>
             <td>12-13</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="12-13" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="12-13"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
             
             <tr>
             <td>13-14</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="13-14"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>14-15</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="14-15"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>15-16</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="15-16"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>16-17</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="16-17"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
             <tr>
             <td>17-18</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="checked" /></td>
+            <td><label class="check">
+            <input type="checkbox" className="reserve" name="reserve" value="17-18"/>
+            <div class="box"></div>
+            </label>
+            </td>
             </tr>
 
         </table>
