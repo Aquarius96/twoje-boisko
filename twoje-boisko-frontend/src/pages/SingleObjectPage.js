@@ -30,7 +30,7 @@ class SingleObjectPage extends Component {
       catch(err) {
           console.log("error");
       }
-        fetch(`http://localhost:8080/reser/find_o/?id=`+this.props.match.params.id,{
+        fetch(`http://localhost:8080/res/find_o/?id=`+this.props.match.params.id,{
               mode:'cors'}) 
               .then(response => response.json())
               .then(data =>{
@@ -75,7 +75,7 @@ class SingleObjectPage extends Component {
       console.log(blockTab);
     }
     addReservation(){
-      fetch('http://localhost:8080/reser/add', {
+      fetch('http://localhost:8080/res/add', {
         method: 'POST',
         mode:'cors',
         headers: {
@@ -127,7 +127,8 @@ class SingleObjectPage extends Component {
       if(wynik){
           console.log("rezerwujemy");
           
-          if(min>0&&max>0&&this.state.userId){
+          if(min > 0 && max > 0 && this.state.userId >= 0){
+            console.log("dzialam");
             this.setState({hourStart:min,hourEnd:max}, () =>
             this.addReservation()
           );
@@ -207,7 +208,9 @@ class SingleObjectPage extends Component {
 
             <tr>
             <td>9-10</td>
-            <td><input type="checkbox" className="reserve" name="reserve" value="9-10" /></td>
+            <td><input type="checkbox" name="cb" id="cb2"  className="reserve" name="reserve" value="9-10" />
+            <label class="checkboxInput" for="cb2">Wybrano Godzine</label>
+            </td>
             </tr>
 
             <tr>

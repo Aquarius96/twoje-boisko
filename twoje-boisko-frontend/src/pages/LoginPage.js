@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import './LoginPage.css';
 import '../css/buttons.css';
 import $ from 'jquery';
+import Spinner from '../components/Spinner';
 
 class LoginPage extends Component {
 
   constructor(props)
   {
     super(props);
-    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:""});
+    this.state=({login:"",password:"",email:"",firstname:"",lastname:"",phone:"",logged:false});
     this.switchwindows = this.switchwindows.bind(this);
     this.login=this.login.bind(this);
     this.register=this.register.bind(this);
@@ -85,6 +86,17 @@ class LoginPage extends Component {
       this.checkLoginData(data);
     }
 
+    switchPage(user){
+      console.log(JSON.parse(localStorage.getItem('loggedUser')).id);
+      console.log(user.id);
+      if(JSON.parse(localStorage.getItem('loggedUser')).id != user.id){
+        setTimeout(() => {
+          this.switchPage(user);
+        }, 30);
+      } else this.props.history.push('/myProfilePage');
+      
+    }
+
     checkLoginData(user){
       switch(user.id){
         case -1:
@@ -94,7 +106,8 @@ class LoginPage extends Component {
         window.alert("Podano nieprawidłowe hasło");
         break;
         default:
-        this.props.history.push('/myProfilePage');
+        this.setState({logged:true});
+        this.props.history.push('/myProfilePage')
       }
     }
     checkRegisterData(user){
@@ -140,7 +153,8 @@ class LoginPage extends Component {
     
   }
 
-  render() {  
+  render() { 
+    if(!this.state.logged){ 
     return (
       <div className="LoginPage">
 
@@ -176,7 +190,8 @@ class LoginPage extends Component {
             </div>
           </div>
     </div>
-    );
+    );}
+    else return <Spinner />
   }
 }
 export default LoginPage;

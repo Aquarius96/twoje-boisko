@@ -3,23 +3,23 @@ import './MyProfilePage.css';
 import '../css/buttons.css';
 import '../css/tables.css';
 import $ from 'jquery';
+import Spinner from '../components/Spinner';
 
 class MyProfilePage extends Component {
   constructor(props){
     super(props);
-    this.state=({loggedUser:""});
+    this.state=({loggedUser:"",dataCollected:false});
     this.showEditPassword=this.showEditPassword.bind(this);
     this.saveUserData=this.saveUserData.bind(this);
   }
 
   componentDidMount(){
-    try {
+    var user = localStorage.getItem('loggedUser');
+    if(user){
       this.setState({
-        loggedUser:JSON.parse(localStorage.getItem('loggedUser'))
+        loggedUser:JSON.parse(user),
+        dataCollected:true
       });
-    }
-    catch(err) {
-        console.log("error");
     }
   }
   showEditPassword(){
@@ -98,6 +98,7 @@ class MyProfilePage extends Component {
 
     
     render() {
+      if(this.state.dataCollected){
       return (
        <div className="MyProfile">
        <div className="row myProfileData">
@@ -198,7 +199,8 @@ class MyProfilePage extends Component {
 
         </table>
         </div>
-      );
+      );}
+      else return <Spinner />
     }
   }
   
