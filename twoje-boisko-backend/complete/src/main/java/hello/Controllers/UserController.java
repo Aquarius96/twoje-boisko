@@ -20,13 +20,17 @@ import javax.mail.internet.AddressException;
 @RestController
 public class UserController {
 
+    private  UserService con;
+
+    public UserController(){
+        con = new UserService();
+    }
     
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/confirm",method = RequestMethod.POST)
     @ResponseBody
     public User Confirm(@RequestBody Index_ index) {
 
-        UserService con = new UserService();
         User tmp = con.findUser(index.getId());
         if (tmp.getCode().equals(index.getValue())) {
             tmp.setConfirm(true);
@@ -42,7 +46,6 @@ public class UserController {
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
     @ResponseBody
     public User logging(@RequestBody User_abs user_abs) {
-        UserService con = new UserService();
         Integer index = con.checkUser(user_abs);
         User zalogowany;
         if (index >= 0) zalogowany = con.findUser(index);
@@ -55,7 +58,6 @@ public class UserController {
     @RequestMapping(value ="/signup", method = RequestMethod.POST)
     @ResponseBody
     public User addUser(@RequestBody User user) throws AddressException, MessagingException {
-        UserService con = new UserService();
         Integer tmp = con.checkUser(user); 
 
         if (tmp == 0){
@@ -64,7 +66,7 @@ public class UserController {
             user.setConfirm(false);
             UUID uuid = UUID.randomUUID();
             user.setCode(uuid.toString());
-            return con.addUser(mail.start(user));
+            return con.addUser(mail.ConfirmEmail(user));
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email
@@ -76,7 +78,6 @@ public class UserController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public User updateUser(@RequestBody User user) {
-        UserService con = new UserService();
         if (con.checkUpdater(user)) return con.updateUser(user);
         return new User(-1);
     }
@@ -85,7 +86,6 @@ public class UserController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
     public String deleteUser(@RequestParam(value="id", required = true) String id) {
-        UserService con = new UserService();
         Boolean tmp = con.deleteUser(Integer.parseInt(id));
         if ( tmp ) return "usunieto";
         else return "blad przy usuwaniu";
@@ -95,7 +95,6 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allUsers")
     public List<User> getUsers(){
-        UserService con = new UserService();
         return con.getAllUsers();
     } 
 
