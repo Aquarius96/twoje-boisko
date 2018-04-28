@@ -1,5 +1,6 @@
 package hello.Services;
 
+import hello.Helpers.BCrypt;
 import hello.Models.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -105,8 +106,8 @@ public class UserService{
             if (rs.next()){
                 
                 login_exist = true;
-
-                if (user.getPassword().equals(rs.getString("password")) ){
+                        
+                if (BCrypt.checkpw(user.getPassword(), rs.getString("password")) ){
                     password_correct = true;
                     id = rs.getInt("id");
                 }
@@ -166,7 +167,7 @@ public class UserService{
         
     }
 
-    public User findUser(Integer id){
+    public User findUserById(Integer id){
         User result = new User(-1);
         try{
             String task = "SELECT * FROM users WHERE id=\""+id+"\"";
@@ -186,6 +187,30 @@ public class UserService{
             
         }catch (Exception exception){
             System.out.println("Error find_user(id): "+exception);
+        }
+        return result;
+    }
+
+    public User findUserByEmail(String email){
+        User result = new User(-1);
+        try{
+            String task = "SELECT * FROM users WHERE email=\""+email+"\"";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                result.setId(rs.getInt("id"));
+                result.setUsername(rs.getString("username"));
+                result.setPassword(rs.getString("password"));
+                result.setFirstname(rs.getString("firstname"));
+                result.setLastname(rs.getString("lastname"));
+                result.setEmail(rs.getString("email"));
+                result.setPhone(rs.getString("phone"));
+                result.setCode(rs.getString("confirmationCode"));
+                result.setConfirm(rs.getBoolean("isConfirmed"));
+            }
+            
+        }catch (Exception exception){
+            System.out.println("Error find_user(email): "+exception);
         }
         return result;
     }
@@ -233,4 +258,27 @@ public class UserService{
 		return outList;
     }
 
+    public void clearConCode(){
+        try{
+            String task = "SELECT * FROM users WHERE confirmationCode!=\"null\" AND isConfirmed=1";
+            rs = st.executeQuery(task);
+            
+			while (rs.next()){
+                User tmp = new User();
+                tmp.setId(rs.getInt("id"));
+                tmp.setUsername(rs.getString("username"));
+                tmp.setPassword(rs.getString("password"));
+                tmp.setFirstname(rs.getString("firstname"));
+                tmp.setLastname(rs.getString("lastname"));
+                tmp.setEmail(rs.getString("email"));
+                tmp.setPhone(rs.getString("phone"));
+                tmp.setCode(null);
+                tmp.setConfirm(rs.getBoolean("isConfirmed"));
+                updateUser(tmp);
+            }
+
+        }catch (Exception exception){
+            System.out.println("Error cler cashe: "+exception);
+        }
+    }
 }
