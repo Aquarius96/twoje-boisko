@@ -35,7 +35,7 @@ public class Application {
         };
     }
     private UserService _us = new UserService();
-    @Scheduled(cron = "0 52 10 * * ?") //! baze danych czyscimy codzinnei o 4:01 
+    @Scheduled(cron = "0 1 4 * * ?") //! baze danych czyscimy codzinnei o 4:01 
     // "0 0 * * * *" = the top of every hour of every day.
     // "*/10 * * * * *" = every ten seconds.
     // "0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.

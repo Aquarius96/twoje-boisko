@@ -106,6 +106,20 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/changepaswd", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean changepaswd(@RequestBody PaswdDto user) {
+        return con.changePaswd(user.getId(), user.getOldpaswd(), user.getNewpaswd());
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/checkpaswd", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean checkpaswd(@RequestBody PaswdDto2 user) {
+        return con.checkPaswd(user.getId(), user.getPaswd());
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public User updateUser(@RequestBody User user) {

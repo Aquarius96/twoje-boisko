@@ -18,15 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Baza danych: `zeto`
---
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `users`
---
+-- Haslo Admina to "zaqwsx123" !!!!!!!!!!!!!!!!!!
 
 CREATE TABLE `zeto`.`users` (
   `id` int(11) NOT NULL,
@@ -40,9 +32,7 @@ CREATE TABLE `zeto`.`users` (
   `isConfirmed` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Zrzut danych tabeli `users`
---
+
 
 INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES
 (0, 'Admin', '$2a$10$08MDjHMm9A/U9lUblFagI.7x.Q5jnJE4PW89nEuKw7vWitjArCy06', 'Im', 'Legion', 'brak', 'nie pokaze :*', 'null', 1);

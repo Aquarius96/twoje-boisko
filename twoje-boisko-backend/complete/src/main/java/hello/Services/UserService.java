@@ -29,12 +29,28 @@ public class UserService{
         }
     }
 
+    public Boolean changePaswd(Integer id,String oldPaswd, String newPaswd){
+        User user = findUserById(id);
+        if (BCrypt.checkpw(oldPaswd, user.getPassword())){
+            user.setPassword(BCrypt.hashpw(newPaswd, BCrypt.gensalt()));
+            if (updateUser(user).getId()>=0) return true;
+            else return false;
+        }
+        else return false;
+
+    }
+
+    public Boolean checkPaswd(Integer id, String paswd){
+        User user = findUserById(id);
+        return BCrypt.checkpw(paswd, user.getPassword());
+    }
+
     public User updateUser(User user){
         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
-            Integer tmp = st.executeUpdate(task);
-            if (tmp == 1) {
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+findUserById(user.getId()).getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
+            Integer execute = st.executeUpdate(task);
+            if (execute == 1) {
                 result.setId(user.getId());
                 result.setUsername(user.getUsername());
                 result.setPassword(user.getPassword());
