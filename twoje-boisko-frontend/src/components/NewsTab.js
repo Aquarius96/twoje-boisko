@@ -23,7 +23,7 @@ class NewsTab extends Component {
       });
     return (
       <div class="news-tab row">
-        {mockNewsTab.map(item => <div class="col-sm-4"><News header={item.header}/></div>)}
+        {mockNewsTab.map(item => <div class="col-sm-4"><News header={item.header} showAdmin={false}/></div>)}
       </div>
     );
   }

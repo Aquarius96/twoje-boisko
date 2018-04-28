@@ -8,7 +8,7 @@ import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], dataCollected: false, searchText: "", selectValue: ""});
+    this.state = ({objects: [], dataCollected: false, searchText: "", selectValue: "", wrapperRef: {}});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
@@ -20,6 +20,12 @@ class AdminPage extends Component {
       .bind(this);
     this.closeModal = this
       .closeModal
+      .bind(this);
+    this.setWrapperRef = this
+      .setWrapperRef
+      .bind(this);
+    this.handleClickOutside = this
+      .handleClickOutside
       .bind(this);
   }
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
@@ -38,7 +44,20 @@ class AdminPage extends Component {
           this.setState({dataCollected: true});
         }, Math.random() * 1500);
         console.log("state of objects", this.state.objects);
-      })
+      });
+  }
+
+  setWrapperRef() {
+    var wrapper = document.getElementById("wrapper");
+    this.setState({
+      wrapperRef: wrapper
+    }, console.log("m " + wrapper));
+  }
+
+  handleClickOutside(event) {
+    if (this.state.wrapperRef && !this.state.wrapperRef.contains(event.target)) {
+      this.closeModal();
+    }
   }
 
   handleTextChange(e) {
@@ -50,7 +69,9 @@ class AdminPage extends Component {
   }
 
   openModal() {
+    document.addEventListener('mousedown', this.handleClickOutside);
     var modal = document.getElementById("modal");
+    this.setWrapperRef();
     modal
       .classList
       .add("display");
@@ -62,6 +83,7 @@ class AdminPage extends Component {
   }
 
   closeModal() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
     var modal = document.getElementById("modal");
     modal
       .classList
@@ -100,13 +122,12 @@ class AdminPage extends Component {
               </div>
               <button className="przyciskDodajObiekt " onClick={this.openModal}>Dodaj obiekt</button>
               <div class="modal" id="modal">
-                <div class="wrapper">
+                <div id="wrapper" class="wrapper">
                   <div class="message">
                     <h2>This is a modal.</h2>
                     <p>A little modal test. I tried adding a transition animation when opening and
                       closing the modal window. The modal can be closed either by clicking the close
                       button or by clicking outside the message container.</p>
-                    <button class="button" onClick={this.closeModal}>Close modal</button>
                   </div>
                 </div>
               </div>

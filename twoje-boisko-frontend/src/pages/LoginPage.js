@@ -16,7 +16,7 @@ class LoginPage extends Component {
       firstname: "",
       lastname: "",
       phone: "",
-      logged: false
+      registered: false
     });
     this.switchwindows = this
       .switchwindows
@@ -56,7 +56,7 @@ class LoginPage extends Component {
       window.alert("Podaj login długości od 3 do 16 znaków składający się tylko z liter oraz cyfr");
       return false;
     } else if (!passwordPattern.test(reg.password.value)) {
-      window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
+      window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę. Znaki specjalne są niedozwolone");
       return false;
     } else if (reg.password.value !== reg.checkPassword.value) {
       window.alert("Podane hasła nie zgadzają się");
@@ -68,6 +68,10 @@ class LoginPage extends Component {
       window.alert("Podany numer telefonu jest nieprawidłowy");
       return false;
     }
+    this.setState({registered:true},() => {
+      console.log("xd");
+      this.forceUpdate();
+    });
     return true;
   }
 
@@ -167,13 +171,19 @@ class LoginPage extends Component {
           })
         })
         .then(result => result.json())
-        .then(response => this.checkRegisterData(response))
+        .then(response => {
+          this.checkRegisterData(response);
+          this.setState({registered:false},() => {
+            console.log("dx");
+            this.forceUpdate();
+          });
+        })
     }
 
   }
 
   render() {
-    if (!this.state.logged) {
+    if (!this.state.registered) {
       return (
         <div className="LoginPage">
 
@@ -195,7 +205,7 @@ class LoginPage extends Component {
                 <input name="email" type="text" placeholder="E-mail*" required/>
                 <input name="firstname" type="text" placeholder="Imie"/>
                 <input name="lastname" type="text" placeholder="Nazwisko"/>
-                <input name="phone" type="text" placeholder="Numer telefonu"/>
+                <input name="phone" type="text" placeholder="Numer telefonu*"/>
 
                 <button class="przyciskZaloguj" onClick={this.register}>Stwórz konto</button>
                 <p className="message">Jesteś już zarejestrowany?
