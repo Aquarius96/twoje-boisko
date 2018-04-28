@@ -20,6 +20,7 @@ class News extends Component {
             </div>
           </div>
         </div>
+
       </div>
 
     );

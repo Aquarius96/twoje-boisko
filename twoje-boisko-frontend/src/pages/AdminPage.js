@@ -4,6 +4,7 @@ import Spinner from '../components/Spinner';
 import AdminNews from '../components/AdminNews';
 import AdminObjects from '../components/AdminObjects';
 import AdminUsers from '../components/AdminUsers';
+import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,12 @@ class AdminPage extends Component {
       .bind(this);
     this.handleSelectChange = this
       .handleSelectChange
+      .bind(this);
+    this.openModal = this
+      .openModal
+      .bind(this);
+    this.closeModal = this
+      .closeModal
       .bind(this);
   }
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
@@ -42,6 +49,31 @@ class AdminPage extends Component {
     this.setState({selectValue: e.target.value});
   }
 
+  openModal() {
+    var modal = document.getElementById("modal");
+    modal
+      .classList
+      .add("display");
+    setTimeout(function () {
+      modal
+        .classList
+        .add("transition");
+    }, 20); //20milliseconds
+  }
+
+  closeModal() {
+    var modal = document.getElementById("modal");
+    modal
+      .classList
+      .remove("transition");
+    setTimeout(function () {
+      //timeout before removing modal, so that animations have time to play out.
+      modal
+        .classList
+        .remove("display");
+    }, 200); //0.3s
+  }
+
   render() {
     if (this.state.dataCollected) {
       switch (this.props.match.params.url) {
@@ -66,7 +98,18 @@ class AdminPage extends Component {
                   </select>
                 </div>
               </div>
-              <button className="przyciskDodajObiekt">Dodaj obiekt</button>
+              <button className="przyciskDodajObiekt " onClick={this.openModal}>Dodaj obiekt</button>
+              <div class="modal" id="modal">
+                <div class="wrapper">
+                  <div class="message">
+                    <h2>This is a modal.</h2>
+                    <p>A little modal test. I tried adding a transition animation when opening and
+                      closing the modal window. The modal can be closed either by clicking the close
+                      button or by clicking outside the message container.</p>
+                    <button class="button" onClick={this.closeModal}>Close modal</button>
+                  </div>
+                </div>
+              </div>
               <form>
                 <input
                   type="text"
