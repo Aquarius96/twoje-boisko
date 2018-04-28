@@ -36,3 +36,35 @@
     border: 1px solid #4CAF50;
     margin-top:-10px;
 }
+
+.footer{
+  padding-top: 10px;
+}
+
+.admincard {
+  width: 300px;
+  border-radius: 3px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: Arial;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+  margin-bottom:20px;
+  height:320px;
+}
+
+.admincard:hover {
+  transform: scale(1.05);
+}
+
+.separator2{
+  width: 258px;
+  border: 1px solid #4CAF50;
+  margin-top:10px;
+}
+
+.ustawieniePrzyciskuEdytuj{
+  float:left;
+}
+.ustawieniePrzyciskuUsun{
+  float:right;
+}

@@ -4,6 +4,7 @@ import Spinner from '../components/Spinner';
 import AdminNews from '../components/AdminNews';
 import AdminObjects from '../components/AdminObjects';
 import AdminUsers from '../components/AdminUsers';
+import './LoginPage.css';
 import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
@@ -46,28 +47,28 @@ class AdminPage extends Component {
         console.log("state of objects", this.state.objects);
       });
   }
-
+ 
   setWrapperRef() {
     var wrapper = document.getElementById("wrapper");
     this.setState({
       wrapperRef: wrapper
     }, console.log("m " + wrapper));
   }
-
+ 
   handleClickOutside(event) {
     if (this.state.wrapperRef && !this.state.wrapperRef.contains(event.target)) {
       this.closeModal();
     }
   }
-
+ 
   handleTextChange(e) {
     this.setState({searchText: e.target.value});
   }
-
+ 
   handleSelectChange(e) {
     this.setState({selectValue: e.target.value});
   }
-
+ 
   openModal() {
     document.addEventListener('mousedown', this.handleClickOutside);
     var modal = document.getElementById("modal");
@@ -81,7 +82,7 @@ class AdminPage extends Component {
         .add("transition");
     }, 20); //20milliseconds
   }
-
+ 
   closeModal() {
     document.removeEventListener('mousedown', this.handleClickOutside);
     var modal = document.getElementById("modal");
@@ -124,27 +125,18 @@ class AdminPage extends Component {
               <div class="modal" id="modal">
                 <div id="wrapper" class="wrapper">
                   <div class="message">
-                    <h2>This is a modal.</h2>
-                    <p>A little modal test. I tried adding a transition animation when opening and
-                      closing the modal window. The modal can be closed either by clicking the close
-                      button or by clicking outside the message container.</p>
+                  <h1>Dodaj obiekt</h1>
+                  <input name="nazwa" type="text" placeholder="Nazwa obiektu"/>
+                  <input name="dniotwarcia" type="text" placeholder="Dni otwarcia"/>
+                  <input name="godzinyotwarcia" type="time" placeholder="Godziny otwarcia"/>
+                  <input name="adres" type="text" placeholder="Adres"/>
+                  <input name="cennik" type="text" placeholder="Cennik"/>
+                  <input name="kontakt" type="text" placeholder="Kontakt"/>
+                    <button class="przyciskAdminObiekt" onClick={this.closeModal}>Dodaj obiekt</button>
                   </div>
                 </div>
               </div>
-              <form>
-                <input
-                  type="text"
-                  class="formInput"
-                  placeholder="Nazwa"
-                  title="Wpisz nazwę obiektu"></input>
-
-                <input
-                  type="text"
-                  class="formInput"
-                  placeholder="Nazwa"
-                  title="Wpisz nazwę obiektu"></input>
-              </form>
-
+          
               <AdminObjects
                 objects={this.state.objects}
                 searchText={this.state.searchText}
