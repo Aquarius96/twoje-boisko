@@ -73,3 +73,6 @@ nav {
 .hidden {
   display: none;
 }
+.fas:hover {
+  transform: scale(1.1);
+}

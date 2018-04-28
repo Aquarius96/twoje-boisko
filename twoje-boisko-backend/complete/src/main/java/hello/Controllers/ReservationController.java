@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ReservationController {
 
+    private ReservationsService con ;
+    public ReservationController(){
+        con = new ReservationsService();
+    }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public Reservation addReservation(@RequestBody Reservation reservation) {
-        ReservationsService con = new ReservationsService();
         reservation.setId(con.getfreeId());
         return con.addReservation(reservation);
         
@@ -27,7 +30,6 @@ public class ReservationController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public Reservation updateReservation(@RequestBody Reservation reservation) {
-        ReservationsService con = new ReservationsService();
         return con.updateReservation(reservation);
         
     }
@@ -35,7 +37,6 @@ public class ReservationController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
     public String deleteReservation(@RequestParam(value="id", required = true) String id) {
-        ReservationsService con = new ReservationsService();
         Boolean tmp = con.deleteReservation(Integer.parseInt(id));
         if ( tmp ) return "usunieto";
         else return "blad przy usuwaniu";
@@ -46,7 +47,6 @@ public class ReservationController {
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
     public Reservation findReservation(@RequestParam(value="id", required = true) String id) {
-        ReservationsService con = new ReservationsService();
         return con.findReservation(Integer.parseInt(id));
 
     }
@@ -55,7 +55,6 @@ public class ReservationController {
     @RequestMapping(value = "/find_o", method = RequestMethod.GET)
     @ResponseBody
     public List<Reservation> findReservationObject(@RequestParam(value="id", required = true) String id) {
-        ReservationsService con = new ReservationsService();
         return con.findReservationsObject(Integer.parseInt(id));
 
     }
@@ -64,7 +63,6 @@ public class ReservationController {
     @RequestMapping(value = "/find_u", method = RequestMethod.GET)
     @ResponseBody
     public List<Reservation> findReservationuser(@RequestParam(value="id", required = true) String id) {
-        ReservationsService con = new ReservationsService();
         return con.findReservationsUser(Integer.parseInt(id));
 
     }
@@ -72,7 +70,6 @@ public class ReservationController {
     @RequestMapping(value = "/all")
     @ResponseBody
     public List<Reservation> getallrest() {
-        ReservationsService con = new ReservationsService();
         return con.getAllReservations();
 
     }

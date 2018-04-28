@@ -10,7 +10,7 @@
   }
   
   .card:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
   
   
@@ -33,6 +33,6 @@
 
 .separator{
     width: 258px;
-    border: 1px solid #3D4944;
+    border: 1px solid #4CAF50;
     margin-top:-10px;
 }

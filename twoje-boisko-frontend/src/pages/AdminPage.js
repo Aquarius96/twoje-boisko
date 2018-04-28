@@ -68,13 +68,13 @@ class AdminPage extends Component {
               </div>
               <button className="przyciskDodajObiekt">Dodaj obiekt</button>
               <form>
-              <input
+                <input
                   type="text"
                   class="formInput"
                   placeholder="Nazwa"
                   title="Wpisz nazwę obiektu"></input>
 
-                  <input
+                <input
                   type="text"
                   class="formInput"
                   placeholder="Nazwa"
