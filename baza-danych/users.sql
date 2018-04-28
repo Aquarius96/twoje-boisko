@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 12 Kwi 2018, 13:48
+-- Czas generowania: 28 Kwi 2018, 01:04
 -- Wersja serwera: 10.1.31-MariaDB
 -- Wersja PHP: 7.2.3
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `zeto`.`users` (
   `id` int(11) NOT NULL,
   `username` varchar(30) COLLATE utf8_bin NOT NULL,
-  `password` varchar(30) COLLATE utf8_bin NOT NULL,
+  `password` varchar(100) COLLATE utf8_bin NOT NULL,
   `firstname` varchar(30) COLLATE utf8_bin NOT NULL,
   `lastname` varchar(30) COLLATE utf8_bin NOT NULL,
   `email` varchar(30) COLLATE utf8_bin NOT NULL,
@@ -45,16 +45,10 @@ CREATE TABLE `zeto`.`users` (
 --
 
 INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES
-(0, 'Admin', 'zaqwsx', 'Im', 'Legion', 'brak ;*', 'nie pokaze', '', 1),
-(2, 'Isard', 'Haslo123', 'Marcin', 'Zapadka', 'zapadka@wp.pl', '666240823', '', 1);
+(0, 'Admin', '$2a$10$08MDjHMm9A/U9lUblFagI.7x.Q5jnJE4PW89nEuKw7vWitjArCy06', 'Im', 'Legion', 'brak', 'nie pokaze :*', 'null', 1);
 
---
--- Indeksy dla zrzutów tabel
---
+-- Haslo Admina to "zaqwsx123" !!!!!!!!!!!!!!!!!!
 
---
--- Indeksy dla tabeli `users`
---
 ALTER TABLE `zeto`.`users`
   ADD PRIMARY KEY (`id`);
 COMMIT;

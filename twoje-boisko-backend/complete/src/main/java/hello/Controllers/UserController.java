@@ -1,5 +1,6 @@
 package hello.Controllers;
 
+import hello.Helpers.BCrypt;
 import hello.Helpers.Index_;
 import hello.Helpers.Mail_;
 import hello.Models.*;
@@ -21,17 +22,20 @@ import javax.mail.internet.AddressException;
 public class UserController {
 
     private  UserService con;
+    private Mail_ mail;
 
     public UserController(){
         con = new UserService();
+        mail = new Mail_();
     }
-    
+
+
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/confirm",method = RequestMethod.POST)
     @ResponseBody
     public User Confirm(@RequestBody Index_ index) {
 
-        User tmp = con.findUser(index.getId());
+        User tmp = con.findUserById(index.getId());
         if (tmp.getCode().equals(index.getValue())) {
             tmp.setConfirm(true);
             tmp.setCode(null);
@@ -41,6 +45,27 @@ public class UserController {
         
     }
 
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/forgot/email",method = RequestMethod.POST)
+    @ResponseBody
+    public String ForgotEmail(@RequestBody Index_ email) throws AddressException, MessagingException {
+
+        User user = con.findUserByEmail(email.getValue());
+        if (user.getId()<0) return "Brak uzytkownika o danym emailu"; // lub do poprawy i we froncie zmienicie wiadomosc
+        mail.ForgotEmail(user);
+        return "Wyslano emaila";
+        
+    }
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/forgot/login",method = RequestMethod.POST)
+    @ResponseBody
+    public String ForgotLogin(@RequestBody Index_ email) throws AddressException, MessagingException {
+
+        User user = con.findUserByEmail(email.getValue());
+        if (user.getId()<0) return "Brak uzytkownika o danym emailu"; // lub do poprawy i we froncie zmienicie wiadomosc
+        return user.getUsername();
+        
+    }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
@@ -48,7 +73,7 @@ public class UserController {
     public User logging(@RequestBody User_abs user_abs) {
         Integer index = con.checkUser(user_abs);
         User zalogowany;
-        if (index >= 0) zalogowany = con.findUser(index);
+        if (index >= 0) zalogowany = con.findUserById(index);
         else zalogowany = new User(index);
         return  zalogowany;
         
@@ -61,12 +86,18 @@ public class UserController {
         Integer tmp = con.checkUser(user); 
 
         if (tmp == 0){
-            Mail_ mail = new Mail_();
             user.setId(con.getfreeId());
             user.setConfirm(false);
             UUID uuid = UUID.randomUUID();
             user.setCode(uuid.toString());
-            return con.addUser(mail.ConfirmEmail(user));
+            String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); 
+            user.setPassword(pw_hash);
+            User user_ = con.addUser(user);
+            if (user_.getId() >= 0 ) {
+                mail.ConfirmEmail(user_);
+                return user_;
+            }
+            else return new User(-5); //* blad w serwiscie przy dodawaniu
         }
         else if (tmp==1) return new User(-1); //* zajety username
         else if (tmp==2) return new User(-2); //* zajety email

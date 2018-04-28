@@ -22,16 +22,14 @@ public class Mail_
 
     }
     
-    public User ConfirmEmail(User user_) throws AddressException, MessagingException {
+    public void ConfirmEmail(User user_) throws AddressException, MessagingException {
 
        generateAndSendEmail(user_," witamy w naszym serwisie!","W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: ");
-        return user_;
     }
 
-    public User ForgotEmail(User user_) throws AddressException, MessagingException {
+    public void ForgotEmail(User user_) throws AddressException, MessagingException {
 
-        generateAndSendEmail(user_," wyglada ze zapomniales hasla!","Jesli to nie Ty zapomniales hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ");
-         return user_;
+        generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!","Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ");
      }
 
     public static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
@@ -51,7 +49,7 @@ public class Mail_
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
 		generateMailMessage.setSubject(user.getUsername() + topic);
-		String emailBody = body + "<br>" + "<a href=\"http://localhost:3000/confirm/" + user.getId() + "/" + user.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user.getCode() + "<br />UserId : " + user.getId() + "<br><br> Usciski, <br>AdminBOT";
+		String emailBody = body + "<br>" + "<a href=\"http://localhost:3000/confirm/" + user.getId() + "/" + user.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user.getCode() + "<br />UserId : " + user.getId() + "<br />Login : " + user.getUsername() + "<br><br> Usciski, <br>AdminBOT";
 		generateMailMessage.setContent(emailBody, "text/html");
 		//System.out.println("Mail Session has been created successfully..");
  
