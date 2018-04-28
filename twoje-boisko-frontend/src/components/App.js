@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import './App.css';
 import LoginPage from '../pages/LoginPage.js';
@@ -19,14 +16,14 @@ class App extends Component {
     return (
       <Router>
         <div className="container">
-        <Navbar />
-          <Route exact path="/" component={MainPage} />
-          <Route exact path="/listaBoisk" component={SportsfieldsListPage} />
-          <Route exact path="/LoginPage" component={LoginPage} />
-          <Route exact path="/MyProfilePage" component={MyProfilePage} />
+          <Navbar/>
+          <Route exact path="/" component={MainPage}/>
+          <Route exact path="/listaBoisk" component={SportsfieldsListPage}/>
+          <Route exact path="/LoginPage" component={LoginPage}/>
+          <Route exact path="/MyProfilePage" component={MyProfilePage}/>
           <Route path="/object/:id" component={SingleObjectPage}/>
-          <Route path ="/confirm/:id/:value" component={ConfirmPage}/>
-          <Route path ="/panelAdmina/:url" component={AdminPage}/>
+          <Route path="/confirm/:id/:value" component={ConfirmPage}/>
+          <Route path="/panelAdmina/:url" component={AdminPage}/>
         </div>
       </Router>
     );

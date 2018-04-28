@@ -67,3 +67,12 @@ nav {
 .show {
   display: block;
 }
+.showEdit {
+  display: table-row;
+}
+.hidden {
+  display: none;
+}
+.fas:hover {
+  transform: scale(1.1);
+}
