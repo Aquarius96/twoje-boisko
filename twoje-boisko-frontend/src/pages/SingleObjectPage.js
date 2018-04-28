@@ -7,6 +7,8 @@ import '../css/buttons.css';
 import '../css/checkbox.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './SingleObjectPage.css';
+import '../components/Modal.css';
+
 class SingleObjectPage extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +37,18 @@ class SingleObjectPage extends Component {
       .bind(this);
     this.insertToday = this
       .insertToday
+      .bind(this);
+      this.openModal = this
+      .openModal
+      .bind(this);
+    this.closeModal = this
+      .closeModal
+      .bind(this);
+    this.setWrapperRef = this
+      .setWrapperRef
+      .bind(this);
+    this.handleClickOutside = this
+      .handleClickOutside
       .bind(this);
   }
   componentDidUpdate() {
@@ -189,6 +203,48 @@ class SingleObjectPage extends Component {
     return count;
   }
 
+  setWrapperRef() {
+    var wrapper = document.getElementById("wrapper");
+    this.setState({
+      wrapperRef: wrapper
+    }, console.log("m " + wrapper));
+  }
+ 
+  handleClickOutside(event) {
+    if (this.state.wrapperRef && !this.state.wrapperRef.contains(event.target)) {
+      this.closeModal();
+    }
+  }
+ 
+  openModal() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+    var modal = document.getElementById("modal");
+    this.setWrapperRef();
+    modal
+      .classList
+      .add("display");
+    setTimeout(function () {
+      modal
+        .classList
+        .add("transition");
+    }, 20); //20milliseconds
+  }
+ 
+  closeModal() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+    var modal = document.getElementById("modal");
+    modal
+      .classList
+      .remove("transition");
+    setTimeout(function () {
+      //timeout before removing modal, so that animations have time to play out.
+      modal
+        .classList
+        .remove("display");
+    }, 200); //0.3s
+  }
+
+
   render() {
     return (
       <div className="xD">
@@ -341,8 +397,18 @@ class SingleObjectPage extends Component {
 
           </table>
         </div>
-        <button class="przyciskRezerwuj" onClick={this.reserve}>Rezerwuj</button>
-
+        <button class="przyciskRezerwuj" onClick={this.openModal}>Rezerwuj</button>
+        <div class="modal" id="modal">
+                <div id="wrapper" class="wrapper">
+                  <div class="message">
+                  <h1>Potwierdź rezerwację</h1>
+                  <p>Dzień:</p>
+                  <p>Godzina:</p>
+                  <p>Twoje Dane:</p>
+                    <button class="przyciskPotwierdzDane" onClick={this.closeModal}>Zarezerwuj</button>
+                  </div>
+                </div>
+              </div>
       </div>
     );
   }

@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Struktura tabeli dla tabeli `users`
 --
-DROP TABLE `zeto`.`users`;
+
 CREATE TABLE `zeto`.`users` (
   `id` int(11) NOT NULL,
   `username` varchar(30) COLLATE utf8_bin NOT NULL,
