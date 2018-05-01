@@ -22,8 +22,8 @@ class App extends Component {
           <Route exact path="/LoginPage" component={LoginPage}/>
           <Route exact path="/MyProfilePage" component={MyProfilePage}/>
           <Route path="/object/:id" component={SingleObjectPage}/>
-          <Route path="/confirm/:id/:value" component={ConfirmPage}/>
-          <Route path="/panelAdmina/:url" component={AdminPage}/>
+          <Route path="/confirm/:id/:value" component={ConfirmPage}/>          
+          <Route path="/panelAdmina/:url/:page" component={AdminPage}/>
         </div>
       </Router>
     );

@@ -79,9 +79,9 @@ class Navbar extends Component {
                   <div class="dropdown">
                     <div className="dropbtn a nav-link">Panel admina</div>
                     <div id="myDropdown" class="dropdown-content">
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty">Obiekty</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci">Aktualności</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy">Użytkownicy</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty/1">Obiekty</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci/1">Aktualności</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy/1">Użytkownicy</Link>
                     </div>
                   </div>
                 </li>
@@ -148,9 +148,9 @@ class Navbar extends Component {
                   <div class="dropdown">
                     <div className="dropbtn a nav-link">Panel admina</div>
                     <div id="myDropdown" class="dropdown-content">
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty">Obiekty</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci">Aktualności</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy">Użytkownicy</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty/1">Obiekty</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci/1">Aktualności</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy/1">Użytkownicy</Link>
                     </div>
                   </div>
                 </li>
