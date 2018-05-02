@@ -4,17 +4,17 @@ import Spinner from '../components/Spinner';
 import AdminNews from '../components/AdminNews';
 import AdminObjects from '../components/AdminObjects';
 import AdminUsers from '../components/AdminUsers';
+import Pagination from '../components/Pagination';
 import {
   Link
 } from 'react-router';
-import Pagination from 'react-router-pagination';
 import '../css/select.css';
 import './LoginPage.css';
 import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}});
+    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
@@ -40,7 +40,17 @@ class AdminPage extends Component {
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
   componentDidMount() {
 
-
+    var page = this.props.match.params.page;
+    console.log("this is my "+page);
+    if(page == undefined){
+      console.log("xundefined");
+      //this.setState({currentPage:1});
+    }
+    else{
+      console.log("xnieundefined");
+      this.setState({currentPage:page});
+    }
+    
     fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
@@ -72,10 +82,20 @@ class AdminPage extends Component {
         }, Math.random() * 1500);
         console.log("state of news", this.state.news);
         this.pickNews();
-      });
-
-      
+      });      
   }
+
+  componentDidUpdate(prevProps,prevState){
+    console.log(this.state.news.length);
+    if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
+      this.setState({currentPage:this.props.match.params.page});
+      this.pickNews();
+    }
+    
+    //
+  }
+
+  
 
   addObject(e){
     e.preventDefault();
@@ -155,7 +175,7 @@ class AdminPage extends Component {
 
   pickNews(){
     var news = [];
-    var page = this.props.match.params.page;
+    var page = this.state.currentPage;
     console.log("page"+page);
     console.log("news length"+this.state.news.length);
     this.state.news.map(item => {
@@ -165,6 +185,7 @@ class AdminPage extends Component {
     });
     this.setState({pickedNews:news});
   }
+
 
   
 
@@ -204,7 +225,7 @@ class AdminPage extends Component {
                   <h1>Dodaj obiekt</h1>
                   <input name="nazwa" type="text" placeholder="Nazwa obiektu"/>
                   <div class="select">
-                  <select name="selectType" onChange={this.handleSelectChange}>
+                  <select name="selectType">
                     <option selected value="">Wybierz typ obiektu</option>
                     <option value="orlik">orlik</option>
                     <option value="stadion">stadion</option>
@@ -263,7 +284,11 @@ class AdminPage extends Component {
             </div>
           )
         case "aktualnosci":
-          return <AdminNews news={this.state.pickedNews}/>
+          return <div>
+            <p>{this.state.currentPage} {this.state.pickedNews.length}</p>
+            <AdminNews update={this.update} news={this.state.pickedNews} page={this.state.currentPage}/>
+            <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={6} route="/panelAdmina/aktualnosci/" current ={this.state.currentPage}/>
+            </div>
         case "uzytkownicy":
           return <AdminUsers/>
         default:

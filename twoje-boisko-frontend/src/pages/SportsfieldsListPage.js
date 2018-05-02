@@ -39,6 +39,19 @@ class SportsfieldsListPage extends Component {
     this.setState({selectValue: e.target.value});
   }
 
+  pickObjects(){
+    var objects = [];
+    var page = this.state.currentPage;
+    console.log("page"+page);
+    console.log("objects length"+this.state.objects.length);
+    this.state.objects.map(item => {
+      if(item.id >= 7*(page-1) && item.id < 7*page)
+        objects.push(item);
+        console.log(item.id);      
+    });
+    this.setState({pickedObjects:objects});
+  }
+
   render() {
     if (this.state.dataCollected) {
       return (
@@ -63,6 +76,7 @@ class SportsfieldsListPage extends Component {
               </select>
             </div>
           </div>
+          <p>{typeof(this.state.objects)}</p>
           <TableSportsfield
             objects={this.state.objects}
             searchText={this.state.searchText}

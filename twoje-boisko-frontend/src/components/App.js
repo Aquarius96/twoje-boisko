@@ -17,13 +17,15 @@ class App extends Component {
       <Router>
         <div className="container">
           <Navbar/>
-          <Route exact path="/" component={MainPage}/>
+          <Route exact path="/" component ={MainPage}></Route>
+          <Route path="/aktualnosci/:page" component={MainPage}/>
           <Route exact path="/listaBoisk" component={SportsfieldsListPage}/>
           <Route exact path="/LoginPage" component={LoginPage}/>
           <Route exact path="/MyProfilePage" component={MyProfilePage}/>
           <Route path="/object/:id" component={SingleObjectPage}/>
-          <Route path="/confirm/:id/:value" component={ConfirmPage}/>          
-          <Route path="/panelAdmina/:url/:page" component={AdminPage}/>
+          <Route path="/confirm/:id/:value" component={ConfirmPage}/>
+          <Route exact path="/panelAdmina/:url/" component={AdminPage}/>          
+          <Route exact path="/panelAdmina/:url/:page" component={AdminPage}/>
         </div>
       </Router>
     );

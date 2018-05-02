@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import NewsTab from '../components/NewsTab';
 import News from '../components/News';
+import Pagination from '../components/Pagination';
 import '../css/inputs.css';
 
 class AdminNews extends Component {
   constructor(props) {
     super(props);
-    this.state=({wrapperRef:{},modalRef:{}});
+    this.state=({wrapperRef:{},modalRef:{},currentPage:"",news:[]});
    this.openModal = this
       .openModal
       .bind(this);
@@ -20,6 +21,10 @@ class AdminNews extends Component {
       .handleClickOutside
       .bind(this);
       this.addNews=this.addNews.bind(this);
+  }
+
+  componentDidMount(){    
+    this.setState({currentPage:this.props.page,news:this.props.news});
   }
 
   addNews(e){

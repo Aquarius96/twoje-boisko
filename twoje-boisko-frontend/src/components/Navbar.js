@@ -30,6 +30,7 @@ class Navbar extends Component {
         return true;
       }
     }
+    return false;
   }
   componentDidUpdate() {
     var user = localStorage.getItem('loggedUser');

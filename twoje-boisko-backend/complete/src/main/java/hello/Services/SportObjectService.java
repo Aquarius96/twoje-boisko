@@ -121,7 +121,7 @@ public class SportObjectService{
     public Integer getfreeId(){
         Integer result;
         try{
-            String task = "SELECT * FROM sportobjects";
+            String task = "SELECT * FROM sportsobjects ORDER BY id";
             rs = st.executeQuery(task);
             result = 1;
             while (rs.next()){
