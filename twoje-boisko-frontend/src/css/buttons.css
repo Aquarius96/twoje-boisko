@@ -248,6 +248,33 @@
   background-color: red;
   color: white;
 }
+.przyciskUsunObiekt {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  cursor: pointer;
+  background-color: white;
+  color: #216224;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 12px;
+  margin: 14px 2px;
+  border: 2px solid red;
+}
+.przyciskUsunObiekt:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.przyciskUsunObiekt:hover {
+  background-color: red;
+  color: white;
+}
 .przyciskEdytujAktualnosc {
   background-color: #4CAF50;
   border: none;

@@ -79,6 +79,52 @@
 .myTable th.przycisk {
   width: 10%;
 }
+.myAdminObjectTable {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+}
+.myAdminObjectTable-scroll {
+  height: 350px;
+  overflow: auto;
+  margin-top: 20px;
+}
+.myAdminObjectTable th {
+  text-align: left;
+  padding: 12px;
+  background-color: #3D4944;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: white;
+  font-weight: normal;
+}
+.myAdminObjectTable td {
+  text-align: left;
+  padding: 12px;
+}
+.myAdminObjectTable tr {
+  border-bottom: 1px solid #b3b3b3;
+  background-color: #FFFFFF;
+}
+.myAdminObjectTable tr:hover {
+  background-color: #F2F2F2;
+}
+.myAdminObjectTable th.nazwa {
+  width: 43%;
+  cursor: pointer;
+}
+.myAdminObjectTable th.miasto {
+  width: 45%;
+  cursor: pointer;
+}
+.myAdminObjectTable th.przycisk {
+  width: 12%;
+}
 .ObjectReservationTable {
   border-collapse: collapse;
   width: 100%;

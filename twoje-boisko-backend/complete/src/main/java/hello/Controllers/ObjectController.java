@@ -1,4 +1,5 @@
 package hello.Controllers;
+import hello.Helpers.Index_;
 import hello.Models.*;
 import hello.Services.*;
 
@@ -24,12 +25,13 @@ public class ObjectController{
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteObject(@RequestParam(value="id", required = true) String id) {
-        Boolean tmp = con.deleteSportObject(Integer.parseInt(id));
-        if ( tmp ) return "usunieto";
-        else return "blad przy usuwaniu";
+    public Index_ deleteSportObject(@RequestBody Index_ id) {
+        Boolean tmp = con.deleteSportObject(id.getId());
+        if ( tmp ) id.setValue("usunieto");
+        else id.setValue("blad przy usuwaniu");
+        return id;
 
     }
 

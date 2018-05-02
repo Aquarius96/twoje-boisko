@@ -18,7 +18,7 @@ public class NewsService{
         try{
             Class.forName("com.mysql.jdbc.Driver");
     
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto","root","");
+            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto?useUnicode=yes&characterEncoding=UTF-8","root","");
             st = con.createStatement();
     
         }catch(Exception exception){
@@ -116,7 +116,7 @@ public class NewsService{
                 tmp.setId(rs.getInt("id"));
                 tmp.setDate(rs.getString("date"));
                 tmp.setHeader(rs.getString("header"));
-                tmp.setText("text");
+                tmp.setText(rs.getString("text"));
                 outList.add(tmp);
             }
         }catch (Exception exception){
