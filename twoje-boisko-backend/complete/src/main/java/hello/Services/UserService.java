@@ -5,6 +5,7 @@ import hello.Models.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 
@@ -21,7 +22,7 @@ public class UserService{
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto","root","");
+            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto?useUnicode=yes&characterEncoding=UTF-8","root","");
             st = con.createStatement();
 
         }catch(Exception exception){
@@ -75,6 +76,16 @@ public class UserService{
     }
     
     public User addUser(User user) {
+
+        //from controler
+        user.setId(getfreeId());
+        user.setConfirm(false);
+        UUID uuid = UUID.randomUUID();
+        user.setCode(uuid.toString());
+        String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); 
+        user.setPassword(pw_hash);
+
+
         User user_ = new User();
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"');";
@@ -131,6 +142,7 @@ public class UserService{
             
         }catch (Exception exception){
             System.out.println("Error check_user(login): "+exception);
+            return -3;
         }
         
         if (!login_exist) return -1;
@@ -139,20 +151,20 @@ public class UserService{
         return id;
     }
 
-    public Boolean checkUpdater(User user){
+    public Integer checkUpdater(User user){
         try{
             String task = "SELECT * FROM users WHERE email='"+user.getEmail()+"' AND id!='"+user.getId()+"';";
             rs = st.executeQuery(task);
 
             if (rs.next()){
-                return false;
+                return -1;
             }
-            return true;
+            return 1;
 
             
         }catch (Exception exception){
             System.out.println("Error check_user(updater): "+exception);
-            return false;
+            return -2;
         }
         
     }

@@ -1,15 +1,15 @@
-package hello.test;
+package hello.Helpers;
 
-public class Result{
+public class Result_{
     public String type;
     public String value;
     
-    public Result(String value_){
+    public Result_(String value_){
         type = "error";
         this.value=value_;
     }
 
-    public Result(String type_,String value_){
+    public Result_(String type_,String value_){
         type=type_;
         value=value_;
     }

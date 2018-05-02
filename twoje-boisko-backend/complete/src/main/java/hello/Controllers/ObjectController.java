@@ -1,9 +1,12 @@
 package hello.Controllers;
 import hello.Helpers.Index_;
+import hello.Helpers.Result_;
 import hello.Models.*;
 import hello.Services.*;
 
-import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -12,60 +15,85 @@ import org.springframework.web.bind.annotation.*;
 public class ObjectController{
 
     private SportObjectService con;
+    private HttpHeaders responseHeaders;
     public ObjectController(){
+        responseHeaders = new HttpHeaders();
         con = new SportObjectService(); 
 
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
-    public SportObject addSportObject(@RequestBody SportObject sportObject) {
+    public ResponseEntity<?> addSportObject(@RequestBody SportObject sportObject) {
         sportObject.setId(con.getfreeId());
-        return con.addSportObject(sportObject);  
+        SportObject result = con.addSportObject(sportObject);
+        switch(result.getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+		    default :
+                return ResponseEntity.ok(result);
+        }
+
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Index_ deleteSportObject(@RequestBody Index_ id) {
+    public ResponseEntity<?> deleteSportObject(@RequestBody Index_ id) {
         Boolean tmp = con.deleteSportObject(id.getId());
         if ( tmp ) id.setValue("usunieto");
         else id.setValue("blad przy usuwaniu");
-        return id;
+        return ResponseEntity.accepted().body(id);
 
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
-    public SportObject updateObject(@RequestBody SportObject object) {
-        return con.updateSportObject(object);
+    public ResponseEntity<?> updateObject(@RequestBody SportObject object) {
+        SportObject result = con.updateSportObject(object);
+        switch(result.getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+		    default :
+                return ResponseEntity.ok(result);
+        }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allObjects")
-    public List<SportObject> getSportObject(){
-        return con.getAllSportObjects();
+    public ResponseEntity<?> getSportObject(){
+        return ResponseEntity.accepted().body(con.getAllSportObjects());
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/findC", method = RequestMethod.GET)
     @ResponseBody
-    public List<SportObject> findObjectC(@RequestParam(value="city", required = true) String city) {
-        return con.findSportObjectsCity(city);
+    public ResponseEntity<?> findObjectC(@RequestParam(value="city", required = true) String city) {
+        return ResponseEntity.accepted().body(con.findSportObjectsCity(city));
 
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
-    public SportObject findObject(@RequestParam(value="id", required = true) String id) {
-        return con.findSportObject(Integer.parseInt(id));
+    public ResponseEntity<?> findObject(@RequestParam(value="id", required = true) String id) {
+        SportObject result = con.findSportObject(Integer.parseInt(id));
+        switch(result.getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+		    default :
+                return ResponseEntity.ok(result);
+        }
 
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allTypes")
-    public List<String> getTypes(){
-        return con.getAllTypes();
+    public ResponseEntity<?> getTypes(){
+        return ResponseEntity.accepted().body(con.getAllTypes());
     }
 }

@@ -19,7 +19,7 @@ public class SportObjectService{
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto","root","");
+            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto?useUnicode=yes&characterEncoding=UTF-8","root","");
             st = con.createStatement();
 
         }catch(Exception exception){
@@ -113,6 +113,7 @@ public class SportObjectService{
             }
             
         }catch (Exception exception){
+            result.setId(-1);
             System.out.println("Error find_sportobjects(id): "+exception);
         }
         return result;
