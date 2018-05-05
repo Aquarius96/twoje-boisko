@@ -11,25 +11,11 @@ class MainPage extends Component {
     this.pickNews=this.pickNews.bind(this);
   }
 
-  componentDidMount() {
-    // var token =
-    // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJJc2FyZCIsInBh
-    // c3N3b3JkIjoiSGFzbG8xMjMiLCJmaXJzdG5hbWUiOiJNYXJjaW4iLCJsYXN0bmFtZSI6IlphcGFka2
-    // EiLCJlbWFpbCI6InphcGFka2FAd3AucGwiLCJwaG9uZSI6IjY2NjI0MDgyMyJ9.MWc6WyEwzcrYcGC
-    // lrE8zsUM5CSrXZRs39Z_i5Z9Q9sY'; var decoded = jwtDecode(token);
-    // console.log(decoded);
+  componentDidMount() {    
 
-    /*fetch(`http://localhost:8080/test/getjwt`, {mode: 'cors'})
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        console.log(jwtDecode(data.value));
-      })*/
-
-      var page = this.props.match.params.page;
-    console.log("this is my "+page);
+      var page = this.props.match.params.page;    
     if(page == undefined){
-      console.log("xundefined");
+      
       //this.setState({currentPage:1});
     }
     else{
@@ -51,7 +37,7 @@ class MainPage extends Component {
           this.setState({dataCollected: true});
         }, Math.random() * 1500);
         console.log("state of news", this.state.news);
-        this.pickNews();
+        this.pickNews(9);
       });
   }
 
@@ -59,23 +45,39 @@ class MainPage extends Component {
     console.log(this.state.news.length);
     if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
       this.setState({currentPage:this.props.match.params.page});
-      this.pickNews();
+      this.pickNews(9);
     }
     
     //
   }
 
-  pickNews(){
+  pickNews(itemCount){
     var news = [];
     var page = this.state.currentPage;
-    console.log("page"+page);
-    console.log("news length"+this.state.news.length);
+    var pagesCount = 0;
+    var counter = 0;
+
     this.state.news.map(item => {
-      if(item.id >= 10*(page-1) && item.id < 10*page)
-        news.push(item);
-        console.log(item.id);      
+      if(counter == 0){
+        news[pagesCount]=[];
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else if(counter < itemCount){        
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else{
+        pagesCount++;
+        counter = 0;
+        news[pagesCount]=[];
+        news[pagesCount].push(item);        
+        counter++;
+      }
+      
+            
     });
-    this.setState({pickedNews:news});
+    this.setState({pickedNews:news[page-1]});
   }
 
   render() {
@@ -84,13 +86,14 @@ class MainPage extends Component {
         return (
           <div className="MainPage news-tab">
           <p>{typeof(this.props.match.params.page)}</p>
-          <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={9} route="/aktualnosci/" current ={this.props.match.params.page}/>
+          
         <div class="row">
         {this
             .state
             .pickedNews
             .map(item => <div class="col-sm-4"><News header={item.header} text={item.text} date={item.date} showAdmin={false}/></div>)}
         </div>
+        <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={9} route="/aktualnosci/" current ={this.state.currentPage}/>
       </div>
     );
       }

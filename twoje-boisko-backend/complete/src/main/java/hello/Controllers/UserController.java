@@ -101,7 +101,7 @@ public class UserController {
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Blad w polaczeniu"));
             default :
                 result = con.findUserById(index);
-                if (result.getId()>0) return ResponseEntity.ok(result);
+                if (result.getId()>=0) return ResponseEntity.ok(result);
                 else return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Blad w polaczeniu"));
         }
     }

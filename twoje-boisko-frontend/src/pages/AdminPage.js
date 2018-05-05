@@ -5,6 +5,7 @@ import AdminNews from '../components/AdminNews';
 import AdminObjects from '../components/AdminObjects';
 import AdminUsers from '../components/AdminUsers';
 import Pagination from '../components/Pagination';
+import TableSportsfield from '../components/TableSportsfield';
 import {
   Link
 } from 'react-router';
@@ -14,7 +15,7 @@ import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
+    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false,objectsCollected:false, reservationsCollected:false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
@@ -35,6 +36,10 @@ class AdminPage extends Component {
       .bind(this);
       this.pickNews=this.pickNews.bind(this);
       this.addObject=this.addObject.bind(this);
+      this.fetchObjects=this.fetchObjects.bind(this);
+      this.fetchNews=this.fetchNews.bind(this);
+      this.updateNews=this.updateNews.bind(this);
+      this.updateObjects=this.updateObjects.bind(this);
       
   }
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
@@ -51,23 +56,41 @@ class AdminPage extends Component {
       this.setState({currentPage:page});
     }
     
-    fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
-      .then(response => response.json())
-      .then(data => {
-        var dataTab = [];
-        Object
-          .keys(data)
-          .forEach(function (key) {
-            dataTab.push(data[key]);
-          });
-        this.setState({objects: dataTab});
-        setTimeout(() => {
-          this.setState({dataCollected: true});
-        }, Math.random() * 1500);
-        console.log("state of objects", this.state.objects);
-      });
+    this.fetchObjects();
+    this.fetchNews();
 
-      fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
+       
+  }
+
+  componentDidUpdate(prevProps,prevState){
+    console.log(this.state.news.length);
+    if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
+      this.setState({currentPage:this.props.match.params.page});
+      this.pickNews(6);
+    }
+    
+    //
+  }
+
+  fetchObjects(){
+    fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
+    .then(response => response.json())
+    .then(data => {
+      var dataTab = [];
+      Object
+        .keys(data)
+        .forEach(function (key) {
+          dataTab.push(data[key]);
+        });
+      this.setState({objects: dataTab});
+      setTimeout(() => {
+        this.setState({objectsCollected: true});
+      }, Math.random() * 1500);
+      console.log("state of objects", this.state.objects);
+    });
+  }
+  fetchNews(){
+    fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
         var dataTab = [];
@@ -78,24 +101,20 @@ class AdminPage extends Component {
           });
         this.setState({news: dataTab});
         setTimeout(() => {
-          this.setState({dataCollected: true});
+          this.setState({newsCollected: true});
         }, Math.random() * 1500);
         console.log("state of news", this.state.news);
-        this.pickNews();
-      });      
+        this.pickNews(6);
+      });     
   }
 
-  componentDidUpdate(prevProps,prevState){
-    console.log(this.state.news.length);
-    if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
-      this.setState({currentPage:this.props.match.params.page});
-      this.pickNews();
-    }
-    
-    //
+  updateNews(){
+    this.fetchNews();
   }
 
-  
+  updateObjects(){
+    this.fetchObjects();
+  }  
 
   addObject(e){
     e.preventDefault();
@@ -119,15 +138,20 @@ class AdminPage extends Component {
           })
         })
         .then(result => result.json()).
-        then(response => console.log(response));
+        then(response => {
+          console.log(response);
+          this.updateObjects();
+        });
   }
  
   handleTextChange(e) {
     this.setState({searchText: e.target.value});
+    this.props.history.push("/panelAdmina/obiekty/1");
   }
  
   handleSelectChange(e) {
     this.setState({selectValue: e.target.value});
+    this.props.history.push("/panelAdmina/obiekty/1");
   }
   
   setWrapperRef(id) {
@@ -173,17 +197,33 @@ class AdminPage extends Component {
     }, 200); //0.3s
   }
 
-  pickNews(){
+  pickNews(itemCount){
     var news = [];
     var page = this.state.currentPage;
-    console.log("page"+page);
-    console.log("news length"+this.state.news.length);
+    var pagesCount = 0;
+    var counter = 0;
+
     this.state.news.map(item => {
-      if(item.id >= 7*(page-1) && item.id < 7*page)
-        news.push(item);
-        console.log(item.id);      
+      if(counter == 0){
+        news[pagesCount]=[];
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else if(counter < itemCount){        
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else{
+        pagesCount++;
+        counter = 0;
+        news[pagesCount]=[];
+        news[pagesCount].push(item);        
+        counter++;
+      }
+      
+            
     });
-    this.setState({pickedNews:news});
+    this.setState({pickedNews:news[page-1]});
   }
 
 
@@ -194,7 +234,7 @@ class AdminPage extends Component {
     for(var i = 0;i < 25;i++){
       hours.push(i);
     }
-    if (this.state.dataCollected) {
+    if (this.state.objectsCollected && this.state.newsCollected) {
       switch (this.props.match.params.url) {
         case "obiekty":
         
@@ -277,20 +317,22 @@ class AdminPage extends Component {
                 </div>
               </div>
           
-              <AdminObjects
-                objects={this.state.objects}
-                searchText={this.state.searchText}
-                selectValue={this.state.selectValue}/>
+              <TableSportsfield
+              update={this.updateObjects}
+            history={this.props.history}
+            objects={this.state.objects}
+            searchText={this.state.searchText}
+            selectValue={this.state.selectValue}
+            showAdmin={true}
+            page={this.state.currentPage}
+            route="/panelAdmina/obiekty/"/>
             </div>
           )
-        case "aktualnosci":
-          return <div>
-            <p>{this.state.currentPage} {this.state.pickedNews.length}</p>
-            <AdminNews update={this.update} news={this.state.pickedNews} page={this.state.currentPage}/>
+        case "aktualnosci":        
+          return <div>            
+            <AdminNews update={this.updateNews} news={this.state.pickedNews} page={this.state.currentPage}/>
             <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={6} route="/panelAdmina/aktualnosci/" current ={this.state.currentPage}/>
-            </div>
-        case "uzytkownicy":
-          return <AdminUsers/>
+            </div>        
         default:
           return <p>admin</p>
       }

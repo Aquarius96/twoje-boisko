@@ -20,6 +20,7 @@ class App extends Component {
           <Route exact path="/" component ={MainPage}></Route>
           <Route path="/aktualnosci/:page" component={MainPage}/>
           <Route exact path="/listaBoisk" component={SportsfieldsListPage}/>
+          <Route exact path="/listaBoisk/:page" component={SportsfieldsListPage}/>
           <Route exact path="/LoginPage" component={LoginPage}/>
           <Route exact path="/MyProfilePage" component={MyProfilePage}/>
           <Route path="/object/:id" component={SingleObjectPage}/>

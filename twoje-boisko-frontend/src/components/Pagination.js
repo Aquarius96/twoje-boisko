@@ -20,6 +20,16 @@ class Pagination extends Component {
     this.calculateLinks(totalPages,parseInt(this.props.current));
   }
 
+  componentDidUpdate(prevProps,prevState){
+      if(prevProps != this.props){
+        var totalPages = this.calculateTotalPages(this.props.dataLength,this.props.dataPerPage);
+        this.calculateLinks(totalPages,parseInt(this.props.current));
+      }
+    
+  }
+
+
+
   calculateTotalPages(count,dataOnPage){
     if(count % dataOnPage === 0){
      // console.log(Math.floor(count / dataOnPage));
@@ -36,24 +46,39 @@ class Pagination extends Component {
       console.log("data length"+this.props.dataLength)
       console.log("data on page"+this.props.dataPerPage);
     var array = [];
+    var spread = 5;
     var counter = 0;
-    array.push(1);
+    
+    if(currentPage != 1){
+        array.push({nr:1,txt:"<<"});
+    }
+    if(currentPage > 2){
+        array.push({nr:currentPage-1,txt:"<"});
+    }
     counter++;    
-    if(currentPage > 2 && counter < totalPages){
-        array.push(currentPage - 1);
-        counter++;
-    }
-    if(counter < totalPages-1){
-        array.push(currentPage);
-        counter++;
+    // if(currentPage > 2 && counter < totalPages){
+    //     array.push(currentPage - 1);
+    //     counter++;
+    // }
+    
+    if(counter < totalPages-1 && !array.includes(currentPage)){
+        array.push({nr:currentPage,txt:currentPage});
     }    
-    if(currentPage < totalPages - 1 && counter < totalPages){
-        array.push(currentPage + 1);
-        counter++;
+    // if(currentPage < totalPages - 1 && counter < totalPages-1){
+    //     array.push(currentPage + 1);
+    //     counter++;
+    // }
+    // while(counter < spread - 1 && currentPage  < totalPages - 1){
+    //     array.push(currentPage + counter);
+    //     counter++;
+    // }
+    if(currentPage < totalPages - 1){
+        array.push({nr:currentPage+1,txt:">"});
     }
-    if(counter < totalPages){
-        array.push(totalPages);
+    if(currentPage < totalPages){
+        array.push({nr:totalPages,txt:">>"});                
     }    
+    
     console.log(counter < totalPages);
     console.log("array "+array);
     console.log(array.length);
@@ -73,7 +98,7 @@ class Pagination extends Component {
           {this.state.Links.map(item =>{
                     return (
                                  
-                    <button onClick={() => this.switchPage(this.props.route+item)}>{item}</button>
+                    <button onClick={() => this.switchPage(this.props.route+item.nr)}>{item.txt}</button>
                 
                     );
                   

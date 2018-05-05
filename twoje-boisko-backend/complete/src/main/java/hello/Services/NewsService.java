@@ -46,7 +46,7 @@ public class NewsService{
     public News updateNews(News news){
         News result = new News();
         try{
-            String task = "UPDATE news SET header='"+news.getHeader()+"', text='"+news.getText()+"', date='"+news.getDate()+"' WHERE id = '"+news.getId()+";";
+            String task = "UPDATE news SET header='"+news.getHeader()+"', text='"+news.getText()+"', date='"+news.getDate()+"' WHERE id = '"+news.getId()+"';";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(news.getId());
@@ -108,7 +108,7 @@ public class NewsService{
     public List<News> getAllNews(){
         outList = new ArrayList<>();
         try{
-            String task = "SELECT * FROM news";
+            String task = "SELECT * FROM news ORDER BY date";
             rs = st.executeQuery(task);
             
 			while (rs.next()){

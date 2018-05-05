@@ -23,30 +23,21 @@ class Navbar extends Component {
     }
   }
 
-  shouldComponentUpdate() {
-    var user = localStorage.getItem('loggedUser');
-    if (user) {
-      if (JSON.parse(user).id != this.state.loggedUser.id) {
-        return true;
-      }
-    }
-    return false;
-  }
   componentDidUpdate() {
     var user = localStorage.getItem('loggedUser');
     if (user) {
-      this.setState({
-        loggedUser: JSON.parse(user),
-        dataCollected: true
-      });
+      if (JSON.parse(user).id != this.state.loggedUser.id) {
+        this.setState({
+          loggedUser: JSON.parse(user),
+          dataCollected: true
+        });
+      }
     }
   }
 
   logOut() {
-    localStorage.setItem('isLoggedIn', false);
     localStorage.removeItem('loggedUser');
     this.setState({loggedUser: {}});
-    //this.forceUpdate();
   }
   showMenu() {
     document
@@ -71,7 +62,7 @@ class Navbar extends Component {
                   </Link>
                 </li>
                 <li class="nav-item">
-                  <Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link>
+                  <Link className="a nav-link" to="/listaBoisk/1">Lista Boisk</Link>
                 </li>
                 <li class="nav-item">
                   <Link className="a nav-link" to="/MyProfilePage">Mój Profil</Link>
@@ -81,8 +72,7 @@ class Navbar extends Component {
                     <div className="dropbtn a nav-link">Panel admina</div>
                     <div id="myDropdown" class="dropdown-content">
                       <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty/1">Obiekty</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci/1">Aktualności</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy/1">Użytkownicy</Link>
+                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci/1">Aktualności</Link>                      
                     </div>
                   </div>
                 </li>
@@ -97,7 +87,6 @@ class Navbar extends Component {
         );
       } else {
         return (
-
           <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
               <div className="logo">Tu na razie jest ściernisko ale będzie twoje-boisko</div>
@@ -106,10 +95,12 @@ class Navbar extends Component {
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item"></li>
                 <li class="nav-item">
-                  <Link className="a nav-link" to="/">Strona Główna</Link>
+                <Link className="a nav-link" to="/">
+                    <i class="fas fa-home"></i>
+                  </Link>
                 </li>
                 <li class="nav-item">
-                  <Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link>
+                  <Link className="a nav-link" to="/listaBoisk/1">Lista Boisk</Link>
                 </li>
                 <li class="nav-item">
                   <Link className="a nav-link" to="/MyProfilePage">Mój Profil</Link>
@@ -137,24 +128,18 @@ class Navbar extends Component {
             <ul class="navbar-nav ml-auto">
               <li class="nav-item"></li>
               <li class="nav-item">
-                <Link className="a nav-link" to="/">Strona Główna</Link>
+              <Link className="a nav-link" to="/">
+                    <i class="fas fa-home"></i>
+                  </Link>
               </li>
               <li class="nav-item">
-                <Link className="a nav-link" to="/listaBoisk">Lista Boisk</Link>
+                <Link className="a nav-link" to="/listaBoisk/1">Lista Boisk</Link>
               </li>
               <li class="nav-item">
                 <Link className="a nav-link" to="/LoginPage">Logowanie</Link>
               </li>
-              <li class="nav-item" onMouseEnter ={this.showMenu} onMouseLeave={this.showMenu}>
-                  <div class="dropdown">
-                    <div className="dropbtn a nav-link">Panel admina</div>
-                    <div id="myDropdown" class="dropdown-content">
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/obiekty/1">Obiekty</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/aktualnosci/1">Aktualności</Link>
-                      <Link className="a nav-link nav-link-dropdown" to="/panelAdmina/uzytkownicy/1">Użytkownicy</Link>
-                    </div>
-                  </div>
-                </li>
+              <li class="nav-item" onMouseEnter ={this.showMenu} onMouseLeave={this.showMenu}>                
+              </li>
             </ul>
           </div>
         </nav>

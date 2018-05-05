@@ -87,6 +87,7 @@ class LoginPage extends Component {
           body: JSON.stringify({login: document.loginForm.login.value, password: document.loginForm.password.value})
         })
         .then(response => response.json())
+        
         .then(result => this.saveUserData(result));
     } else {
       window.alert("Podaj login oraz hasło");
@@ -95,10 +96,19 @@ class LoginPage extends Component {
   }
 
   saveUserData(data) {
-    localStorage.setItem('loggedUser', JSON.stringify(data));
-    this.setState({loggedUser: data});
-    localStorage.setItem('isLoggedIn', true);
-    this.checkLoginData(data);
+    if(data.type === "error"){
+      window.alert(data.value);
+    }
+    else{
+      localStorage.setItem('loggedUser', JSON.stringify(data));
+      this.setState({loggedUser: data});
+      localStorage.setItem('isLoggedIn', true);
+      this.setState({logged: true});
+          this
+            .props
+            .history
+            .push('/myProfilePage')
+    }    
   }
 
   switchPage(user) {
@@ -117,39 +127,32 @@ class LoginPage extends Component {
     }
   
   checkLoginData(user) {
-    switch (user.id) {
-      case - 1:
-        window.alert("Podano nieprawidłowy login");
-        break;
-      case - 2:
-        window.alert("Podano nieprawidłowe hasło");
-        break;
-      default:
-        this.setState({logged: true});
-        this
-          .props
-          .history
-          .push('/myProfilePage')
+    if(!user.type == "error"){
+      switch (user.id) {
+        case - 1:
+          window.alert("Podano nieprawidłowy login");
+          break;
+        case - 2:
+          window.alert("Podano nieprawidłowe hasło");
+          break;
+        default:
+          this.setState({logged: true});
+          this
+            .props
+            .history
+            .push('/myProfilePage')
+      }
     }
+    else window.alert(user.value);
   }
   checkRegisterData(user) {
-    switch (user.id) {
-      case - 1:
-        window.alert("Podany login jest już zajęty");
-        break;
-      case - 2:
-        window.alert("Podany adres e-mail jest już zajęty");
-        break;
-      case - 3:
-        window.alert("Podany adres e-mail oraz login są już zajęte");
-        break;
-      case - 4:
-        window.alert("Problem z połączeniem. Spróbuj ponownie później");
-        break;
-      default:
-        window.alert("Zarejestrowano pomyślnie");
-        this.switchwindows();
+    if(user.type == "error"){
+      window.alert(user.value);
     }
+    else{
+      window.alert("Potwierdź swoje konto linkiem aktywacyjnym, który znajdziesz na poczcie e-mail");
+      this.switchwindows();
+    }    
   }
 
   register(e) {

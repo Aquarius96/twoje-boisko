@@ -39,11 +39,12 @@ class AdminNews extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify({header: document.addNews.title.value, text: document.addNews.text.value, date:moment().format("DD-MM-YYYY")})
+        body: JSON.stringify({header: document.addNews.title.value, text: document.addNews.text.value, date:moment().format("YYYY-MM-DD-HH mm")})
       })
       .then(response => response.json())
       .then(result => {
         console.log(result);
+        this.props.update();
       });
   }
 
