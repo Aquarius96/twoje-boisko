@@ -108,7 +108,7 @@ public class NewsService{
     public List<News> getAllNews(){
         outList = new ArrayList<>();
         try{
-            String task = "SELECT * FROM news ORDER BY date";
+            String task = "SELECT * FROM news order by date desc";
             rs = st.executeQuery(task);
             
 			while (rs.next()){

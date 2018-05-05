@@ -11,6 +11,7 @@ public class User {
   private String phone;
   private String confirmationCode;
   private Boolean isConfirmed;
+  private Boolean remindMe;
 
   public User(){
 
@@ -18,7 +19,7 @@ public class User {
   public User(Integer id){ //* errouser 
     this.id = id;
   }
-  public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone,String code,Boolean isConfirmed_){
+  public User(Integer id, String username, String password, String firstname, String lastname, String email, String phone,String code,Boolean isConfirmed_,Boolean remindMe_){
     this.id = id;
     this.username = username;
     this.password = password;
@@ -28,6 +29,7 @@ public class User {
     this.phone = phone;
     this.confirmationCode = code;
     this.isConfirmed = isConfirmed_;
+    this.remindMe = remindMe_;
   }
 
   //? po cos tam moze kiedys sie przyda 
@@ -44,6 +46,13 @@ public class User {
 
   public void setConfirm(Boolean confirm){
     this.isConfirmed = confirm;
+  }
+  public Boolean getRemind(){
+    return remindMe;
+  }
+
+  public void setRemind(Boolean remind){
+    this.remindMe = remind;
   }
   
   public String getCode(){

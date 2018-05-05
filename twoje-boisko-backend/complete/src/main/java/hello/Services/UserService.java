@@ -49,7 +49,7 @@ public class UserService{
     public User updateUser(User user){
         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+findUserById(user.getId()).getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+findUserById(user.getId()).getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"', remindMe='"+user.getRemind().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
             Integer execute = st.executeUpdate(task);
             if (execute == 1) {
                 result.setId(user.getId());
@@ -61,6 +61,7 @@ public class UserService{
                 result.setPhone(user.getPhone());
                 result.setCode(user.getCode());
                 result.setConfirm(user.getConfirm());
+                result.setRemind(user.getRemind());
             }
             else {
                 System.out.println("Error update user: zle dane najprawdopodnobnmiej");
@@ -88,7 +89,7 @@ public class UserService{
 
         User user_ = new User();
         try{
-            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"');";
+            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', `"+user.getRemind().compareTo(false)+"`);";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) user_ = user;
             else {
@@ -211,6 +212,7 @@ public class UserService{
                 result.setPhone(rs.getString("phone"));
                 result.setCode(rs.getString("confirmationCode"));
                 result.setConfirm(rs.getBoolean("isConfirmed"));
+                result.setRemind(rs.getBoolean("remindMe"));
             }
             
         }catch (Exception exception){
@@ -235,6 +237,7 @@ public class UserService{
                 result.setPhone(rs.getString("phone"));
                 result.setCode(rs.getString("confirmationCode"));
                 result.setConfirm(rs.getBoolean("isConfirmed"));
+                result.setRemind(rs.getBoolean("remindMe"));
             }
             
         }catch (Exception exception){
@@ -278,6 +281,7 @@ public class UserService{
                 tmp.setPhone(rs.getString("phone"));
                 tmp.setCode(rs.getString("confirmationCode"));
                 tmp.setConfirm(rs.getBoolean("isConfirmed"));
+                tmp.setRemind(rs.getBoolean("remindMe"));
                 outList.add(tmp);
             }
         }catch (Exception exception){
@@ -302,6 +306,7 @@ public class UserService{
                 tmp.setPhone(rs.getString("phone"));
                 tmp.setCode(null);
                 tmp.setConfirm(rs.getBoolean("isConfirmed"));
+                tmp.setRemind(rs.getBoolean("remindMe"));
                 updateUser(tmp);
             }
 

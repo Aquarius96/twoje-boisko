@@ -32,7 +32,7 @@ public class Mail_
         generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!","Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ");
      }
 
-    public static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
+    private static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
         
         try{
         // Step1

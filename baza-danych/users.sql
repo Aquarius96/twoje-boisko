@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Kwi 2018, 01:04
+-- Czas generowania: 05 Maj 2018, 23:31
 -- Wersja serwera: 10.1.31-MariaDB
 -- Wersja PHP: 7.2.3
 
@@ -18,7 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
--- Haslo Admina to "zaqwsx123" !!!!!!!!!!!!!!!!!!
+--
+-- Baza danych: `zeto`
+--
+
+-- --------------------------------------------------------
+
+--
+-- HASLO DLA ADMINA TO zaqwsx123!!!!!!!!!! 
+--
 
 CREATE TABLE `zeto`.`users` (
   `id` int(11) NOT NULL,
@@ -29,17 +37,25 @@ CREATE TABLE `zeto`.`users` (
   `email` varchar(30) COLLATE utf8_bin NOT NULL,
   `phone` varchar(30) COLLATE utf8_bin NOT NULL,
   `confirmationCode` varchar(120) COLLATE utf8_bin NOT NULL,
-  `isConfirmed` tinyint(1) NOT NULL
+  `isConfirmed` tinyint(1) NOT NULL,
+  `remindMe` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Zrzut danych tabeli `users`
+--
 
+INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe`) VALUES
+(0, 'Admin', '$2a$10$08MDjHMm9A/U9lUblFagI.7x.Q5jnJE4PW89nEuKw7vWitjArCy06', 'Im', 'Legion', 'brak', 'nie pokaze :*', 'null', 1, 0);
 
-INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`) VALUES
-(0, 'Admin', '$2a$10$08MDjHMm9A/U9lUblFagI.7x.Q5jnJE4PW89nEuKw7vWitjArCy06', 'Im', 'Legion', 'brak', 'nie pokaze :*', 'null', 1);
+--
+-- Indeksy dla zrzutĂłw tabel
+--
 
--- Haslo Admina to "zaqwsx123" !!!!!!!!!!!!!!!!!!
-
-ALTER TABLE `zeto`.`users`
+--
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 COMMIT;
 

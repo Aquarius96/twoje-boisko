@@ -2,7 +2,12 @@ package hello.Services;
 
 import hello.Models.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -194,6 +199,37 @@ public class ReservationsService{
             System.out.println("Error all_reservations: "+exception);
         }
 		return outList;
+    }
+
+    public List<Reservation> getReserwationsTorRemind(){
+        outList = new ArrayList<>();
+
+        Date date = new Date();
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+        String day = dateFormat.format(date);
+        
+        try{
+            String task = "SELECT * FROM reservations where dateDay = `"+day+"` and hourStart = `"+(hour+1)+"`";
+            rs = st.executeQuery(task);
+            
+			while (rs.next()){
+                Reservation tmp = new Reservation();
+                tmp.setId(rs.getInt("id"));
+                tmp.setDateDay(rs.getString("dateDay"));
+                tmp.setHourEnd(rs.getString("hourEnd"));
+                tmp.setHourStart(rs.getString("hourStart"));
+                tmp.setIdObject(rs.getInt("idObject"));
+                tmp.setIdUser(rs.getInt("idUser"));
+                outList.add(tmp);
+            }
+        }catch (Exception exception){
+            System.out.println("Error remindreserations: "+exception);
+        }
+        
+        return outList;
     }
 }
 
