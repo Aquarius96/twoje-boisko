@@ -6,17 +6,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class UserService{
+
+
+public class oldUserService{
 
     private Connection con;
     private Statement st;
     private ResultSet rs;
-    private List<User> outList ;
-    private List<User> contex;
 
-    public UserService(){
+    private List<User> outList ;
+
+    public oldUserService(){
+        
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -26,11 +28,6 @@ public class UserService{
         }catch(Exception exception){
             System.out.println("Error connection: "+exception);
         }
-        reload();
-    }
-
-    public void reload(){
-        contex = getUserFromDB();
     }
 
     public Boolean changePaswd(Integer id,String oldPaswd, String newPaswd){
@@ -41,6 +38,7 @@ public class UserService{
             else return false;
         }
         else return false;
+
     }
 
     public Boolean checkPaswd(Integer id, String paswd){
@@ -75,17 +73,20 @@ public class UserService{
             result.setId(-2);
         }
         
-        reload();
         return result;
     }
     
     public User addUser(User user) {
+
+        //from controler
         user.setId(getfreeId());
         user.setConfirm(false);
         UUID uuid = UUID.randomUUID();
         user.setCode(uuid.toString());
         String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); 
         user.setPassword(pw_hash);
+
+
         User user_ = new User();
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', `"+user.getRemind().compareTo(false)+"`);";
@@ -94,14 +95,15 @@ public class UserService{
             else {
                 user_.setId(-1);System.out.println("Error add_user: zle dane najprawdopodnobnmiej");
             }
+            
         }catch (Exception exception){
             System.out.println("Error add_user(polaczenie): "+exception);
             user_.setId(-2);
         }
-        reload();
         return user_;
     }
 
+    
     public Boolean deleteUser(Integer id){
         if (id == 0) return false;
         Boolean result;
@@ -113,75 +115,161 @@ public class UserService{
                 System.out.println("Error delete_user: zle id");
                 result = false;
             }
+        
         }catch(Exception exception){
             System.out.println("Error delete_user(polaczenie): "+exception);
             result = false;
         }
-        reload();
         return result;
     }
 
     public Integer checkUser(User_abs user){
         Boolean login_exist = false, password_correct = false;
         Integer id = null;
-        outList = contex.stream().filter(x->x.getUsername()==user.getLogin()).collect(Collectors.toList()); 
-        if (!outList.isEmpty()){
-            login_exist = true;
-            if (BCrypt.checkpw(user.getPassword(), outList.get(0).getPassword()) ){
-                password_correct = true;
-                id = outList.get(0).getId();
+        
+        try{
+            String task = "SELECT * FROM users WHERE username=\""+user.getLogin()+"\"";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                
+                login_exist = true;
+                        
+                if (BCrypt.checkpw(user.getPassword(), rs.getString("password")) ){
+                    password_correct = true;
+                    id = rs.getInt("id");
+                }
             }
+            
+        }catch (Exception exception){
+            System.out.println("Error check_user(login): "+exception);
+            return -3;
         }
+        
         if (!login_exist) return -1;
         else if (!password_correct) return -2;
+        
         return id;
     }
 
     public Integer checkUpdater(User user){
-        outList = contex.stream().filter(x->x.getEmail().equals(user.getEmail()) &&  x.getId()!=user.getId()).collect(Collectors.toList()); 
-        if (outList.isEmpty()) return 1;
-        else return -1;
+        try{
+            String task = "SELECT * FROM users WHERE email='"+user.getEmail()+"' AND id!='"+user.getId()+"';";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                return -1;
+            }
+            return 1;
+
+            
+        }catch (Exception exception){
+            System.out.println("Error check_user(updater): "+exception);
+            return -2;
+        }
+        
     }
 
     public Integer checkUser(User user){
         Integer user_name = 0, email = 0;
-        outList = contex.stream().filter(x->x.getUsername().equals(user.getUsername())).collect(Collectors.toList()); 
-        if (!outList.isEmpty()) user_name = 1;
-        outList = contex.stream().filter(x->x.getEmail().equals(user.getEmail())).collect(Collectors.toList()); 
-        if (!outList.isEmpty()) email = 2;
-        return user_name + email;
+        try{
+            String task = "SELECT * FROM users WHERE username='"+user.getUsername()+"'";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                user_name = 1;
+            }
+            task = "SELECT * FROM users WHERE email='"+user.getEmail()+"'";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                email = 2;
+            }
+
+            return user_name + email;
+
+            
+        }catch (Exception exception){
+            System.out.println("Error check_user(register): "+exception);
+            return -1;
+        }
+        
     }
 
     public User findUserById(Integer id){
-        outList = contex.stream().filter(x->x.getId()==id).collect(Collectors.toList());
-        if (!outList.isEmpty()) return outList.get(0);
-        else return new User(-1);
-    }
+        User result = new User(-1);
+        try{
+            String task = "SELECT * FROM users WHERE id=\""+id+"\"";
+            rs = st.executeQuery(task);
 
-    public User findUserByEmail(String email){
-        outList = contex.stream().filter(x->x.getEmail().equals(email)).collect(Collectors.toList());
-        if (!outList.isEmpty()) return outList.get(0);
-        else return new User(-1);
-    }
-
-    private Integer getfreeId(){
-        Integer result=0;
-        for (User user : contex) {
-            if (user.getId()!=result) break;
-            result += 1;
+            if (rs.next()){
+                result.setId(rs.getInt("id"));
+                result.setUsername(rs.getString("username"));
+                result.setPassword(rs.getString("password"));
+                result.setFirstname(rs.getString("firstname"));
+                result.setLastname(rs.getString("lastname"));
+                result.setEmail(rs.getString("email"));
+                result.setPhone(rs.getString("phone"));
+                result.setCode(rs.getString("confirmationCode"));
+                result.setConfirm(rs.getBoolean("isConfirmed"));
+                result.setRemind(rs.getBoolean("remindMe"));
+            }
+            
+        }catch (Exception exception){
+            System.out.println("Error find_user(id): "+exception);
         }
         return result;
     }
 
-    public List<User> getAllUsers(){
-        return contex;
+    public User findUserByEmail(String email){
+        User result = new User(-1);
+        try{
+            String task = "SELECT * FROM users WHERE email=\""+email+"\"";
+            rs = st.executeQuery(task);
+
+            if (rs.next()){
+                result.setId(rs.getInt("id"));
+                result.setUsername(rs.getString("username"));
+                result.setPassword(rs.getString("password"));
+                result.setFirstname(rs.getString("firstname"));
+                result.setLastname(rs.getString("lastname"));
+                result.setEmail(rs.getString("email"));
+                result.setPhone(rs.getString("phone"));
+                result.setCode(rs.getString("confirmationCode"));
+                result.setConfirm(rs.getBoolean("isConfirmed"));
+                result.setRemind(rs.getBoolean("remindMe"));
+            }
+            
+        }catch (Exception exception){
+            System.out.println("Error find_user(email): "+exception);
+        }
+        return result;
+    }
+
+    public Integer getfreeId(){
+        Integer result;
+        try{
+            String task = "SELECT * FROM users";
+            rs = st.executeQuery(task);
+            result = 0;
+            while (rs.next()){
+                if (rs.getInt("id")!=result) break;
+                result +=1;
+            }
+        }catch(Exception exception){
+            System.out.println("Error free_id: "+exception);
+            result = -1;
+        }
+        return result;
+        
     }
     
-    private List<User> getUserFromDB(){
+    public List<User> getAllUsers(){
         outList = new ArrayList<>();
         try{
             String task = "SELECT * FROM users";
             rs = st.executeQuery(task);
+            
 			while (rs.next()){
                 User tmp = new User();
                 tmp.setId(rs.getInt("id"));
@@ -206,6 +294,7 @@ public class UserService{
         try{
             String task = "SELECT * FROM users WHERE confirmationCode!=\"null\" AND isConfirmed=1";
             rs = st.executeQuery(task);
+            
 			while (rs.next()){
                 User tmp = new User();
                 tmp.setId(rs.getInt("id"));
@@ -220,9 +309,9 @@ public class UserService{
                 tmp.setRemind(rs.getBoolean("remindMe"));
                 updateUser(tmp);
             }
+
         }catch (Exception exception){
             System.out.println("Error cler cashe: "+exception);
         }
-        reload();
     }
 }
