@@ -86,6 +86,7 @@ public class UserService{
         user.setCode(uuid.toString());
         String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); 
         user.setPassword(pw_hash);
+        user.setRemind(true);
         User user_ = new User();
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', `"+user.getRemind().compareTo(false)+"`);";
@@ -124,8 +125,11 @@ public class UserService{
     public Integer checkUser(User_abs user){
         Boolean login_exist = false, password_correct = false;
         Integer id = null;
-        outList = contex.stream().filter(x->x.getUsername()==user.getLogin()).collect(Collectors.toList()); 
+        outList = contex.stream().filter(x->x.getUsername().equals(user.getLogin())).collect(Collectors.toList()); 
+        
+        System.out.println(outList.get(0).getUsername()+"dsadsa");
         if (!outList.isEmpty()){
+            
             login_exist = true;
             if (BCrypt.checkpw(user.getPassword(), outList.get(0).getPassword()) ){
                 password_correct = true;
