@@ -1,12 +1,11 @@
 package hello.Services;
 
-import hello.Helpers.BCrypt;
+
 import hello.Models.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 
 public class newNewsService{
