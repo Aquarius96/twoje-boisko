@@ -5,29 +5,63 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsService{
 
+
+public class NewsService{
     private Connection con;
     private Statement st;
     private ResultSet rs;
-
     private List<News> outList ;
+    private List<News> contex;
 
     public NewsService(){
-        
         try{
             Class.forName("com.mysql.jdbc.Driver");
-    
+
             con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/zeto?useUnicode=yes&characterEncoding=UTF-8","root","");
             st = con.createStatement();
-    
+
         }catch(Exception exception){
             System.out.println("Error connection: "+exception);
         }
+        reload();
+    }
+
+    public void reload(){
+        contex = getNewsFromDB();
+    }
+
+    private List<News> getNewsFromDB(){
+        outList = new ArrayList<>();
+        try{
+            String task = "SELECT * FROM news";
+            rs = st.executeQuery(task);
+			while (rs.next()){
+                News tmp = new News();
+                tmp.setId(rs.getInt("id"));
+                tmp.setDate(rs.getString("date"));
+                tmp.setHeader(rs.getString("header"));
+                tmp.setText(rs.getString("text"));
+                outList.add(tmp);
+            }
+        }catch (Exception exception){
+            System.out.println("Error all_news: "+exception);
+        }
+		return outList;
+    }
+
+    private Integer getfreeId(){
+        Integer result=0;
+        for (News news : contex) {
+            if (news.getId()!=result) break;
+            result += 1;
+        }
+        return result;
     }
 
     public News addNews(News news) {
         News news_ = new News();
+        news.setId(getfreeId());
         try{
             String task = "INSERT INTO news (`id`, `header`, `text`, `date`) VALUES ('"+news.getId()+"', '"+news.getHeader()+"', '"+news.getText()+"', '"+news.getDate()+"');";
             Integer tmp = st.executeUpdate(task);
@@ -40,6 +74,7 @@ public class NewsService{
             System.out.println("Error add_news(polacznei): "+exception);
             news_.setId(-2);
         }
+        reload();
         return news_;
     }
 
@@ -64,7 +99,7 @@ public class NewsService{
             System.out.println("Error update_news (polaczenie): "+exception);
             result.setId(-2);
         }
-        
+        reload();
         return result;
     }
 
@@ -84,25 +119,8 @@ public class NewsService{
             System.out.println("Error delete_News(polaczenie): "+exception);
             result = false;
         }
+        reload();
         return result;
-    }
-
-    public Integer getfreeId(){
-        Integer result;
-        try{
-            String task = "SELECT * FROM news";
-            rs = st.executeQuery(task);
-            result = 1;
-            while (rs.next()){
-                if (rs.getInt("id")!=result) break;
-                result +=1;
-            }
-        }catch(Exception exception){
-            System.out.println("Error free_id: "+exception);
-            result = -1;
-        }
-        return result;
-        
     }
 
     public List<News> getAllNews(){
@@ -125,5 +143,4 @@ public class NewsService{
 		return outList;
     }
 
-    
 }

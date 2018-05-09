@@ -25,7 +25,6 @@ public class NewsController{
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addNews(@RequestBody News news) {
-        news.setId(con.getfreeId());
         News result = con.addNews(news);
         switch(result.getId()){
             case -1:

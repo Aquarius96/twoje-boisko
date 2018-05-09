@@ -32,7 +32,7 @@ public class Mail_
     public void ForgotPasswdEmail(User user_) throws AddressException, MessagingException {
 
         String body = "Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ";
-        body += "<br>" + "<a href=\"http://localhost:3000/forgotten/" + user_.getId() + "/" + user_.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
+        body += "<br>" + "<a href=\"http://localhost:3000/forgotten/" + user_.getId() + "/" + user_.getCode() + "\">Zmien haslo</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
         generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!",body);
     }
 
