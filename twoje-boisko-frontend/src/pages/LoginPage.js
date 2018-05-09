@@ -225,6 +225,9 @@ class LoginPage extends Component {
                 <p className="message">Nie masz konta?
                   <a className="beniz" onClick={this.switchwindows}>Zarejestruj się!</a>
                 </p>
+                <p className="message">Zapomniales swoich danych 
+                <a className="beniz" onClick={this.switchwindows}>kliknijtu!</a>
+                </p>
               </form>
             </div>
           </div>

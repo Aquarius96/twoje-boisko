@@ -208,11 +208,11 @@ public class ReservationsService{
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String day = dateFormat.format(date);
         
         try{
-            String task = "SELECT * FROM reservations where dateDay = `"+day+"` and hourStart = `"+(hour+1)+"`";
+            String task = "SELECT * FROM reservations where dateDay='"+day+"' and hourStart='"+(hour+1)+"'";
             rs = st.executeQuery(task);
             
 			while (rs.next()){
