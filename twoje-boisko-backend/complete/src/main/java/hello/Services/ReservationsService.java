@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ReservationsService{
@@ -17,7 +18,7 @@ public class ReservationsService{
     private ResultSet rs;
 
     private List<Reservation> outList ;
-
+    private List<Reservation> contex;
 
     public ReservationsService(){
         
@@ -30,10 +31,50 @@ public class ReservationsService{
         }catch(Exception exception){
             System.out.println("Error connection: "+exception);
         }
+        reload();
+    }
+
+    public void reload(){
+        contex = getReservationsFromDB();
+    }
+
+    public List<Reservation> getAllReservations(){
+        return contex;
+    }
+    public List<Reservation> getReservationsFromDB(){
+        outList = new ArrayList<>();
+        try{
+            String task = "SELECT * FROM reservations";
+            rs = st.executeQuery(task);
+            
+			while (rs.next()){
+                Reservation tmp = new Reservation();
+                tmp.setId(rs.getInt("id"));
+                tmp.setDateDay(rs.getString("dateDay"));
+                tmp.setHourEnd(rs.getString("hourEnd"));
+                tmp.setHourStart(rs.getString("hourStart"));
+                tmp.setIdObject(rs.getInt("idObject"));
+                tmp.setIdUser(rs.getInt("idUser"));
+                outList.add(tmp);
+            }
+        }catch (Exception exception){
+            System.out.println("Error all_reservations: "+exception);
+        }
+		return outList;
+    }
+    
+    private Integer getfreeId(){
+        Integer result=0;
+        for (Reservation reservation : contex) {
+            if (reservation.getId()!=result) break;
+            result += 1;
+        }
+        return result;
     }
 
     public Reservation addReservation(Reservation reservation) {
         Reservation reservation_ = new Reservation();
+        reservation.setId(getfreeId());
         try{
             String task = "INSERT INTO reservations (`id`, `dateDay`, `hourStart`, `hourEnd`, `idObject`, `idUser`) VALUES ('"+reservation.getId()+"', '"+reservation.getDateDay()+"', '"+reservation.getHourStart()+"', '"+reservation.getHourEnd()+"', '"+reservation.getIdObject()+"', '"+reservation.getIdUser()+"');";
             Integer tmp = st.executeUpdate(task);
@@ -46,6 +87,7 @@ public class ReservationsService{
             System.out.println("Error add_reservation(polacznei): "+exception);
             reservation_.setId(-2);
         }
+        reload();
         return reservation_;
     }
 
@@ -71,7 +113,7 @@ public class ReservationsService{
             System.out.println("Error update_reservation (polaczenie): "+exception);
             result.setId(-2);
         }
-        
+        reload();
         return result;
     }
 
@@ -91,114 +133,24 @@ public class ReservationsService{
             System.out.println("Error delete_reservation(polaczenie): "+exception);
             result = false;
         }
+        reload();
         return result;
     }
 
     public Reservation findReservation(Integer id){
-        Reservation result = new Reservation();
-        try{
-            String task = "SELECT * FROM reservations WHERE id=\""+id+"\"";
-            rs = st.executeQuery(task);
-
-            if (rs.next()){
-                result.setId(rs.getInt("id"));
-                result.setHourEnd(rs.getString("hourEnd"));
-                result.setDateDay(rs.getString("dateDay"));
-                result.setHourStart(rs.getString("hourStart"));
-                result.setIdObject(rs.getInt("idObject"));
-                result.setIdUser(rs.getInt("idUser"));
-            }
-            
-        }catch (Exception exception){
-            System.out.println("Error find_Reservation(id): "+exception);
-        }
-        return result;
+        outList = contex.stream().filter(x->x.getId()==id).collect(Collectors.toList());
+        if (!outList.isEmpty()) return outList.get(0);
+        else return new Reservation(-1);
     }
 
     public List<Reservation> findReservationsObject(Integer id){
-        outList = new ArrayList<>();
-        try{
-            String task = "SELECT * FROM reservations WHERE idObject=\""+id+"\"";
-            rs = st.executeQuery(task);
-
-            while (rs.next()){
-                Reservation tmp = new Reservation();
-                tmp.setId(rs.getInt("id"));
-                tmp.setHourEnd(rs.getString("hourEnd"));
-                tmp.setDateDay(rs.getString("dateDay"));
-                tmp.setHourStart(rs.getString("hourStart"));
-                tmp.setIdObject(rs.getInt("idObject"));
-                tmp.setIdUser(rs.getInt("idUser"));
-                outList.add(tmp);
-            }
-            
-        }catch (Exception exception){
-            System.out.println("Error find_Reservation(object): "+exception);
-        }
+        outList = contex.stream().filter(x->x.getIdObject()==id).collect(Collectors.toList());
         return outList;
     }
 
     public List<Reservation> findReservationsUser(Integer id){
-        outList = new ArrayList<>();
-        try{
-            String task = "SELECT * FROM reservations WHERE idUser=\""+id+"\"";
-            rs = st.executeQuery(task);
-
-            while (rs.next()){
-                Reservation tmp = new Reservation();
-                tmp.setId(rs.getInt("id"));
-                tmp.setHourEnd(rs.getString("hourEnd"));
-                tmp.setDateDay(rs.getString("dateDay"));
-                tmp.setHourStart(rs.getString("hourStart"));
-                tmp.setIdObject(rs.getInt("idObject"));
-                tmp.setIdUser(rs.getInt("idUser"));
-                outList.add(tmp);
-            }
-            
-        }catch (Exception exception){
-            System.out.println("Error find_Reservation(user): "+exception);
-        }
+        outList = contex.stream().filter(x->x.getIdUser()==id).collect(Collectors.toList());
         return outList;
-    }
-
-    public Integer getfreeId(){
-        Integer result;
-        try{
-            String task = "SELECT * FROM reservations";
-            rs = st.executeQuery(task);
-            result = 1;
-            while (rs.next()){
-                if (rs.getInt("id")!=result) break;
-                result +=1;
-            }
-        }catch(Exception exception){
-            System.out.println("Error free_id: "+exception);
-            result = -1;
-        }
-        return result;
-        
-    }
-    
-    public List<Reservation> getAllReservations(){
-        outList = new ArrayList<>();
-        try{
-            String task = "SELECT * FROM reservations";
-            rs = st.executeQuery(task);
-            
-			while (rs.next()){
-                Reservation tmp = new Reservation();
-                tmp.setId(rs.getInt("id"));
-                tmp.setDateDay(rs.getString("dateDay"));
-                tmp.setHourEnd(rs.getString("hourEnd"));
-                tmp.setHourStart(rs.getString("hourStart"));
-                tmp.setIdObject(rs.getInt("idObject"));
-                tmp.setIdUser(rs.getInt("idUser"));
-                outList.add(tmp);
-            }
-        }catch (Exception exception){
-            System.out.println("Error all_reservations: "+exception);
-        }
-		return outList;
     }
 
     public List<Reservation> getReserwationsTorRemind(){
@@ -210,7 +162,9 @@ public class ReservationsService{
         Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String day = dateFormat.format(date);
-        
+
+        //outList = contex.stream().filter(x->x.getDateDay()==day && x.getHourStart()==hour.toString()).collect(Collectors.toList());
+
         try{
             String task = "SELECT * FROM reservations where dateDay='"+day+"' and hourStart='"+(hour+1)+"'";
             rs = st.executeQuery(task);

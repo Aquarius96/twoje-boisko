@@ -26,7 +26,6 @@ public class ReservationController {
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addReservation(@RequestBody Reservation reservation) {
-        reservation.setId(con.getfreeId());
         Reservation result = con.addReservation(reservation);
         switch(result.getId()){
             case -1:

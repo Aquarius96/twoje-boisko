@@ -25,7 +25,6 @@ public class ObjectController{
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addSportObject(@RequestBody SportObject sportObject) {
-        sportObject.setId(con.getfreeId());
         SportObject result = con.addSportObject(sportObject);
         switch(result.getId()){
             case -1:
@@ -74,14 +73,14 @@ public class ObjectController{
     @RequestMapping(value = "/findC", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObjectC(@RequestParam(value="city", required = true) String city) {
-        return ResponseEntity.accepted().body(con.findSportObjectsCity(city));
+        return ResponseEntity.accepted().body(con.findSportObjectsByCity(city));
 
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObject(@RequestParam(value="id", required = true) String id) {
-        SportObject result = con.findSportObject(Integer.parseInt(id));
+        SportObject result = con.findSportObjectById(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));

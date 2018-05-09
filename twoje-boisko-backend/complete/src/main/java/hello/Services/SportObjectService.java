@@ -4,6 +4,7 @@ import hello.Models.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SportObjectService{
 
@@ -13,6 +14,7 @@ public class SportObjectService{
 
     private List<SportObject> outList;
     private List<String> outListS;
+    private List<SportObject> contex;
 
     public SportObjectService(){
         
@@ -25,6 +27,68 @@ public class SportObjectService{
         }catch(Exception exception){
             System.out.println("Error connection: "+exception);
         }
+        reload();
+    }
+
+    public void reload(){
+        contex = getSportObjectsFromDB();
+    }
+
+    public List<SportObject> getAllSportObjects(){
+        return contex;
+    }
+    public List<SportObject> getSportObjectsFromDB(){
+        outList = new ArrayList<>();
+        try{
+            String task = "SELECT * FROM sportsobjects";
+            rs = st.executeQuery(task);
+            
+			while (rs.next()){
+                SportObject tmp = new SportObject();
+                tmp.setId(rs.getInt("id"));
+                tmp.setName(rs.getString("name"));
+                tmp.setType(rs.getString("type"));
+                tmp.setOpenDays(rs.getString("openDays"));
+                tmp.setOpenHours(rs.getString("openHours"));
+                tmp.setCity(rs.getString("city"));
+                tmp.setStreet(rs.getString("street"));
+                tmp.setStreetNumber(rs.getString("streetNumber"));
+                tmp.setPriceList(rs.getString("priceList"));
+                tmp.setContact(rs.getString("contact"));
+                outList.add(tmp);
+            }
+        }catch (Exception exception){
+            System.out.println("Error all_sportobjects: "+exception);
+        }
+		return outList;
+    }
+
+    private Integer getfreeId(){
+        Integer result=0;
+        for (SportObject sportObject : contex) {
+            if (sportObject.getId()!=result) break;
+            result += 1;
+        }
+        return result;
+    }
+
+    public SportObject addSportObject(SportObject sportObject) {
+        SportObject sportObject_ = new SportObject();
+        sportObject.setId(getfreeId());
+        try{
+            String task = "INSERT INTO sportsobjects (`id`, `name`, `type`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`) VALUES ('"+sportObject.getId()+"', '"+sportObject.getName()+"', '"+sportObject.getType()+"', '"+sportObject.getOpenDays()+"', '"+sportObject.getOpenHours()+"', '"+sportObject.getCity()+"', '"+sportObject.getStreet()+"', '"+sportObject.getStreetNumber()+"', '"+sportObject.getPriceList()+"', '"+sportObject.getContact()+"');";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) sportObject_ = sportObject;
+            else {
+                sportObject_.setId(-1);System.out.println("Error add_sportobjext: zle dane najprawdopodnobnmiej");
+            }
+            
+        }catch (Exception exception){
+            System.out.println("Error add_sportobject: "+exception);
+            sportObject_.setId(-2);
+        }
+        reload();
+        return sportObject_;
     }
 
     public SportObject updateSportObject(SportObject sportObject){
@@ -53,25 +117,8 @@ public class SportObjectService{
             System.out.println("Error update: "+exception);
             result.setId(-1);
         }
-        
+        reload();
         return result;
-    }
-
-    public SportObject addSportObject(SportObject sportObject) {
-        SportObject sportObject_ = new SportObject();
-        try{
-            String task = "INSERT INTO sportsobjects (`id`, `name`, `type`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`) VALUES ('"+sportObject.getId()+"', '"+sportObject.getName()+"', '"+sportObject.getType()+"', '"+sportObject.getOpenDays()+"', '"+sportObject.getOpenHours()+"', '"+sportObject.getCity()+"', '"+sportObject.getStreet()+"', '"+sportObject.getStreetNumber()+"', '"+sportObject.getPriceList()+"', '"+sportObject.getContact()+"');";
-            Integer tmp = st.executeUpdate(task);
-            if (tmp==1) sportObject_ = sportObject;
-            else {
-                sportObject_.setId(-1);System.out.println("Error add_sportobjext: zle dane najprawdopodnobnmiej");
-            }
-            
-        }catch (Exception exception){
-            System.out.println("Error add_sportobject: "+exception);
-            sportObject_.setId(-2);
-        }
-        return sportObject_;
     }
 
     public Boolean deleteSportObject(Integer id){
@@ -90,103 +137,18 @@ public class SportObjectService{
             System.out.println("Error delete_sportobject: "+exception);
             result = false;
         }
+        reload();
         return result;
     }
 
-    public SportObject findSportObject(Integer id){
-        SportObject result = new SportObject();
-        try{
-            String task = "SELECT * FROM sportsobjects WHERE id=\""+id+"\"";
-            rs = st.executeQuery(task);
-
-            if (rs.next()){
-                result.setId(rs.getInt("id"));
-                result.setName(rs.getString("name"));
-                result.setType(rs.getString("type"));
-                result.setOpenDays(rs.getString("openDays"));
-                result.setOpenHours(rs.getString("openHours"));
-                result.setCity(rs.getString("city"));
-                result.setStreet(rs.getString("street"));
-                result.setStreetNumber(rs.getString("streetNumber"));
-                result.setPriceList(rs.getString("priceList"));
-                result.setContact(rs.getString("contact"));
-            }
-            
-        }catch (Exception exception){
-            result.setId(-1);
-            System.out.println("Error find_sportobjects(id): "+exception);
-        }
-        return result;
+    public SportObject findSportObjectById(Integer id){
+        outList = contex.stream().filter(x->x.getId()==id).collect(Collectors.toList());
+        if (!outList.isEmpty()) return outList.get(0);
+        else return new SportObject(-1);
     }
 
-    public Integer getfreeId(){
-        Integer result;
-        try{
-            String task = "SELECT * FROM sportsobjects";
-            rs = st.executeQuery(task);
-            result = 1;
-            while (rs.next()){
-                if (rs.getInt("id")==-1) continue;
-                if (rs.getInt("id")!=result) break;
-                result +=1;
-            }
-        }catch(Exception exception){
-            System.out.println("Error free_id: "+exception);
-            result = -1;
-        }
-        return result;
-        
-    }
-
-    public List<SportObject> getAllSportObjects(){
-        outList = new ArrayList<>();
-        try{
-            String task = "SELECT * FROM sportsobjects ORDER BY name,city,street,CAST(streetNumber AS UNSIGNED)";
-            rs = st.executeQuery(task);
-            
-			while (rs.next()){
-                SportObject tmp = new SportObject();
-                tmp.setId(rs.getInt("id"));
-                tmp.setName(rs.getString("name"));
-                tmp.setType(rs.getString("type"));
-                tmp.setOpenDays(rs.getString("openDays"));
-                tmp.setOpenHours(rs.getString("openHours"));
-                tmp.setCity(rs.getString("city"));
-                tmp.setStreet(rs.getString("street"));
-                tmp.setStreetNumber(rs.getString("streetNumber"));
-                tmp.setPriceList(rs.getString("priceList"));
-                tmp.setContact(rs.getString("contact"));
-                outList.add(tmp);
-            }
-        }catch (Exception exception){
-            System.out.println("Error all_sportobjects: "+exception);
-        }
-		return outList;
-    }
-    public List<SportObject> findSportObjectsCity(String city){
-        outList = new ArrayList<>();
-        try{
-            String task = "SELECT * FROM sportsobjects WHERE city=\""+city+"\"";
-            rs = st.executeQuery(task);
-
-            while (rs.next()){
-                SportObject result = new SportObject();
-                result.setId(rs.getInt("id"));
-                result.setName(rs.getString("name"));
-                result.setType(rs.getString("type"));
-                result.setOpenDays(rs.getString("openDays"));
-                result.setOpenHours(rs.getString("openHours"));
-                result.setCity(rs.getString("city"));
-                result.setStreet(rs.getString("street"));
-                result.setStreetNumber(rs.getString("streetNumber"));
-                result.setPriceList(rs.getString("priceList"));
-                result.setContact(rs.getString("contact"));
-                outList.add(result);
-            }
-
-        }catch (Exception exception){
-            System.out.println("Error find_sportobjects(id): "+exception);
-        }
+    public List<SportObject> findSportObjectsByCity(String city){
+        outList = contex.stream().filter(x->x.getCity().equals(city)).collect(Collectors.toList());
         return outList;
     }
 
