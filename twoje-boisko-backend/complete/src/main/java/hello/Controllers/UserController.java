@@ -33,6 +33,18 @@ public class UserController {
     }
 
 
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> changepaswdafterforgot(@RequestBody PaswdDto2 user) {
+        if (con.checkPaswd(user.getId(), user.getPaswd())){
+            return ResponseEntity.badRequest().headers(responseHeaders).body("Nowe haslo nie moze byc takie same jak stare");
+        }
+        User us = con.findUserById(user.getId());
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswd(user.getId(), us.getPassword(), user.getPaswd()));
+    }
+
+
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/getConCode",method = RequestMethod.POST)
     @ResponseBody
