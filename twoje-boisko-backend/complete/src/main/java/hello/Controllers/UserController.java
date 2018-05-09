@@ -33,6 +33,13 @@ public class UserController {
     }
 
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/getConCode",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> getConCode(@RequestBody Index_ code){
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.getConCode(code.getId()).equals(code.getValue()));
+    } 
+
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/confirm",method = RequestMethod.POST)
     @ResponseBody
@@ -66,8 +73,8 @@ public class UserController {
             email.setValue("Brak uzytkownika o danym emailu");
             return ResponseEntity.accepted().body(email);
         } 
-        mail.ForgotEmail(user);
-        email.setValue("Wyslano emaila na adres");
+        mail.ForgotPasswdEmail(user);
+        email.setValue("Wyslano emaila na adres: "+user.getEmail());
         return ResponseEntity.accepted().body(email);
         
     }
@@ -81,7 +88,8 @@ public class UserController {
             email.setValue("Brak uzytkownika o danym emailu");
             return ResponseEntity.accepted().body(email);
         }
-        email.setValue(user.getUsername());
+        mail.ForgotLoginEmail(user);
+        email.setValue("Wyslano emaila na adres: "+user.getEmail());
         return ResponseEntity.accepted().body(email);
         
     }

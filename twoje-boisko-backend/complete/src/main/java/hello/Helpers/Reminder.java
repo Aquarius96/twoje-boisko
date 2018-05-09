@@ -45,7 +45,7 @@ public class Reminder{
             generateMailMessage = new MimeMessage(getMailSession);
             generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
             generateMailMessage.setSubject("Twoja rezerwacja :"+object.getName()+" rozpocznie sie za godzine!");
-            String emailBody = "Witaj "+user.getUsername()+"!<br>Pragniemy Ci przypomniec ze Twoja rezerwacja obiektu: "+object.getName()+" rozpocznie sie o "+reservation.getHourStart()+":00 i zakonczy o "+reservation.getHourEnd()+":00<br>Nasz "+object.getType()+" jest do Twojej dyspozycji. Milych wypocin!<br>W razie problemow (takich jak np  lokalizacja obiektu badz jego cena) prosimy przejsc na strone:<br><a href=\"http://localhost:3000/object/" + object.getId() + "\">"+object.getName()+"</a> <br>Usciski AdminBOT!";
+            String emailBody = "Witaj "+user.getUsername()+"!<br>Pragniemy Ci przypomniec ze Twoja rezerwacja obiektu: "+object.getName()+" rozpocznie sie o "+reservation.getHourStart()+":00 i zakonczy o "+reservation.getHourEnd()+":00<br>Nasz "+object.getType()+" jest do Twojej dyspozycji. Milych wypocin!<br>W razie problemow (takich jak np  lokalizacja obiektu badz jego cena) prosimy przejsc na strone:<br><a href=\"http://localhost:3000/object/" + object.getId() + "\">"+object.getName()+"</a> <br><br> Usciski, <br>AdminBOT!";
             generateMailMessage.setContent(emailBody, "text/html");
             //System.out.println("Mail Session has been created successfully..");
      
