@@ -40,8 +40,7 @@ public class UserController {
         if (con.checkPaswd(user.getId(), user.getPaswd())){
             return ResponseEntity.badRequest().headers(responseHeaders).body("Nowe haslo nie moze byc takie same jak stare");
         }
-        User us = con.findUserById(user.getId());
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswd(user.getId(), us.getPassword(), user.getPaswd()));
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswdafterForgot(user.getId(), user.getPaswd()));
     }
 
 
