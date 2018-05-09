@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -78,14 +78,18 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> ForgotEmail(@RequestBody Index_ email) throws AddressException, MessagingException {
+    public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email) throws AddressException, MessagingException {
 
         User user = con.findUserByEmail(email.getValue());
         if (user.getId()<0){
             email.setValue("Brak uzytkownika o danym emailu");
             return ResponseEntity.accepted().body(email);
-        } 
+        }
+        UUID uuid = UUID.randomUUID();
+        user.setCode(uuid.toString());
         mail.ForgotPasswdEmail(user);
+        con.updateUser(user);
+
         email.setValue("Wyslano emaila na adres: "+user.getEmail());
         return ResponseEntity.accepted().body(email);
         
