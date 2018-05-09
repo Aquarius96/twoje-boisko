@@ -38,7 +38,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> changepaswdafterforgot(@RequestBody PaswdDto2 user) {
         if (con.checkPaswd(user.getId(), user.getPaswd())){
-            return ResponseEntity.badRequest().headers(responseHeaders).body("Nowe haslo nie moze byc takie same jak stare");
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Nowe haslo nie moze byc takie same jak stare"));
         }
         return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswdafterForgot(user.getId(), user.getPaswd()));
     }
@@ -83,6 +83,9 @@ public class UserController {
         if (user.getId()<0){
             email.setValue("Brak uzytkownika o danym emailu");
             return ResponseEntity.accepted().body(email);
+        }
+        if (!user.getConfirm()){
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Aktywuj konto przed proba przypoknnienia hasla!"));
         }
         UUID uuid = UUID.randomUUID();
         user.setCode(uuid.toString());
