@@ -64,10 +64,6 @@ public class UserService{
                 result.setCode(user.getCode());
                 result.setConfirm(user.getConfirm());
                 result.setRemind(user.getRemind());
-
-                Integer index = user.getId();
-                contex.remove(findUserById(index));
-                contex.add(index, user);
             }
             else {
                 System.out.println("Error update user: zle dane najprawdopodnobnmiej");
@@ -77,6 +73,7 @@ public class UserService{
             System.out.println("Error update user (polaczenie): "+exception);
             result.setId(-2);
         }
+        reload();
         return result;
     }
     
@@ -90,11 +87,10 @@ public class UserService{
         user.setRemind(true);
         User user_ = new User();
         try{
-            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', `"+user.getRemind().compareTo(false)+"`);";
+            String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', '"+user.getRemind().compareTo(false)+"');";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1){
                 user_ = user;
-                contex.add(user_.getId(), user_);
             }                
             else {
                 user_.setId(-1);System.out.println("Error add_user: zle dane najprawdopodnobnmiej");
@@ -103,6 +99,7 @@ public class UserService{
             System.out.println("Error add_user(polaczenie): "+exception);
             user_.setId(-2);
         }
+        reload();
         return user_;
     }
 
@@ -113,7 +110,6 @@ public class UserService{
             String task = "DELETE FROM users WHERE id=\""+id+"\"";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1){
-                contex.remove(findUserById(id));
                 result = true;
             } 
             else {
@@ -124,7 +120,7 @@ public class UserService{
             System.out.println("Error delete_user(polaczenie): "+exception);
             result = false;
         }
-        
+        reload();
         return result;
     }
 
