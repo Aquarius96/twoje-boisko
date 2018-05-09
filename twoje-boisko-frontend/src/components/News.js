@@ -17,12 +17,30 @@ class News extends Component {
     this.handleClickOutside = this
       .handleClickOutside
       .bind(this);
+    this.deleteNews = this
+      .deleteNews
+      .bind(this);
  }
 
  componentDidMount(){
 
  }
 
+ deleteNews(e) {
+  fetch('http://localhost:8080/news/delete', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify({id: e})
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      this.props.update();
+    });
+}
  setWrapperRef(id) {
   var modal = document.getElementById(id);
   console.log(modal);
@@ -86,7 +104,7 @@ closeModal() {
              <button class="przyciskEdytujAktualnosc" onClick={() =>this.openModal(this.props.id)}>Edytuj</button>
              </div>
              <div class="ustawieniePrzyciskuUsun">
-             <button class="przyciskUsunAktualnosc">Usuń</button>
+             <button class="przyciskUsunAktualnosc" onClick={() => this.deleteNews(this.props.id)}>Usuń</button>
              </div>
            </div>
          </div>
