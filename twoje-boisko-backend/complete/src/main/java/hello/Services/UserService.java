@@ -64,18 +64,19 @@ public class UserService{
                 result.setCode(user.getCode());
                 result.setConfirm(user.getConfirm());
                 result.setRemind(user.getRemind());
+
+                Integer index = user.getId();
+                contex.remove(findUserById(index));
+                contex.add(index, user);
             }
             else {
                 System.out.println("Error update user: zle dane najprawdopodnobnmiej");
                 result.setId(-1);
             }
-                
         }catch (Exception exception){
             System.out.println("Error update user (polaczenie): "+exception);
             result.setId(-2);
         }
-        
-        reload();
         return result;
     }
     
@@ -91,7 +92,10 @@ public class UserService{
         try{
             String task = "INSERT INTO users (`id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `confirmationCode`, `isConfirmed`, `remindMe` ) VALUES ('"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getFirstname()+"', '"+user.getLastname()+"', '"+user.getEmail()+"', '"+user.getPhone()+"', '"+user.getCode()+"', '"+user.getConfirm().compareTo(false)+"', `"+user.getRemind().compareTo(false)+"`);";
             Integer tmp = st.executeUpdate(task);
-            if (tmp==1) user_ = user;
+            if (tmp==1){
+                user_ = user;
+                contex.add(user_.getId(), user_);
+            }                
             else {
                 user_.setId(-1);System.out.println("Error add_user: zle dane najprawdopodnobnmiej");
             }
@@ -99,7 +103,6 @@ public class UserService{
             System.out.println("Error add_user(polaczenie): "+exception);
             user_.setId(-2);
         }
-        reload();
         return user_;
     }
 
@@ -109,7 +112,10 @@ public class UserService{
         try{
             String task = "DELETE FROM users WHERE id=\""+id+"\"";
             Integer tmp = st.executeUpdate(task);
-            if (tmp==1) result = true;
+            if (tmp==1){
+                contex.remove(findUserById(id));
+                result = true;
+            } 
             else {
                 System.out.println("Error delete_user: zle id");
                 result = false;
@@ -118,7 +124,7 @@ public class UserService{
             System.out.println("Error delete_user(polaczenie): "+exception);
             result = false;
         }
-        reload();
+        
         return result;
     }
 
@@ -127,7 +133,6 @@ public class UserService{
         Integer id = null;
         outList = contex.stream().filter(x->x.getUsername().equals(user.getLogin())).collect(Collectors.toList()); 
         
-        System.out.println(outList.get(0).getUsername()+"dsadsa");
         if (!outList.isEmpty()){
             
             login_exist = true;

@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
-    @RequestMapping(value ="/forgot/email",method = RequestMethod.POST)
+    @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> ForgotEmail(@RequestBody Index_ email) throws AddressException, MessagingException {
 
