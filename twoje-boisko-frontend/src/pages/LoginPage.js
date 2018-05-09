@@ -34,6 +34,7 @@ class LoginPage extends Component {
       .checkRegisterData
       .bind(this);
       this.forgotPassword=this.forgotPassword.bind(this);
+      this.forgotLogin=this.forgotLogin.bind(this);
   }
 
   switchwindows(window)
@@ -225,7 +226,23 @@ class LoginPage extends Component {
           'Content-Type': 'application/json'
         },
           body: JSON.stringify({
-            email: document.registerForm.email.value
+            value: document.forgotPasswordForm.email.value
+          })
+        })
+        .then(result => result.json())
+        .then(response => console.log(response))
+  }
+
+  forgotLogin(e){
+    e.preventDefault();
+    fetch('http://localhost:8080/user/forgot/login', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            value: document.forgotLoginForm.email.value
           })
         })
         .then(result => result.json())
@@ -280,19 +297,19 @@ class LoginPage extends Component {
                 </p>
               </form>
 
-              <form name="forgotForm" className="forgot-password-form">
+              <form name="forgotPasswordForm" className="forgot-password-form">
                 <h1>Zapomniałeś hasła?</h1>
-                <input name="login" type="text" placeholder="Adres e-mail..." required/>
+                <input name="email" type="text" placeholder="Adres e-mail..." required/>
                 <button class="przyciskZaloguj" onClick={this.forgotPassword}>Przypomnij</button>
                 <p className="message">
                   <a className="beniz" onClick={() => this.switchwindows('forgot-password')}>Wróć do logowania</a>
                 </p>
               </form>
 
-              <form name="forgotForm" className="forgot-login-form">
+              <form name="forgotLoginForm" className="forgot-login-form">
                 <h1>Zapomniałeś loginu?</h1>
-                <input name="login" type="text" placeholder="Adres e-mail..." required/>
-                <button class="przyciskZaloguj" onClick={this.forgotPassword}>Przypomnij</button>
+                <input name="email" type="text" placeholder="Adres e-mail..." required/>
+                <button class="przyciskZaloguj" onClick={this.forgotLogin}>Przypomnij</button>
                 <p className="message">
                   <a className="beniz" onClick={() => this.switchwindows('forgot-login')}>Wróć do logowania</a>
                 </p>

@@ -37,7 +37,7 @@ public class UserService{
         User user = findUserById(id);
         return user.getCode();
     }
-    
+
     public Boolean changePaswd(Integer id,String oldPaswd, String newPaswd){
         User user = findUserById(id);
         if (BCrypt.checkpw(oldPaswd, user.getPassword())){
@@ -45,6 +45,15 @@ public class UserService{
             if (updateUser(user).getId()>=0) return true;
             else return false;
         }
+        else return false;
+    }
+
+    public Boolean changePaswdafterForgot(Integer id, String newPaswd){
+        User user = findUserById(id);
+        user.setPassword(BCrypt.hashpw(newPaswd, BCrypt.gensalt()));
+        user.setCode(null);
+        User tmp = updateUser(user);
+        if (tmp.getId()>=0) return true;
         else return false;
     }
 

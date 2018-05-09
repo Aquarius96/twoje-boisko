@@ -84,9 +84,7 @@ class MainPage extends Component {
    
       if(this.state.dataCollected){
         return (
-          <div className="MainPage news-tab">
-          <p>{typeof(this.props.match.params.page)}</p>
-          
+          <div className="MainPage news-tab">          
         <div class="row">
         {this
             .state
