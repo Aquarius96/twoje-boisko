@@ -78,8 +78,7 @@ class SportsfieldsListPage extends Component {
                 <option value="stadion">stadion</option>
               </select>
             </div>
-          </div>
-          <p>{typeof(this.state.objects)}</p>
+          </div>          
           <TableSportsfield
             history={this.props.history}
             objects={this.state.objects}

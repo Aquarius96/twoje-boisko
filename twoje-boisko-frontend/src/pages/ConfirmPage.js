@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import './MainPage.css';
 import Spinner from '../components/Spinner';
-class MainPage extends Component {
+class ConfirmPage extends Component {
   constructor(props) {
     super(props);
     this.state = ({userId: null, confirmationCode: "", dataCollected: false});
@@ -22,15 +22,15 @@ class MainPage extends Component {
         this.setState({dataCollected: true});
         console.log(this.props.match.params.id);
         console.log(this.props.match.params.value);
-
         console.log(result);
+        setTimeout(() => this.props.history.push("/loginPage"),3000);
       });
   }
 
   render() {
     if (this.state.dataCollected) {
       return (
-        <div className="MainPage">
+        <div className="ConfirmPage">
           <p>Email został potwierdzony, teraz przekierujemy Cię do strony logowania...</p>
         </div>
       );
@@ -41,4 +41,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default ConfirmPage;
