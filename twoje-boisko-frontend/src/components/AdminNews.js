@@ -48,6 +48,7 @@ class AdminNews extends Component {
       });
   }
 
+
   setWrapperRef(id) {
     var modal = document.getElementById(id);
     console.log(modal);
@@ -105,6 +106,7 @@ class AdminNews extends Component {
             .props
             .news
             .map(item => <div class="col-sm-4"><News
+              update={this.props.update}
               id={item.id}
               header={item.header}
               text={item.text}

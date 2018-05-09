@@ -321,11 +321,6 @@ class SingleObjectPage extends Component {
       console.log("h" + myHours);
       return (
         <div className="xD">
-          <p>godziny otwarcia{this
-              .state
-              .object
-              .openHours
-              .split("-")[0]}</p>
           <div class="row">
             <div class="map col-xl-8">
               <h1>

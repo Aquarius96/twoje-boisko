@@ -109,18 +109,14 @@ closeModal() {
            </div>
          </div>
          <div class="modal" id={this.props.id}>
-                <div class="wrapper">
-                  <div class="message">
-                  <h1>Dodaj obiekt</h1>
-                  <input name="nazwa" type="text" placeholder="Nazwa obiektu"/>
-                  <input name="dniotwarcia" type="text" placeholder="Dni otwarcia"/>
-                  <input name="godzinyotwarcia" type="time" placeholder="Godziny otwarcia"/>
-                  <input name="adres" type="text" placeholder="Adres"/>
-                  <input name="cennik" type="text" placeholder="Cennik"/>
-                  <input name="kontakt" type="text" placeholder="Kontakt"/>
-                    <button class="przyciskAdminObiekt" onClick={this.closeModal}>Dodaj obiekt</button>
-                  </div>
-                </div>
+         <div class="wrapper">
+            <form name="addNews" class="message">
+              <h1>Edytuj aktualność</h1>
+              <input name="title" type="text" placeholder="Tytuł"/>
+              <input className="longText" name="text" type="text" placeholder="Treść"/>
+              <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
+            </form>
+          </div>
               </div>
         </div>
       );
