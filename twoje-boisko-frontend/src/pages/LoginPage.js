@@ -33,14 +33,45 @@ class LoginPage extends Component {
     this.checkRegisterData = this
       .checkRegisterData
       .bind(this);
+      this.forgotPassword=this.forgotPassword.bind(this);
   }
 
-  switchwindows()
+  switchwindows(window)
   {
-    $('form').animate({
-      height: "toggle",
-      opacity: "toggle"
-    }, {duration: 1000});
+    switch(window){
+      case 'login':
+      case 'register':
+      $('.register-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+      case 'forgot-password':
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.forgot-password-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+      case 'forgot-login':
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.forgot-login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+    }
+    
   }
 
   validateRegisterData() {
@@ -145,6 +176,7 @@ class LoginPage extends Component {
     }
     else window.alert(user.value);
   }
+
   checkRegisterData(user) {
     if(user.type == "error"){
       window.alert(user.value);
@@ -182,7 +214,22 @@ class LoginPage extends Component {
           });
         })
     }
+  }
 
+  forgotPassword(e){
+    e.preventDefault();
+    fetch('http://localhost:8080/user/forgot/password', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            email: document.registerForm.email.value
+          })
+        })
+        .then(result => result.json())
+        .then(response => console.log(response))
   }
 
   render() {
@@ -212,7 +259,7 @@ class LoginPage extends Component {
 
                 <button class="przyciskZaloguj" onClick={this.register}>Stwórz konto</button>
                 <p className="message">Jesteś już zarejestrowany?
-                  <a className="beniz" onClick={this.switchwindows}>Zaloguj się!</a>
+                  <a className="beniz" onClick={() => this.switchwindows('login')}>Zaloguj się!</a>
                 </p>
                 <p className="message">Pola oznaczone * są obowiązkowe</p>
               </form>
@@ -223,7 +270,31 @@ class LoginPage extends Component {
                 <input name="password" type="password" placeholder="Hasło..." required/>
                 <button class="przyciskZaloguj" onClick={this.login}>Zaloguj</button>
                 <p className="message">Nie masz konta?
-                  <a className="beniz" onClick={this.switchwindows}>Zarejestruj się!</a>
+                  <a className="beniz" onClick={() => this.switchwindows('login')}>Zarejestruj się!</a>
+                </p>
+                <p className="message">Zapomniałeś hasła?
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-password')}>Przypomnij hasło!</a>
+                </p>
+                <p className="message">Zapomniałeś loginu?
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-login')}>Przypomnij login!</a>
+                </p>
+              </form>
+
+              <form name="forgotForm" className="forgot-password-form">
+                <h1>Zapomniałeś hasła?</h1>
+                <input name="login" type="text" placeholder="Adres e-mail..." required/>
+                <button class="przyciskZaloguj" onClick={this.forgotPassword}>Przypomnij</button>
+                <p className="message">
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-password')}>Wróć do logowania</a>
+                </p>
+              </form>
+
+              <form name="forgotForm" className="forgot-login-form">
+                <h1>Zapomniałeś loginu?</h1>
+                <input name="login" type="text" placeholder="Adres e-mail..." required/>
+                <button class="przyciskZaloguj" onClick={this.forgotPassword}>Przypomnij</button>
+                <p className="message">
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-login')}>Wróć do logowania</a>
                 </p>
               </form>
             </div>
