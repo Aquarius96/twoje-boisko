@@ -39,7 +39,7 @@ class AdminNews extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify({header: document.addNews.title.value, text: document.addNews.text.value, date:moment().format("YYYY-MM-DD hh:mm:ss")})
+        body: JSON.stringify({header: document.newnews.title.value, text: document.newnews.text.value, date:moment().format("YYYY-MM-DD hh:mm:ss")})
       })
       .then(response => response.json())
       .then(result => {
@@ -115,7 +115,7 @@ class AdminNews extends Component {
         </div>
         <div class="modal" id="modal">
           <div class="wrapper">
-            <form name="addNews" class="message">
+            <form name="newnews" class="message">
               <h1>Dodaj aktualność</h1>
               <input name="title" type="text" placeholder="Tytuł"/>
               <input className="longText" name="text" type="text" placeholder="Treść"/>
