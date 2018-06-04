@@ -99,7 +99,7 @@ class AdminNews extends Component {
                   <form name="addNews" class="message">
                   <h1>Dodaj aktualność</h1>
                   <input name="title" type="text" placeholder="Tytuł"/>
-                  <input className="longText" name="text" type="text" placeholder="Treść"/>                  
+                  <textarea name="description" className="textarea"type="text" placeholder="Treść..."></textarea>                  
                     <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
                   </form>
                 </div>

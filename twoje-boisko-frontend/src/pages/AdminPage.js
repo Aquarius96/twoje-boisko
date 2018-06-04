@@ -7,7 +7,6 @@ import AdminUsers from '../components/AdminUsers';
 import {
   Link
 } from 'react-router';
-import Pagination from 'react-router-pagination';
 import '../css/select.css';
 import './LoginPage.css';
 import '../components/Modal.css';
