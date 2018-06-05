@@ -3,7 +3,6 @@ package hello.test;
 import hello.Helpers.*;
 import hello.Models.*;
 
-import java.text.ParseException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class Test{
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/checkhash",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> test5(@RequestParam(value="code", required = true) String code) throws ParseException{
+    public ResponseEntity<?> test5(@RequestParam(value="code", required = true) String code) {
         return ResponseEntity.accepted().headers(responseHeaders).body(hash.checkHash(code,"dupa"));
     }
 
@@ -35,7 +34,7 @@ public class Test{
     @ResponseBody
     public ResponseEntity<?> test3(@RequestParam(value="code", required = true) String code){
 
-        return ResponseEntity.accepted().headers(responseHeaders).body(hash.getHash(code));
+        return ResponseEntity.accepted().headers(responseHeaders).body(hash.getFreshHash(code));
     }   
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -49,7 +48,7 @@ public class Test{
     @ResponseBody
     @RequestMapping(value = "/geterro")
     public ResponseEntity<?> test() {
-        return ResponseEntity.ok().headers(responseHeaders).body(new Result_("99"));
+        return ResponseEntity.ok().headers(responseHeaders).body(new Error_("99"));
     }
     @CrossOrigin(origins = "http://localhost:3000/")
     @ResponseBody
@@ -62,6 +61,6 @@ public class Test{
     @RequestMapping(value = "/getjwt")
     @ResponseBody
     public ResponseEntity<?> test2() {
-        return ResponseEntity.ok().headers(responseHeaders).body(new Result_("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJJc2FyZCIsInBhc3N3b3JkIjoiSGFzbG8xMjMiLCJmaXJzdG5hbWUiOiJNYXJjaW4iLCJsYXN0bmFtZSI6IlphcGFka2EiLCJlbWFpbCI6InphcGFka2FAd3AucGwiLCJwaG9uZSI6IjY2NjI0MDgyMyJ9.MWc6WyEwzcrYcGClrE8zsUM5CSrXZRs39Z_i5Z9Q9sY"));
+        return ResponseEntity.ok().headers(responseHeaders).body(new Error_("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJJc2FyZCIsInBhc3N3b3JkIjoiSGFzbG8xMjMiLCJmaXJzdG5hbWUiOiJNYXJjaW4iLCJsYXN0bmFtZSI6IlphcGFka2EiLCJlbWFpbCI6InphcGFka2FAd3AucGwiLCJwaG9uZSI6IjY2NjI0MDgyMyJ9.MWc6WyEwzcrYcGClrE8zsUM5CSrXZRs39Z_i5Z9Q9sY"));
     }
 }

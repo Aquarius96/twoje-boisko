@@ -3,10 +3,8 @@ package hello.Helpers;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -22,27 +20,27 @@ public class Mail_
 
     }
     
-    public void ConfirmEmail(User user_) throws AddressException, MessagingException {
+    public void ConfirmEmail(User user_){
         
         String body = "W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: ";
         body += "<br>" + "<a href=\"http://localhost:3000/confirm/" + user_.getId() + "/" + user_.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
        generateAndSendEmail(user_," witamy w naszym serwisie!",body);
     }
 
-    public void ForgotPasswdEmail(User user_) throws AddressException, MessagingException {
+    public void ForgotPasswdEmail(User user_){
 
         String body = "Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ";
         body += "<br>" + "<a href=\"http://localhost:3000/forgotten/" + user_.getId() + "/" + user_.getCode() + "\">Zmien haslo</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
         generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!",body);
     }
 
-    public void ForgotLoginEmail(User user_) throws AddressException, MessagingException {
+    public void ForgotLoginEmail(User user_){
 
         String body = "Jesli to nie Ty probowales przypomniec sobie swoj login zignoruj ta wiadomosc w przeciwnym wypadku zernij w topic ;) ";
         generateAndSendEmail(user_," wyglada ze probowales odzyskac swoj login!",body);
     }
 
-    private static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
+    private static void generateAndSendEmail(User user,String topic, String body){
         
         try{
         // Step1
@@ -70,7 +68,7 @@ public class Mail_
 		transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
         }
-        catch(AddressException e)
+        catch(Exception e )
         {
             System.out.println("Error mail: "+e);
         }

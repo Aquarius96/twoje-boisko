@@ -1,12 +1,12 @@
 package hello.Helpers;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
+
 
 
 public class Hash{
@@ -20,14 +20,50 @@ public class Hash{
         acceptedHours = 3;
     } 
 
-    public void setacceptedHours(Integer h){
+    public void setAcceptedHours(Integer h){
         acceptedHours = h;
     }
-    public String checkHash(String hashedcode, String codeFromDB) throws ParseException{
+    public String checkHash(String codeFromMail, String codeFromDB){
+        Date now = new Date();
+        codeFromMail = deHash(codeFromMail);
+        codeFromDB = deHash(codeFromDB);
+        String subDB = codeFromDB.substring(0,16);
+        String subMail = codeFromMail.substring(0,16);
+
+        Date fromDB;
+        try{
+            dateFormat.parse(subMail);
+        }catch(Exception e){
+            return "BAD_CODE";
+        }
+
+        try{
+            fromDB = dateFormat.parse(subDB);
+        }catch(Exception e){
+            return "ERROR"; //zly code w bazie danych
+        }
+
+        long diffInMillies = fromDB.getTime() - now.getTime();
+
+        if (TimeUnit.MILLISECONDS.convert(acceptedHours, TimeUnit.HOURS) > diffInMillies){
+            if (codeFromMail.equals(codeFromDB)) return "OK";
+            return "BAD_CODE";
+        } 
+
+        return "TIMEOUT";
+
+    }
+    
+    public String checkHash_old(String hashedcode, String codeFromDB){
         Date now = new Date();
         hashedcode = deHash(hashedcode);
         String sub = hashedcode.substring(0,16);
-        Date fromHash = dateFormat.parse(sub);
+        Date fromHash ;
+        try{
+            fromHash = dateFormat.parse(sub);
+        }catch(Exception e){
+            return "BAD_CODE";
+        }
 
         long diffInMillies = fromHash.getTime() - now.getTime();
 
@@ -40,6 +76,11 @@ public class Hash{
 
     }
 
+    public String refresz(String code){
+        code = deHash(code);
+        return getFreshHash(code.substring(19));
+    }
+
     public String deHash(String value){
         return new String(Base64.getDecoder().decode(toByteArray(value)));
         }
@@ -48,7 +89,7 @@ public class Hash{
         return DatatypeConverter.parseHexBinary(s);
     }
 
-    public String getHash(String value){
+    public String getFreshHash(String value){
         Date date = new Date();
         String toHash = dateFormat.format(date) + " - " + value;
 

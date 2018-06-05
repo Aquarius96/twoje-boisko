@@ -28,9 +28,9 @@ public class NewsController{
         News result = con.addNews(news);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -61,9 +61,9 @@ public class NewsController{
         News result = con.updateNews(news);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
