@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class ResultDto<T>{
 
-    public ArrayList<String> errors;
-    public T succesed;
+    private ArrayList<String> errors;
+    private T succesed;
 
     public ResultDto(){
         errors = new ArrayList<>();

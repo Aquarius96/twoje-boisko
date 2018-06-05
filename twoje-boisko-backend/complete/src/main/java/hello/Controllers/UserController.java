@@ -27,6 +27,7 @@ public class UserController {
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     private Hash hash;
+    private ResultDto<?> result;
     
 
     public UserController(){
@@ -34,6 +35,7 @@ public class UserController {
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
         hash = new Hash();
+        result = new ResultDto<>();
 
     }
 
@@ -74,7 +76,7 @@ public class UserController {
                     return ResponseEntity.ok(result);
             }
         }
-        else return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Podany ConfirmationCode nie pasuje"));
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Podany ConfirmationCode nie pasuje"));
         
     }
 
@@ -85,19 +87,24 @@ public class UserController {
 
         User user = con.findUserByEmail(email.getValue());
         if (user.getId()<0){
-            email.setValue("Brak uzytkownika o danym emailu");
-            return ResponseEntity.accepted().body(email);
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
         if (!user.getConfirm()){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Aktywuj konto przed proba przypoknnienia hasla!"));
         }
         UUID uuid = UUID.randomUUID();
         user.setCode(hash.getFreshHash(uuid.toString()));
-        mail.ForgotPasswdEmail(user);
-        con.updateUser(user);
-
-        email.setValue("Wyslano emaila na adres: "+user.getEmail());
-        return ResponseEntity.accepted().body(email);
+        
+        switch(con.updateUser(user).getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+            default :
+                result = mail.ForgotPasswdEmail(user);
+                if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
+                return ResponseEntity.ok(result.getResult());
+        }
         
     }
     @CrossOrigin(origins = "http://localhost:3000/")
@@ -107,12 +114,11 @@ public class UserController {
 
         User user = con.findUserByEmail(email.getValue());
         if (user.getId()<0){
-            email.setValue("Brak uzytkownika o danym emailu");
-            return ResponseEntity.accepted().body(email);
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
-        mail.ForgotLoginEmail(user);
-        email.setValue("Wyslano emaila na adres: "+user.getEmail());
-        return ResponseEntity.accepted().body(email);
+        result = mail.ForgotLoginEmail(user);
+        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
+        return ResponseEntity.ok(result.getResult());
         
     }
 
@@ -132,7 +138,7 @@ public class UserController {
             default :
                 result = con.findUserById(index);
                 if (result.getId()>=0) return ResponseEntity.ok(result);
-                else return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
         }
     }
 
@@ -144,15 +150,16 @@ public class UserController {
 
         switch (tmp){
             case 0:
-            User result = con.addUser(user);
-            switch (result.getId()){
+            User res = con.addUser(user);
+            switch (res.getId()){
                 case -1:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
                 case -2:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
                 default :
-                    mail.ConfirmEmail(result);
-                    return ResponseEntity.ok(result);
+                    result = mail.ConfirmEmail(res);
+                    if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
+                    return ResponseEntity.ok(result.getResult());
             }
             case 1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Username jest zajety"));
@@ -209,10 +216,9 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> deleteUser(@RequestBody Index_ id) {
         Boolean tmp = con.deleteUser(id.getId());
-        if ( tmp ) id.setValue("usunieto");
-        else id.setValue("blad przy usuwaniu");
-        return ResponseEntity.ok(id);
-
+        if ( tmp ) return ResponseEntity.ok("usunieto");
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad przy usuwaniu"));
+        
     }
  
     @CrossOrigin(origins = "http://localhost:3000")
