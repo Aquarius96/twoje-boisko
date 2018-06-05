@@ -23,16 +23,17 @@ public class Hash{
     public void setacceptedHours(Integer h){
         acceptedHours = h;
     }
-    public String checkHash(String value, String fromDB) throws ParseException{
+    public String checkHash(String hashedcode, String codeFromDB) throws ParseException{
         Date now = new Date();
-        String sub = value.substring(0,16);
-        Date fromValue = dateFormat.parse(sub);
+        hashedcode = deHash(hashedcode);
+        String sub = hashedcode.substring(0,16);
+        Date fromHash = dateFormat.parse(sub);
 
-        long diffInMillies = fromValue.getTime() - now.getTime();
+        long diffInMillies = fromHash.getTime() - now.getTime();
 
-        if (acceptedHours > TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS)){
-            if (value.substring(19).equals(fromDB)) return "OK";
-            else return "BAD";
+        if (TimeUnit.MILLISECONDS.convert(acceptedHours, TimeUnit.HOURS) > diffInMillies){
+            if (hashedcode.substring(19).equals(codeFromDB)) return "OK";
+            return "BAD_CODE";
         } 
 
         return "TIMEOUT";

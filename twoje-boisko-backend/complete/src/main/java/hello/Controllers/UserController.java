@@ -1,6 +1,5 @@
 package hello.Controllers;
 
-import hello.Helpers.Hash;
 import hello.Helpers.Index_;
 import hello.Helpers.Mail_;
 import hello.Helpers.Result_;
@@ -27,33 +26,13 @@ public class UserController {
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     
-    private Hash hash;
 
     public UserController(){
         con = new UserService();
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
 
-        hash = new Hash();
     }
-
-
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> test(/*@RequestBody Index_ code*/){
-
-        return ResponseEntity.accepted().headers(responseHeaders).body(hash.getHash("dupa XD"));
-    }   
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/test2",method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> test2(/*@RequestBody Index_ code*/){
-        String s = "4d6a41784f4330774e5330784d5341794d7a6f7a4f5341674c53426b6458426849466845";
-        return ResponseEntity.accepted().headers(responseHeaders).body(hash.deHash(s));
-    } 
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
