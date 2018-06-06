@@ -36,8 +36,12 @@ public class SportObject{
 
     }
 
-    public void setPhotoURL(String ur){
+    public void setPhotoName(String name){
+        this.photo_name = name;
+    }
 
+    public String getPhotoName(){
+        return photo_name;
     }
     public Integer getId(){
         return id;

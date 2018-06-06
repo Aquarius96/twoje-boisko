@@ -30,14 +30,14 @@ public class UserController {
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     private Hash hash;
-    private ResultDto<?> result;
+    private ResultDto<?> _result;
     
 
     public UserController(){
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
         hash = new Hash();
-        result = new ResultDto<>();
+        _result = new ResultDto<>();
 
     }
 
@@ -86,7 +86,6 @@ public class UserController {
     @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email){
-
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
@@ -103,9 +102,9 @@ public class UserController {
             case -2:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
             default :
-                result = mail.ForgotPasswdEmail(user);
-                if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
-                return ResponseEntity.ok(result.getSUccesedResult());
+                _result = mail.ForgotPasswdEmail(user);
+                if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors()));
+                return ResponseEntity.ok(_result.getSUccesedResult());
         }
         
     }
@@ -118,9 +117,9 @@ public class UserController {
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
-        result = mail.ForgotLoginEmail(user);
-        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
-        return ResponseEntity.ok(result.getSUccesedResult());
+        _result = mail.ForgotLoginEmail(user);
+        if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors()));
+        return ResponseEntity.ok(_result.getSUccesedResult());
         
     }
 
@@ -128,7 +127,7 @@ public class UserController {
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> logging(@RequestBody User_abs user_abs) {
-        Integer index = userService.checkUser(user_abs);
+        Integer index = userService.tryToLoggIn(user_abs);
         User result;
         switch(index){
             case -1:
@@ -149,6 +148,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> addUser(@RequestBody User user) throws AddressException, MessagingException {
         Integer tmp = userService.checkUser(user); 
+        ResultDto<String> result = new ResultDto<>();
 
         switch (tmp){
             case 0:
@@ -159,13 +159,12 @@ public class UserController {
                 case -2:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
                 default :
-                    result = mail.ConfirmEmail(res);
-                    if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
+                    _result = mail.ConfirmEmail(res);
+                    if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors()));
                     return ResponseEntity.ok(result.getSUccesedResult());
             }
             case 1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Username jest zajety"));
-
             case 2:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
             case 3:
