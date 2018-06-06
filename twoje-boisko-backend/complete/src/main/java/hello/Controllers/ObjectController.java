@@ -4,7 +4,7 @@ import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value="/object")
 public class ObjectController{
 
-    private SportObjectService con;
+    @Autowired
+    SportObjectService sportObjectService;
+
     private HttpHeaders responseHeaders;
     public ObjectController(){
         responseHeaders = new HttpHeaders();
-        con = new SportObjectService(); 
-
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addSportObject(@RequestBody SportObject sportObject) {
-        SportObject result = con.addSportObject(sportObject);
+        SportObject result = sportObjectService.addSportObject(sportObject);
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
@@ -41,7 +41,7 @@ public class ObjectController{
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> deleteSportObject(@RequestBody Index_ id) {
-        Boolean tmp = con.deleteSportObject(id.getId());
+        Boolean tmp = sportObjectService.deleteSportObject(id.getId());
         if ( tmp ) id.setValue("usunieto");
         else id.setValue("blad przy usuwaniu");
         return ResponseEntity.accepted().body(id);
@@ -52,7 +52,7 @@ public class ObjectController{
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updateObject(@RequestBody SportObject object) {
-        SportObject result = con.updateSportObject(object);
+        SportObject result = sportObjectService.updateSportObject(object);
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
@@ -66,21 +66,21 @@ public class ObjectController{
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allObjects")
     public ResponseEntity<?> getSportObject(){
-        return ResponseEntity.accepted().body(con.getAllSportObjects());
+        return ResponseEntity.accepted().body(sportObjectService.getAllSportObjects());
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/findC", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObjectC(@RequestParam(value="city", required = true) String city) {
-        return ResponseEntity.accepted().body(con.findSportObjectsByCity(city));
+        return ResponseEntity.accepted().body(sportObjectService.findSportObjectsByCity(city));
 
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObject(@RequestParam(value="id", required = true) String id) {
-        SportObject result = con.findSportObjectById(Integer.parseInt(id));
+        SportObject result = sportObjectService.findSportObjectById(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
@@ -93,6 +93,6 @@ public class ObjectController{
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allTypes")
     public ResponseEntity<?> getTypes(){
-        return ResponseEntity.accepted().body(con.getAllTypes());
+        return ResponseEntity.accepted().body(sportObjectService.getAllTypes());
     }
 }

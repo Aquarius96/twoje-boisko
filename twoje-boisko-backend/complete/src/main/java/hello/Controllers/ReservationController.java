@@ -4,7 +4,7 @@ import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ReservationController {
 
-    private ReservationsService con ;
+    @Autowired
+    ReservationsService reservationsService;
+
     private HttpHeaders responseHeaders;
     public ReservationController(){
         responseHeaders = new HttpHeaders();
-        con = new ReservationsService();
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addReservation(@RequestBody Reservation reservation) {
-        Reservation result = con.addReservation(reservation);
+        Reservation result = reservationsService.addReservation(reservation);
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
@@ -42,7 +43,7 @@ public class ReservationController {
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updateReservation(@RequestBody Reservation reservation) {
-        Reservation result = con.updateReservation(reservation);
+        Reservation result = reservationsService.updateReservation(reservation);
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
@@ -58,7 +59,7 @@ public class ReservationController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> deleteReservation(@RequestBody Index_ id) {
-        Boolean tmp = con.deleteReservation(id.getId());
+        Boolean tmp = reservationsService.deleteReservation(id.getId());
         if ( tmp ) id.setValue("usunieto");
         else id.setValue("blad przy usuwaniu");
         return ResponseEntity.accepted().body(id);
@@ -69,7 +70,7 @@ public class ReservationController {
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findReservation(@RequestParam(value="id", required = true) String id) {
-        Reservation result = con.findReservation(Integer.parseInt(id));
+        Reservation result = reservationsService.findReservation(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
@@ -83,7 +84,7 @@ public class ReservationController {
     @RequestMapping(value = "/find_o", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findReservationObject(@RequestParam(value="id", required = true) String id) {
-        return ResponseEntity.accepted().body(con.findReservationsObject(Integer.parseInt(id)));
+        return ResponseEntity.accepted().body(reservationsService.findReservationsObject(Integer.parseInt(id)));
 
     }
 
@@ -91,14 +92,14 @@ public class ReservationController {
     @RequestMapping(value = "/find_u", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findReservationuser(@RequestParam(value="id", required = true) String id) {
-        return ResponseEntity.accepted().body(con.findReservationsUser(Integer.parseInt(id)));
+        return ResponseEntity.accepted().body(reservationsService.findReservationsUser(Integer.parseInt(id)));
 
     }
 
     @RequestMapping(value = "/all")
     @ResponseBody
     public ResponseEntity<?> getallrest() {
-        return ResponseEntity.accepted().body(con.getAllReservations());
+        return ResponseEntity.accepted().body(reservationsService.getAllReservations());
 
     }
 

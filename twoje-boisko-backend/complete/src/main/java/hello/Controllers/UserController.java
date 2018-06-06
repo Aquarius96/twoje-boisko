@@ -7,6 +7,7 @@ import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,9 @@ import javax.mail.internet.AddressException;
 @RestController
 public class UserController {
 
-    private  UserService con;
+    @Autowired
+    UserService userService;
+
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     private Hash hash;
@@ -31,7 +34,6 @@ public class UserController {
     
 
     public UserController(){
-        con = new UserService();
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
         hash = new Hash();
@@ -43,10 +45,10 @@ public class UserController {
     @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> changepaswdafterforgot(@RequestBody PaswdDto2 user) {
-        if (con.checkPaswd(user.getId(), user.getPaswd())){
+        if (userService.checkPaswd(user.getId(), user.getPaswd())){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nowe haslo nie moze byc takie same jak stare"));
         }
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswdafterForgot(user.getId(), user.getPaswd()));
+        return ResponseEntity.accepted().headers(responseHeaders).body(userService.changePaswdafterForgot(user.getId(), user.getPaswd()));
     }
 
 
@@ -54,7 +56,7 @@ public class UserController {
     @RequestMapping(value = "/getConCode",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> getConCode(@RequestBody Index_ code){
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.getConCode(code.getId()).equals(code.getValue()));
+        return ResponseEntity.accepted().headers(responseHeaders).body(userService.getConCode(code.getId()).equals(code.getValue()));
     }   
 
     @CrossOrigin(origins = "http://localhost:3000/")
@@ -62,11 +64,11 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> Confirm(@RequestBody Index_ index) {
         User result;
-        User tmp = con.findUserById(index.getId());
+        User tmp = userService.findUserById(index.getId());
         if (tmp.getCode().equals(index.getValue())) {
             tmp.setConfirm(true);
             tmp.setCode(null);
-            result = con.updateUser(tmp);
+            result = userService.updateUser(tmp);
             switch(result.getId()){
                 case -1:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
@@ -85,7 +87,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email){
 
-        User user = con.findUserByEmail(email.getValue());
+        User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
@@ -95,7 +97,7 @@ public class UserController {
         UUID uuid = UUID.randomUUID();
         user.setCode(hash.getFreshHash(uuid.toString()));
         
-        switch(con.updateUser(user).getId()){
+        switch(userService.updateUser(user).getId()){
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
             case -2:
@@ -112,7 +114,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> ForgotLogin(@RequestBody Index_ email){
 
-        User user = con.findUserByEmail(email.getValue());
+        User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
@@ -126,7 +128,7 @@ public class UserController {
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> logging(@RequestBody User_abs user_abs) {
-        Integer index = con.checkUser(user_abs);
+        Integer index = userService.checkUser(user_abs);
         User result;
         switch(index){
             case -1:
@@ -136,7 +138,7 @@ public class UserController {
             case -3:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
             default :
-                result = con.findUserById(index);
+                result = userService.findUserById(index);
                 if (result.getId()>=0) return ResponseEntity.ok(result);
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
         }
@@ -146,11 +148,11 @@ public class UserController {
     @RequestMapping(value ="/signup", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addUser(@RequestBody User user) throws AddressException, MessagingException {
-        Integer tmp = con.checkUser(user); 
+        Integer tmp = userService.checkUser(user); 
 
         switch (tmp){
             case 0:
-            User res = con.addUser(user);
+            User res = userService.addUser(user);
             switch (res.getId()){
                 case -1:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
@@ -177,23 +179,23 @@ public class UserController {
     @RequestMapping(value ="/changepaswd", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> changepaswd(@RequestBody PaswdDto user) {
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswd(user.getId(), user.getOldpaswd(), user.getNewpaswd()));
+        return ResponseEntity.accepted().headers(responseHeaders).body(userService.changePaswd(user.getId(), user.getOldpaswd(), user.getNewpaswd()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/checkpaswd", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> checkpaswd(@RequestBody PaswdDto2 user) {
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.checkPaswd(user.getId(), user.getPaswd()));
+        return ResponseEntity.accepted().headers(responseHeaders).body(userService.checkPaswd(user.getId(), user.getPaswd()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> updateUser(@RequestBody User user) {
-        switch(con.checkUpdater(user)){
+        switch(userService.checkUpdater(user)){
             case 1:
-                User result = con.updateUser(user);
+                User result = userService.updateUser(user);
                 switch(result.getId()){
                     case -1:
                         return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
@@ -215,7 +217,7 @@ public class UserController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> deleteUser(@RequestBody Index_ id) {
-        Boolean tmp = con.deleteUser(id.getId());
+        Boolean tmp = userService.deleteUser(id.getId());
         if ( tmp ) return ResponseEntity.ok("usunieto");
         return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad przy usuwaniu"));
         
@@ -224,7 +226,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allUsers")
     public ResponseEntity<?> getUsers(){
-        return ResponseEntity.accepted().headers(responseHeaders).body(con.getAllUsers());
+        return ResponseEntity.accepted().headers(responseHeaders).body(userService.getAllUsers());
     } 
 
     
