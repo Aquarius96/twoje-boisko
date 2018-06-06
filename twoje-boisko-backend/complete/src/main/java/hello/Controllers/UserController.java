@@ -30,14 +30,12 @@ public class UserController {
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     private Hash hash;
-    private ResultDto<?> result;
     
 
     public UserController(){
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
         hash = new Hash();
-        result = new ResultDto<>();
 
     }
 
@@ -86,7 +84,7 @@ public class UserController {
     @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email){
-
+        ResultDto<String> result = new ResultDto<>();
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
@@ -114,6 +112,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> ForgotLogin(@RequestBody Index_ email){
 
+        ResultDto<String> result = new ResultDto<>();
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
@@ -149,6 +148,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> addUser(@RequestBody User user) throws AddressException, MessagingException {
         Integer tmp = userService.checkUser(user); 
+        ResultDto<String> result = new ResultDto<>();
 
         switch (tmp){
             case 0:
