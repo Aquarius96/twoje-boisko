@@ -19,27 +19,27 @@ public class Mail_
     public Mail_(){
 
     }
-    public ResultDto<String> ConfirmEmail(User user_){
+    public ResultDto<?> ConfirmEmail(User user_){
         
         String body = "W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: ";
         body += "<br>" + "<a href=\"http://localhost:3000/confirm/" + user_.getId() + "/" + user_.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
         return generateAndSendEmail(user_," witamy w naszym serwisie!",body);
     }
 
-    public ResultDto<String> ForgotPasswdEmail(User user_){
+    public ResultDto<?> ForgotPasswdEmail(User user_){
 
         String body = "Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ";
         body += "<br>" + "<a href=\"http://localhost:3000/forgotten/" + user_.getId() + "/" + user_.getCode() + "\">Zmien haslo</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
         return generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!",body);
     }
 
-    public ResultDto<String> ForgotLoginEmail(User user_){
+    public ResultDto<?> ForgotLoginEmail(User user_){
 
         String body = "Jesli to nie Ty probowales przypomniec sobie swoj login zignoruj ta wiadomosc w przeciwnym wypadku zernij w topic ;) ";
         return generateAndSendEmail(user_," wyglada ze probowales odzyskac swoj login!",body);
     }
 
-    private ResultDto<String> generateAndSendEmail(User user,String topic, String body){
+    private ResultDto<?> generateAndSendEmail(User user,String topic, String body){
         ResultDto<String> result = new ResultDto<>();
         try{
         // Step1

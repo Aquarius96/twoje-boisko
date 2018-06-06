@@ -30,12 +30,14 @@ public class UserController {
     private HttpHeaders responseHeaders;
     private Mail_ mail;
     private Hash hash;
+    private ResultDto<?> _result;
     
 
     public UserController(){
         mail = new Mail_();
         responseHeaders = new HttpHeaders();
         hash = new Hash();
+        _result = new ResultDto<>();
 
     }
 
@@ -84,7 +86,6 @@ public class UserController {
     @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email){
-        ResultDto<String> result = new ResultDto<>();
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
@@ -101,9 +102,9 @@ public class UserController {
             case -2:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
             default :
-                result = mail.ForgotPasswdEmail(user);
-                if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors()));
-                return ResponseEntity.ok(result.getSUccesedResult());
+                _result = mail.ForgotPasswdEmail(user);
+                if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors()));
+                return ResponseEntity.ok(_result.getSUccesedResult());
         }
         
     }
@@ -112,14 +113,13 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> ForgotLogin(@RequestBody Index_ email){
 
-        ResultDto<String> result = new ResultDto<>();
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
         }
-        result = mail.ForgotLoginEmail(user);
-        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors()));
-        return ResponseEntity.ok(result.getSUccesedResult());
+        _result = mail.ForgotLoginEmail(user);
+        if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors()));
+        return ResponseEntity.ok(_result.getSUccesedResult());
         
     }
 
@@ -159,7 +159,7 @@ public class UserController {
                 case -2:
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
                 default :
-                    result = mail.ConfirmEmail(res);
+                    _result = mail.ConfirmEmail(res);
                     if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors()));
                     return ResponseEntity.ok(result.getSUccesedResult());
             }
