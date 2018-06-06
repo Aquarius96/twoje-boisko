@@ -25,7 +25,7 @@ public class ResultDto<T>{
         succesed = obiect;
     }
 
-    public T getResult(){
+    public T getSUccesedResult(){
         return succesed;
     }
 

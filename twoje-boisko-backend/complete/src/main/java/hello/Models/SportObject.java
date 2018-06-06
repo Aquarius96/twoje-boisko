@@ -12,6 +12,7 @@ public class SportObject{
     private String streetNumber;
     private String priceList;
     private String contact;
+    private String photo_name;
 
     public SportObject(){
 
@@ -20,7 +21,7 @@ public class SportObject{
         this.id = id;
     }
 
-    public SportObject(Integer id, String name, String type, String openDays, String openHours, String city, String street, String streetNumber, String priceList, String contact){
+    public SportObject(Integer id, String name, String type, String openDays, String openHours, String city, String street, String streetNumber, String priceList, String contact, String photo_name){
         this.id = id;
         this.name = name;
         this.type = type;
@@ -31,6 +32,11 @@ public class SportObject{
         this.streetNumber = streetNumber;
         this.priceList = priceList;
         this.contact = contact;
+        this.photo_name = photo_name;
+
+    }
+
+    public void setPhotoURL(String ur){
 
     }
     public Integer getId(){

@@ -50,16 +50,17 @@ public class Test{
 		}
         //return ResponseEntity.ok(file.getSize());
     }
-
+    
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
 	public ResponseEntity<?> getFile(@RequestParam(value="filename", required = true) String filename) throws IOException {
-        Resource res = storageService.loadFile(filename);
+        ResultDto<Resource> res = storageService.loadFile(filename);
+        if (res.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(res.getErrors());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(new InputStreamResource(res.getInputStream()));
+                .body(new InputStreamResource(res.getSUccesedResult().getInputStream()));
 	}
 
 

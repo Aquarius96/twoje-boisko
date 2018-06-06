@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import hello.Helpers.ResultDto;
+
 @Service
 public class StorageService {
 
@@ -30,14 +32,17 @@ public class StorageService {
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocation = Paths.get("upload-dir");
  
-	public void store(MultipartFile file) {
+	public ResultDto<String> store(MultipartFile file) {
+		ResultDto<String> result = new ResultDto<>();
 		try {
             UUID uid = UUID.randomUUID();
             String name = uid.toString()+getExtension(file.getOriginalFilename());
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(name));
+			result.setSuccesec(name);
 		} catch (Exception e) {
-			throw new RuntimeException("FAIL!");
+			result.addError("Bład przy zapisywaniu zdjecia do DB");
 		}
+		return result;
     }
     
     private String getExtension(String name){
@@ -50,18 +55,20 @@ public class StorageService {
         return extension;
     }
  
-	public Resource loadFile(String filename) {
+	public ResultDto<Resource> loadFile(String filename) {
+		ResultDto<Resource> result = new ResultDto<>();
 		try {
 			Path file = rootLocation.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
-				return resource;
+				result.setSuccesec(resource);
 			} else {
-				throw new RuntimeException("FAIL!");
+				result.addError("Zdjecie nie istnieje lub jest nieczytelne");
 			}
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("FAIL!");
+			result.addError("Zdjecie nie istnieje");
 		}
+		return result;
     }
  
 	public void deleteAll() {

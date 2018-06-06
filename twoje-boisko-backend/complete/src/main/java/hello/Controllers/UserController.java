@@ -105,7 +105,7 @@ public class UserController {
             default :
                 result = mail.ForgotPasswdEmail(user);
                 if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
-                return ResponseEntity.ok(result.getResult());
+                return ResponseEntity.ok(result.getSUccesedResult());
         }
         
     }
@@ -120,7 +120,7 @@ public class UserController {
         }
         result = mail.ForgotLoginEmail(user);
         if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
-        return ResponseEntity.ok(result.getResult());
+        return ResponseEntity.ok(result.getSUccesedResult());
         
     }
 
@@ -161,7 +161,7 @@ public class UserController {
                 default :
                     result = mail.ConfirmEmail(res);
                     if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors().get(0)));
-                    return ResponseEntity.ok(result.getResult());
+                    return ResponseEntity.ok(result.getSUccesedResult());
             }
             case 1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Username jest zajety"));

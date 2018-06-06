@@ -9,21 +9,30 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import hello.Helpers.Error_;
+import hello.Helpers.ResultDto;
+import hello.Models.SportObject;
+import hello.Services.SportObjectService;
 import hello.Services.StorageService;
 
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value = "/photo")
+@RestController
 public class PhotoController{
 
         
     @Autowired
     StorageService storageService;
+    SportObjectService sportObjectService;
 
     private HttpHeaders responseHeaders;
 
@@ -32,30 +41,30 @@ public class PhotoController{
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/post",method = RequestMethod.POST)
+    @RequestMapping(value = "/post/{id_obiektu}",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> handleFileUpload(@RequestBody MultipartFile file) {
-        String message = "";
-        try {
-            storageService.store(file);
+    public ResponseEntity<?> handleFileUpload(@PathVariable(value="id_obiektu") String id_obiektu, @RequestBody MultipartFile file) {
+        Integer id = Integer.parseInt(id_obiektu);
+        SportObject object_ = sportObjectService.findSportObjectById(id);
+        if (object_.getId()==-1) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nie znaleziono obiektu a takim id"));
+        ResultDto<String> result = storageService.store(file);
+        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(result.getErrors());
+        //object_.= result.getSUccesedResult();
 
-            message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-            return ResponseEntity.ok(message);
-        } catch (Exception e) {
-            message = "FAIL to upload " + file.getOriginalFilename() + "!";
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(message));
-        }
+        return ResponseEntity.ok(result);
+        
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getFile(@RequestParam(value="filename", required = true) String filename) throws IOException {
-        Resource res = storageService.loadFile(filename);
+        ResultDto<Resource> res = storageService.loadFile(filename);
+        if (res.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(res.getErrors());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(new InputStreamResource(res.getInputStream()));
+                .body(new InputStreamResource(res.getSUccesedResult().getInputStream()));
     }
 }
 
