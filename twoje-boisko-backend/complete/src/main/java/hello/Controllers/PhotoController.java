@@ -48,7 +48,7 @@ public class PhotoController{
         SportObject object_ = sportObjectService.findSportObjectById(id);
         if (object_.getId()==-1) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nie znaleziono obiektu a takim id"));
         ResultDto<String> result = storageService.store(file);
-        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(result.getErrors());
+        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(result.getErrors()));
         object_.setPhotoName(result.getSUccesedResult());
         SportObject res = sportObjectService.updateSportObject(object_);
         if (res.getId()<0) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu z baza danych"));

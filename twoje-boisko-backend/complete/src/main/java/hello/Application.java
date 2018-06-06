@@ -48,7 +48,6 @@ public class Application {
                 System.out.println(beanName);
             }
 
-
         };
     }
 
