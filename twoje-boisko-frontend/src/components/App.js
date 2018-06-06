@@ -11,6 +11,7 @@ import SingleObjectPage from '../pages/SingleObjectPage.js';
 import ConfirmPage from '../pages/ConfirmPage.js';
 import AdminPage from '../pages/AdminPage.js';
 import NewPasswordPage from '../pages/NewPasswordPage';
+import TestPage from '../pages/TestPage';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path="/forgotten/:id/:value" component={NewPasswordPage}/>
           <Route exact path="/panelAdmina/:url/" component={AdminPage}/>          
           <Route exact path="/panelAdmina/:url/:page" component={AdminPage}/>
+          <Route exact path="/test" component={TestPage}/>
         </div>
       </Router>
     );
