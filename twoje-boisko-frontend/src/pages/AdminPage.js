@@ -226,9 +226,6 @@ class AdminPage extends Component {
     this.setState({pickedNews:news[page-1]});
   }
 
-
-  
-
   render() {
     var hours = [];
     for(var i = 0;i < 25;i++){
@@ -274,25 +271,25 @@ class AdminPage extends Component {
                   <div class="select selectDays">
                   <select name="selectDaysStart">
                     <option selected value="">Otwarty od</option>
-                    <option value="monday">monday</option>
-                    <option value="tuesday">tuesday</option>
-                    <option value="wednesday">wednesday</option>
-                    <option value="thursday">thursday</option>
-                    <option value="friday">friday</option>
-                    <option value="saturday">saturday</option>
-                    <option value="sunday">sunday</option>
+                    <option value="poniedziałek">poniedziałek</option>
+                    <option value="wtorek">wtorek</option>
+                    <option value="środa">środa</option>
+                    <option value="czwartek">czwartek</option>
+                    <option value="piątek">piątek</option>
+                    <option value="sobota">sobota</option>
+                    <option value="niedziela">niedziela</option>
                   </select>
                 </div>
                 <div class="select selectDays">
                   <select name="selectDaysEnd">
                     <option selected value="">Otwarty do</option>
-                    <option value="monday">monday</option>
-                    <option value="tuesday">tuesday</option>
-                    <option value="wednesday">wednesday</option>
-                    <option value="thursday">thursday</option>
-                    <option value="friday">friday</option>
-                    <option value="saturday">saturday</option>
-                    <option value="sunday">sunday</option>
+                    <option value="poniedziałek">poniedziałek</option>
+                    <option value="wtorek">wtorek</option>
+                    <option value="środa">środa</option>
+                    <option value="czwartek">czwartek</option>
+                    <option value="piątek">piątek</option>
+                    <option value="sobota">sobota</option>
+                    <option value="niedziela">niedziela</option>
                   </select>
                 </div>
                 <div class="select ">
@@ -330,7 +327,7 @@ class AdminPage extends Component {
           )
         case "aktualnosci":        
           return <div>            
-            <AdminNews update={this.updateNews} news={this.state.pickedNews} page={this.state.currentPage}/>
+            <AdminNews history={this.props.history} update={this.updateNews} news={this.state.pickedNews} page={this.state.currentPage}/>
             <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={6} route="/panelAdmina/aktualnosci/" current ={this.state.currentPage}/>
             </div>        
         default:

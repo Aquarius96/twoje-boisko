@@ -7,7 +7,7 @@ var jwtDecode = require('jwt-decode');
 class MainPage extends Component {
   constructor(props) {
     super(props);
-    this.state=({news: [],pickedNews:[],dataCollected:false,currentPage:1});
+    this.state=({news: [],pickedNews:null,dataCollected:false,currentPage:1});
     this.pickNews=this.pickNews.bind(this);
   }
 
@@ -84,13 +84,17 @@ class MainPage extends Component {
    
       if(this.state.dataCollected){
         return (
-          <div className="MainPage news-tab">          
+          <div className="MainPage news-tab">
+          {this.state.pickedNews ?
         <div class="row">
+        
         {this
             .state
             .pickedNews
             .map(item => <div class="col-sm-4"><News header={item.header} text={item.text} date={item.date} showAdmin={false}/></div>)}
-        </div>
+        </div> : <div>Brak aktualności do wyświetlenia</div>
+      }          
+        
         <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={9} route="/aktualnosci/" current ={this.state.currentPage}/>
       </div>
     );

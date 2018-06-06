@@ -4,6 +4,7 @@ import News from '../components/News';
 import Pagination from '../components/Pagination';
 import moment from 'moment';
 import '../css/inputs.css';
+import Spinner from './Spinner';
 
 class AdminNews extends Component {
   constructor(props) {
@@ -28,6 +29,12 @@ class AdminNews extends Component {
 
   componentDidMount() {
     this.setState({currentPage: this.props.page, news: this.props.news});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.news && this.props.page > 1){
+      this.props.history.push("/panelAdmina/aktualnosci/"+(this.props.page-1));
+    }
   }
 
   addNews(e) {
@@ -97,11 +104,12 @@ class AdminNews extends Component {
     }, 200); //0.3s
   }
 
-  render() {
+  render() {    
     return (
       <div class="news-tab">
         <button class="przyciskDodajAktualnosc" onClick={() => this.openModal("modal")}>Dodaj aktualność</button>
-        <div class="row">
+        {this.props.news ?
+          <div class="row">
           {this
             .props
             .news
@@ -112,7 +120,9 @@ class AdminNews extends Component {
               text={item.text}
               date={item.date}
               showAdmin={true}/></div>)}
-        </div>
+        </div> : <div>Brak aktualności do wyświetlenia</div>
+         }
+        
         <div class="modal" id="modal">
           <div class="wrapper">
             <form name="newnews" class="message">

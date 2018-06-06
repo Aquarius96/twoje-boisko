@@ -169,12 +169,12 @@ class TableSingleObject extends Component {
   render() {
     return (
       <div>
-        <div className="SingleObjectTable"></div>
+        <div className="SingleObjectTable"></div>        
         <div class="ObjectReservationTable-scroll">
             <table class="ObjectReservationTable">
 
               <tr class="header file">
-                <th class="godzinyRezerwacji">Godziny rezerwacji obiektu sportowego</th>
+                <th class="godzinyRezerwacji">Godziny dostępne do zarezerwowania obiektu sportowego</th>
                 <th class="rezerwacja">Rezerwacja</th>
               </tr>
 
@@ -197,7 +197,10 @@ class TableSingleObject extends Component {
 
             </table>
           </div>
-          <button class="przyciskRezerwuj" onClick={this.validateReservationData}>Rezerwuj</button>
+          {this.props.userId || this.props.userId === 0 ?
+          <button class="przyciskRezerwuj" onClick={this.validateReservationData}>Rezerwuj</button> :
+          <p>Zaloguj się, aby móc zarezerwować ten obiekt</p>
+          }
           <div class="modal" id="modal">
             <div id="wrapper" class="wrapper">
               <div class="message">
@@ -206,8 +209,7 @@ class TableSingleObject extends Component {
                     .props
                     .startDate
                     .format("DD-MM-YYYY")}</p>
-                <p>Godzina: {this.state.hourStart + "-" + this.state.hourEnd}</p>
-                <p>Twoje Dane:</p>
+                <p>Godziny rezerwacji: {this.state.hourStart + "-" + this.state.hourEnd}</p>                
                 <button class="przyciskPotwierdzDane" onClick={this.addReservation}>Zarezerwuj</button>
               </div>
             </div>

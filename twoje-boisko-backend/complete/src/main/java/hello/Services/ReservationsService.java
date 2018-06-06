@@ -121,7 +121,7 @@ public class ReservationsService{
         
         Boolean result;
         try{
-            String task = "DELETE FROM reservatios WHERE id=\""+id+"\"";
+            String task = "DELETE FROM reservations WHERE id=\""+id+"\"";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) result = true;
             else {

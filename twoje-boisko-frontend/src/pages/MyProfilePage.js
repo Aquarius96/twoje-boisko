@@ -4,11 +4,12 @@ import '../css/buttons.css';
 import '../css/tables.css';
 import $ from 'jquery';
 import Spinner from '../components/Spinner';
+import axios from 'axios';
 
 class MyProfilePage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({loggedUser: "", dataCollected: false});
+    this.state = ({loggedUser: "", dataCollected: false, reservations: null});
     this.showEditPassword = this
       .showEditPassword
       .bind(this);
@@ -23,11 +24,28 @@ class MyProfilePage extends Component {
       this.setState({
         loggedUser: JSON.parse(user),
         dataCollected: true
-      });
+      }, () => this.fetchReservations(this.state.loggedUser.id));
     }
   }
   showEditPassword() {
     $('#editPassword').toggle({duration: 1000});    
+  }
+
+  fetchReservations = (id) => {
+    axios.get("http://localhost:8080/res/find_u?id="+id)
+    .then(res => {
+      if(res.data.length > 0){
+        this.setState({reservations: res.data})
+      }      
+    });
+  }
+
+  deleteReservation = (id) => {
+    console.log("dzialaj");
+    var data = {};
+    data.id=id;
+    axios.post("http://localhost:8080/res/delete", data)
+    .then(res => this.setState({reservations: this.state.reservations.filter(x => x.id !== res.data.id)}));
   }
 
   saveUserData(data) {
@@ -53,21 +71,17 @@ class MyProfilePage extends Component {
     if (reg.email.value === "") 
       reg.email.value = this.state.loggedUser.email;
     if (reg.phone.value === "") 
-      reg.phone.value = this.state.loggedUser.phone;
-    if (reg.newPassword.value === "") 
-      reg.newPassword.value = this.state.loggedUser.password;
-    if (reg.checkPassword.value === "") 
-      reg.checkPassword.value = this.state.loggedUser.password;
-    if (!passwordPattern.test(reg.newPassword.value)) {
+      reg.phone.value = this.state.loggedUser.phone;    
+    if (!passwordPattern.test(reg.newPassword.value) && reg.newPassword.value.length > 0) {
       window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
       return false;
-    } else if (reg.newPassword.value !== reg.checkPassword.value) {
+    } else if (reg.newPassword.value !== reg.checkPassword.value && reg.newPassword.value.length > 0) {
       window.alert("Podane hasła nie zgadzają się");
       return false;
-    } else if (!emailPattern.test(reg.email.value)) {
+    } else if (!emailPattern.test(reg.email.value) && reg.email.value.length > 0) {
       window.alert("Podany adres e-mail jest nieprawidłowy");
       return false;
-    } else if (!phonePattern.test(reg.phone.value)) {
+    } else if (!phonePattern.test(reg.phone.value) && reg.phone.value.length > 0) {
       window.alert("Podany numer telefonu jest nieprawidłowy");
       return false;
     }
@@ -78,7 +92,23 @@ class MyProfilePage extends Component {
   updateUserData = (e) => {
     e.preventDefault();
     if (this.validateUpdateData()) {
-      fetch('http://localhost:8080/user/update', {
+      var data = {};
+      data.id = JSON
+      .parse(localStorage.getItem('loggedUser'))
+      .id;
+      data.username = JSON
+      .parse(localStorage.getItem('loggedUser'))
+      .username;
+      data.password = document.editForm.newPassword.value; 
+      data.firstname = document.editForm.firstname.value;
+      data.lastname = document.editForm.lastname.value;
+      data.email = document.editForm.email.value;
+      data.phone = document.editForm.phone.value;
+
+      axios.post('http://localhost:8080/user/update', data)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err.response.data))
+      /*fetch('http://localhost:8080/user/update', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -99,7 +129,8 @@ class MyProfilePage extends Component {
           })
         })
         .then(response => response.json())
-        .then(result => this.saveUserData(result));
+        .then(result => this.saveUserData(result))
+        .catch(error => console.log(error))*/
     }
 
   }
@@ -191,46 +222,38 @@ class MyProfilePage extends Component {
 
           </div>
 
-          <table class="ReservationTable">
+          
+            {this.state.reservations ?
+            <table class="ReservationTable">
             <tr class="header">
               <th class="obiekt">Obiekt</th>
               <th class="adresObiektu">Adres</th>
               <th class="dataRezerwacji">Data rezerwacji</th>
               <th class="godzinaRezerwacji">Godzina rezerwacji</th>
               <th class="przyciskAnulujTabela"></th>
-            </tr>
+            </tr> 
+{this.state.reservations.map(res => {
+  return (
+    
+    <tr>
+  <td>Orlik przy SP 3</td>
+  <td>Polska 12</td>
+  <td>{res.dateDay}</td>
+  <td>{res.hourStart}.00 - {res.hourEnd}.00</td>
+  <td>
+    <button class="przyciskAnuluj" onClick={() => this.deleteReservation(res.id)}>Anuluj</button>
+  </td>
+</tr>
 
-            <tr>
-              <td>Orlik przy SP 3</td>
-              <td>Polska 12</td>
-              <td>02.03.2018</td>
-              <td>12:30 - 13:30</td>
-              <td>
-                <button class="przyciskAnuluj">Anuluj</button>
-              </td>
-            </tr>
+  );
+})} </table>: <p>Wygląda na to, że nie masz aktualnie żadnych rezerwacji. Przejdź do listy boisk, aby to zmienić!</p>
+            }
+            
+            
 
-            <tr>
-              <td>Orlik przy SP 3</td>
-              <td>Polska 12</td>
-              <td>02.03.2018</td>
-              <td>12:30 - 13:30</td>
-              <td>
-                <button class="przyciskAnuluj">Anuluj</button>
-              </td>
-            </tr>
+            
 
-            <tr>
-              <td>Orlik przy SP 3</td>
-              <td>Polska 12</td>
-              <td>02.03.2018</td>
-              <td>12:30 - 13:30</td>
-              <td>
-                <button class="przyciskAnuluj">Anuluj</button>
-              </td>
-            </tr>
-
-          </table>
+          
         </div>
       );
     } else 

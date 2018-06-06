@@ -324,7 +324,7 @@ class SingleObjectPage extends Component {
           <div class="row">
             <div class="map col-xl-8">
               <h1>
-                Tu bedzie mapa 
+                Tu nie bedzie mapy 
                 
               </h1>
 
