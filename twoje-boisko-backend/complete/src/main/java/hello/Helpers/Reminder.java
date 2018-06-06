@@ -28,7 +28,7 @@ public class Reminder{
     public void sendReminder(Reservation reservation) throws MessagingException{
 
         User user = _us.findUserById(reservation.getIdUser());
-        SportObject object = _ss.findSportObject(reservation.getIdObject());
+        SportObject object = _ss.findSportObjectById(reservation.getIdObject());
         if (!user.getRemind()) return;
         try{
             // Step1

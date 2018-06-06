@@ -1,6 +1,6 @@
 package hello.Controllers;
 import hello.Helpers.Index_;
-import hello.Helpers.Result_;
+import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
@@ -25,13 +25,12 @@ public class ObjectController{
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addSportObject(@RequestBody SportObject sportObject) {
-        sportObject.setId(con.getfreeId());
         SportObject result = con.addSportObject(sportObject);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -56,9 +55,9 @@ public class ObjectController{
         SportObject result = con.updateSportObject(object);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -74,17 +73,17 @@ public class ObjectController{
     @RequestMapping(value = "/findC", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObjectC(@RequestParam(value="city", required = true) String city) {
-        return ResponseEntity.accepted().body(con.findSportObjectsCity(city));
+        return ResponseEntity.accepted().body(con.findSportObjectsByCity(city));
 
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findObject(@RequestParam(value="id", required = true) String id) {
-        SportObject result = con.findSportObject(Integer.parseInt(id));
+        SportObject result = con.findSportObjectById(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }

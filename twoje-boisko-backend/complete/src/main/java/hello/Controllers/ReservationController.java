@@ -1,6 +1,6 @@
 package hello.Controllers;
 import hello.Helpers.Index_;
-import hello.Helpers.Result_;
+import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
@@ -26,13 +26,12 @@ public class ReservationController {
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addReservation(@RequestBody Reservation reservation) {
-        reservation.setId(con.getfreeId());
         Reservation result = con.addReservation(reservation);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -46,9 +45,9 @@ public class ReservationController {
         Reservation result = con.updateReservation(reservation);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -73,7 +72,7 @@ public class ReservationController {
         Reservation result = con.findReservation(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }

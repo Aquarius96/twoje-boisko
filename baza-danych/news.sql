@@ -40,7 +40,7 @@ CREATE TABLE `zeto`.`news` (
 --
 
 INSERT INTO `zeto`.`news` (`id`, `header`, `text`, `date`) VALUES
-(1, 'brak', 'nowsze', '2018-05-05 00:00:00.000000');
+(0, 'brak', 'nowsze', '2018-05-05 00:00:00.000000');
 
 --
 -- Indeksy dla zrzutĂłw tabel
