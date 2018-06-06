@@ -25,7 +25,7 @@ export default class TestPage extends Component {
         const formData = new FormData();
         formData.append('file', this.state.file);
         axios.post('http://localhost:8080/photo/post/1', formData)
-        .then(res => console.log(res))
+        .then(res => console.log(res.data))
         .catch(err => console.log(err))        
     }
 

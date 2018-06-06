@@ -26,6 +26,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ReservationsService reservationsService;
 
     private HttpHeaders responseHeaders;
     private Mail_ mail;
@@ -216,9 +218,14 @@ public class UserController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> deleteUser(@RequestBody Index_ id) {
-        Boolean tmp = userService.deleteUser(id.getId());
-        if ( tmp ) return ResponseEntity.ok("usunieto");
-        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad przy usuwaniu"));
+        if (userService.deleteUser(id.getId())){
+            if (reservationsService.deleteReservationForUser(id.getId())){
+                return ResponseEntity.ok("Pomyslnie usunieto");
+            }
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad przy usuwaniu rezerwacji uzytkonika"));
+        }
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad przy usuwaniu uzytkownial"));
+
         
     }
  

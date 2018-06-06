@@ -16,6 +16,8 @@ public class ObjectController{
 
     @Autowired
     SportObjectService sportObjectService;
+    @Autowired
+    ReservationsService reservationsService;
 
     private HttpHeaders responseHeaders;
     public ObjectController(){
@@ -41,10 +43,13 @@ public class ObjectController{
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> deleteSportObject(@RequestBody Index_ id) {
-        Boolean tmp = sportObjectService.deleteSportObject(id.getId());
-        if ( tmp ) id.setValue("usunieto");
-        else id.setValue("blad przy usuwaniu");
-        return ResponseEntity.accepted().body(id);
+        if (sportObjectService.deleteSportObject(id.getId())){
+            if (reservationsService.deleteReservationForObiect(id.getId())){
+                return ResponseEntity.ok("Pomyslnie usunieto");
+            }
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad podczas proby usuwania rezerwacji obiektu"));
+        }
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład podczas proby usuwania obiektu"));
 
     }
 

@@ -25,6 +25,10 @@ public class ResultDto<T>{
         succesed = obiect;
     }
 
+    public void setErrors(ArrayList<String> errors_){
+        this.errors = errors_;
+    }
+
     public T getSUccesedResult(){
         return succesed;
     }

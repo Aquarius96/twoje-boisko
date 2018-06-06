@@ -4,6 +4,9 @@ import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ public class ReservationController {
 
     @Autowired
     ReservationsService reservationsService;
+    @Autowired
+    SportObjectService sportObjectService;
 
     private HttpHeaders responseHeaders;
     public ReservationController(){
@@ -102,6 +107,19 @@ public class ReservationController {
         return ResponseEntity.accepted().body(reservationsService.getAllReservations());
 
     }
+    @RequestMapping(value = "/allboosted")
+    @ResponseBody
+    public ResponseEntity<?> getallrestboosted() {
+        List<Reservation> all  = reservationsService.getAllReservations();
+        List<BoostedRes> boosted = new ArrayList<>();
+        for (Reservation var : all) {
+            SportObject ob = sportObjectService.findSportObjectById(var.getIdObject());
+            boosted.add(new BoostedRes(var, ob));
+        }
+        return ResponseEntity.ok(boosted);
+    }
+
+
 
 
 }

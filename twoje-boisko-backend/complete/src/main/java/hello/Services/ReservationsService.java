@@ -66,7 +66,7 @@ public class ReservationsService{
     }
     
     private Integer getfreeId(){
-        Integer result=0;
+        Integer result=1;
         for (Reservation reservation : contex) {
             if (reservation.getId()!=result) break;
             result += 1;
@@ -187,6 +187,44 @@ public class ReservationsService{
         
         return outList;
     }
+
+	public Boolean deleteReservationForObiect(Integer id) {
+        Boolean result;
+        try{
+            String task = "DELETE FROM reservations WHERE idObject=\""+id+"\"";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) result = true;
+            else {
+                System.out.println("Error delete_eeservation: zle id");
+                result = false;
+            }
+        
+        }catch(Exception exception){
+            System.out.println("Error delete_reservation(polaczenie): "+exception);
+            result = false;
+        }
+        reload();
+        return result;
+	}
+
+	public Boolean deleteReservationForUser(Integer id) {
+		Boolean result;
+        try{
+            String task = "DELETE FROM reservations WHERE idUser=\""+id+"\"";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) result = true;
+            else {
+                System.out.println("Error delete_eeservation: zle id");
+                result = false;
+            }
+        
+        }catch(Exception exception){
+            System.out.println("Error delete_reservation(polaczenie): "+exception);
+            result = false;
+        }
+        reload();
+        return result;
+	}
 }
 
 

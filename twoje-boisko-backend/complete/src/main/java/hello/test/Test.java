@@ -39,6 +39,7 @@ public class Test{
     @ResponseBody
     public ResponseEntity<?> handleFileUpload(@RequestBody MultipartFile file) {
         String message = "";
+        if (!storageService.isSupported(file.getOriginalFilename())) return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Nieobslugiwany typ pliku");
 		try {
 			storageService.store(file);
  
