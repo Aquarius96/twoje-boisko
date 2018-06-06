@@ -5,8 +5,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 
 
+@Service
 public class NewsService{
     private Connection con;
     private Statement st;
