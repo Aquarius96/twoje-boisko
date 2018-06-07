@@ -1,2 +1,0 @@
-ALTER TABLE `zeto`.`users` CHANGE `confirmationCode` `confirmationCode` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL;
-ALTER TABLE `zeto`.`sportsobjects` ADD `photo_name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER `contact`;

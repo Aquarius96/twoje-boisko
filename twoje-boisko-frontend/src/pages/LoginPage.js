@@ -188,7 +188,10 @@ class LoginPage extends Component {
             data.email= document.registerForm.email.value;
             data.phone= document.registerForm.phone.value;
             axios.post('http://localhost:8080/user/signup', data)
-            .then(res => window.alert(res.data))
+            .then(res => {
+              console.log(res);
+              this.setState({registered: true});
+            })
             .catch(err => window.alert(err.response.data.value))      
     }
   }
