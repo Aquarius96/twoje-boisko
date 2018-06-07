@@ -49,7 +49,7 @@ public class PhotoController{
         SportObject object_ = sportObjectService.findSportObjectById(id);
         if (object_.getId()==-1) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nie znaleziono obiektu a takim id"));
         ResultDto<String> result = storageService.store(file);
-        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(result.getErrors()));
+        if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(result.getErrors().get(0)));
         object_.setPhotoName(result.getSUccesedResult());
         SportObject res = sportObjectService.updateSportObject(object_);
         if (res.getId()<0) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu z baza danych"));
@@ -62,7 +62,7 @@ public class PhotoController{
     @ResponseBody
     public ResponseEntity<?> getFile(@RequestParam(value="name", required = true) String name) throws IOException {
         ResultDto<Resource> res = storageService.loadFile(name);
-        if (res.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(res.getErrors());
+        if (res.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(res.getErrors().get(0)));
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
