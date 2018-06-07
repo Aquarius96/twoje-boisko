@@ -111,10 +111,10 @@ public class ReservationController {
     @ResponseBody
     public ResponseEntity<?> getallrestboosted() {
         List<Reservation> all  = reservationsService.getAllReservations();
-        List<BoostedRes> boosted = new ArrayList<>();
+        List<Boosted<Reservation,SportObject>> boosted = new ArrayList<>();
         for (Reservation var : all) {
             SportObject ob = sportObjectService.findSportObjectById(var.getIdObject());
-            boosted.add(new BoostedRes(var, ob));
+            boosted.add(new Boosted<Reservation,SportObject>(var, ob));
         }
         return ResponseEntity.ok(boosted);
     }

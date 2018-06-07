@@ -150,7 +150,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> addUser(@RequestBody User user) throws AddressException, MessagingException {
         Integer tmp = userService.checkUser(user); 
-        ResultDto<String> result = new ResultDto<>();
+        //ResultDto<String> result = new ResultDto<>();
 
         switch (tmp){
             case 0:
@@ -162,8 +162,8 @@ public class UserController {
                     return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
                 default :
                     _result = mail.ConfirmEmail(res);
-                    if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( result.getErrors()));
-                    return ResponseEntity.ok(result.getSUccesedResult());
+                    if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors()));
+                    return ResponseEntity.ok(_result.getSUccesedResult());
             }
             case 1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Username jest zajety"));
