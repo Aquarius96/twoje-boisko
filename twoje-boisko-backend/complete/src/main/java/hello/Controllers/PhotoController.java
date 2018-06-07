@@ -32,6 +32,7 @@ public class PhotoController{
         
     @Autowired
     StorageService storageService;
+    @Autowired
     SportObjectService sportObjectService;
 
     private HttpHeaders responseHeaders;
@@ -43,7 +44,7 @@ public class PhotoController{
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/post/{id_obiektu}",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> handleFileUpload(@PathVariable(value="id_obiektu") String id_obiektu, @RequestBody MultipartFile file) {
+    public ResponseEntity<?> handleFileUpload(@PathVariable(value="id_obiektu") String id_obiektu,@RequestBody MultipartFile file) {
         Integer id = Integer.parseInt(id_obiektu);
         SportObject object_ = sportObjectService.findSportObjectById(id);
         if (object_.getId()==-1) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nie znaleziono obiektu a takim id"));
@@ -59,8 +60,8 @@ public class PhotoController{
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getFile(@RequestParam(value="filename", required = true) String filename) throws IOException {
-        ResultDto<Resource> res = storageService.loadFile(filename);
+    public ResponseEntity<?> getFile(@RequestParam(value="name", required = true) String name) throws IOException {
+        ResultDto<Resource> res = storageService.loadFile(name);
         if (res.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(res.getErrors());
         return ResponseEntity
                 .ok()

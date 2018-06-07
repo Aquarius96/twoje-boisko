@@ -1,6 +1,5 @@
 package hello;
 
-import java.util.Arrays;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -26,9 +25,13 @@ public class Application {
 
 	@Resource
     StorageService storageService;
+	@Resource
     NewsService newsService;
+	@Resource
     ReservationsService reservationsService;
+	@Resource
     SportObjectService sportObjectService;
+	@Resource
     UserService userService;
 
     public static void main(String[] args) {
@@ -41,13 +44,15 @@ public class Application {
 
             System.out.println("Let's inspect the beans provided by Spring Boot:");
 
-            
+            ctx.getBeanDefinitionNames();
+            /*
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
-
+            */
+            System.out.println("Backend juz dziala! :D");
         };
     }
 

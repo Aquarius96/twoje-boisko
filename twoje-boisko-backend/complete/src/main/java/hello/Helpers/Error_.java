@@ -19,7 +19,7 @@ public class Error_{
     }
 
     public Error_(List<String> errors_){
-        type="error";
+        type="errors";
         this.errors= new ArrayList<>(errors_);
     }
 

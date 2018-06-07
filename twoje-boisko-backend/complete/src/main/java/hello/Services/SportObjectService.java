@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SportObjectService{
 
+    private String defaultPhotoName = "default.jpg";
     private Connection con;
     private Statement st;
     private ResultSet rs;
@@ -17,6 +18,7 @@ public class SportObjectService{
     private List<SportObject> outList;
     private List<String> outListS;
     private List<SportObject> contex;
+
 
     public SportObjectService(){
         
@@ -67,7 +69,7 @@ public class SportObjectService{
     }
 
     private Integer getfreeId(){
-        Integer result=0;
+        Integer result=1;
         for (SportObject sportObject : contex) {
             if (sportObject.getId()!=result) break;
             result += 1;
@@ -78,6 +80,7 @@ public class SportObjectService{
     public SportObject addSportObject(SportObject sportObject) {
         SportObject sportObject_ = new SportObject();
         sportObject.setId(getfreeId());
+        sportObject.setPhotoName(defaultPhotoName);
         try{
             String task = "INSERT INTO sportsobjects (`id`, `name`, `type`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`, `photo_name`) VALUES ('"+sportObject.getId()+"', '"+sportObject.getName()+"', '"+sportObject.getType()+"', '"+sportObject.getOpenDays()+"', '"+sportObject.getOpenHours()+"', '"+sportObject.getCity()+"', '"+sportObject.getStreet()+"', '"+sportObject.getStreetNumber()+"', '"+sportObject.getPriceList()+"', '"+sportObject.getContact()+"', '"+sportObject.getPhotoName()+"');";
             Integer tmp = st.executeUpdate(task);
@@ -97,7 +100,7 @@ public class SportObjectService{
     public SportObject updateSportObject(SportObject sportObject){
         SportObject result = new SportObject();
         try{
-            String task = "UPDATE sportsobjects SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"', photo_name='"+sportObject.getPhotoName()+"' WHERE id = '"+sportObject.getId()+";";
+            String task = "UPDATE sportsobjects SET name='"+sportObject.getName()+"', type='"+sportObject.getType()+"', openDays='"+sportObject.getOpenDays()+"', openHours='"+sportObject.getOpenHours()+"', city='"+sportObject.getCity()+"', street='"+sportObject.getStreet()+"', streetNumber='"+sportObject.getStreetNumber()+"', priceList='"+sportObject.getPriceList()+"', contact='"+sportObject.getContact()+"', photo_name='"+sportObject.getPhotoName()+"' WHERE id = '"+sportObject.getId()+"';";
             Integer tmp = st.executeUpdate(task);
             if (tmp == 1) {
                 result.setId(sportObject.getId());
@@ -146,9 +149,9 @@ public class SportObjectService{
     }
 
     public SportObject findSportObjectById(Integer id){
-        outList = contex.stream().filter(x->x.getId()==id).collect(Collectors.toList());
+        outList = contex.stream().filter(x->x.getId().equals(id)).collect(Collectors.toList());
         if (!outList.isEmpty()) return outList.get(0);
-        else return new SportObject(-1);
+        return new SportObject(-1);
     }
 
     public List<SportObject> findSportObjectsByCity(String city){
