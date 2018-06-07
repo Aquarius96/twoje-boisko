@@ -5,8 +5,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 
 
+@Service
 public class NewsService{
     private Connection con;
     private Statement st;
@@ -51,7 +53,7 @@ public class NewsService{
     }
 
     private Integer getfreeId(){
-        Integer result=0;
+        Integer result=1;
         for (News news : contex) {
             if (news.getId()!=result) break;
             result += 1;

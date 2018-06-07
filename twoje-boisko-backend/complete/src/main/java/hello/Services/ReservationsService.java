@@ -11,7 +11,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReservationsService{
     private Connection con;
     private Statement st;
@@ -64,7 +66,7 @@ public class ReservationsService{
     }
     
     private Integer getfreeId(){
-        Integer result=0;
+        Integer result=1;
         for (Reservation reservation : contex) {
             if (reservation.getId()!=result) break;
             result += 1;
@@ -121,7 +123,7 @@ public class ReservationsService{
         
         Boolean result;
         try{
-            String task = "DELETE FROM reservatios WHERE id=\""+id+"\"";
+            String task = "DELETE FROM reservations WHERE id=\""+id+"\"";
             Integer tmp = st.executeUpdate(task);
             if (tmp==1) result = true;
             else {
@@ -185,6 +187,44 @@ public class ReservationsService{
         
         return outList;
     }
+
+	public Boolean deleteReservationForObiect(Integer id) {
+        Boolean result;
+        try{
+            String task = "DELETE FROM reservations WHERE idObject=\""+id+"\"";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) result = true;
+            else {
+                System.out.println("Error delete_eeservation: zle id");
+                result = false;
+            }
+        
+        }catch(Exception exception){
+            System.out.println("Error delete_reservation(polaczenie): "+exception);
+            result = false;
+        }
+        reload();
+        return result;
+	}
+
+	public Boolean deleteReservationForUser(Integer id) {
+		Boolean result;
+        try{
+            String task = "DELETE FROM reservations WHERE idUser=\""+id+"\"";
+            Integer tmp = st.executeUpdate(task);
+            if (tmp==1) result = true;
+            else {
+                System.out.println("Error delete_eeservation: zle id");
+                result = false;
+            }
+        
+        }catch(Exception exception){
+            System.out.println("Error delete_reservation(polaczenie): "+exception);
+            result = false;
+        }
+        reload();
+        return result;
+	}
 }
 
 

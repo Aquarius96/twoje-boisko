@@ -1,7 +1,7 @@
 package hello;
 
-import java.util.Arrays;
 
+import javax.annotation.Resource;
 import javax.mail.MessagingException;
 
 import org.springframework.boot.CommandLineRunner;
@@ -13,13 +13,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import hello.Helpers.Reminder;
 import hello.Models.Reservation;
+import hello.Services.NewsService;
 import hello.Services.ReservationsService;
+import hello.Services.SportObjectService;
+import hello.Services.StorageService;
 import hello.Services.UserService;
 
 
 @SpringBootApplication
 public class Application {
 
+	@Resource
+    StorageService storageService;
+	@Resource
+    NewsService newsService;
+	@Resource
+    ReservationsService reservationsService;
+	@Resource
+    SportObjectService sportObjectService;
+	@Resource
+    UserService userService;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -31,14 +44,18 @@ public class Application {
 
             System.out.println("Let's inspect the beans provided by Spring Boot:");
 
+            ctx.getBeanDefinitionNames();
+            /*
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
-
+            */
+            System.out.println("Backend juz dziala! :D");
         };
     }
+
     private UserService _us = new UserService();
     @Scheduled(cron = "0 1 4 * * ?") //! baze danych czyscimy codzinnei o 4:01 
     // "0 0 * * * *" = the top of every hour of every day.
@@ -51,6 +68,9 @@ public class Application {
     public void resetCache() {
     _us.clearConCode(); //! usuwanie confirmationCode usersom potweirdzonym -> chodzi o zapomnienie hasla
     }
+  
+
+
 
     private ReservationsService _rs = new ReservationsService();
     private Reminder reminder = new Reminder();

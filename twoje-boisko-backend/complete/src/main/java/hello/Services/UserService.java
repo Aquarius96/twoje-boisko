@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+@Service
 public class UserService{
 
     private Connection con;
@@ -138,7 +140,7 @@ public class UserService{
         return result;
     }
 
-    public Integer checkUser(User_abs user){
+    public Integer tryToLoggIn(User_abs user){
         Boolean login_exist = false, password_correct = false;
         Integer id = null;
         outList = contex.stream().filter(x->x.getUsername().equals(user.getLogin())).collect(Collectors.toList()); 
