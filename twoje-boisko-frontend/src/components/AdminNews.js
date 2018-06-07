@@ -124,15 +124,15 @@ class AdminNews extends Component {
          }
         
         <div class="modal" id="modal">
-          <div class="wrapper">
-            <form name="newnews" class="message">
-              <h1>Dodaj aktualność</h1>
-              <input name="title" type="text" placeholder="Tytuł"/>
-              <input className="longText" name="text" type="text" placeholder="Treść"/>
-              <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
-            </form>
-          </div>
-        </div>
+                <div class="wrapper">
+                  <form name="newnews" class="message">
+                  <h1>Dodaj aktualność</h1>
+                  <input name="title" type="text" placeholder="Tytuł"/>
+                  <textarea name="description" className="textarea"type="text" placeholder="Treść..."></textarea>                  
+                    <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
+                  </form>
+                </div>
+              </div>
       </div>
 
     );
