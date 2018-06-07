@@ -1,7 +1,10 @@
 package hello.Controllers;
-import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import hello.Helpers.*;
 import hello.Models.*;
 import hello.Services.*;
 
@@ -11,41 +14,59 @@ import hello.Services.*;
 public class NewsController{
 
     private NewsService con;
+    private HttpHeaders responseHeaders;
     public NewsController(){
         con = new NewsService(); 
+        responseHeaders = new HttpHeaders();
     }
     
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/add", method = RequestMethod.POST)
     @ResponseBody
-    public News addNews(@RequestBody News news) {
-        news.setId(con.getfreeId());
-        return con.addNews(news);  
+    public ResponseEntity<?> addNews(@RequestBody News news) {
+        News result = con.addNews(news);
+        switch(result.getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+		    default :
+                return ResponseEntity.ok(result);
+        }
+        
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteNews(@RequestParam(value="id", required = true) String id) {
-        Boolean tmp = con.deleteNews(Integer.parseInt(id));
-        if ( tmp ) return "usunieto";
-        else return "blad przy usuwaniu";
+    public ResponseEntity<?> deleteNews(@RequestBody Index_ id) {
+        Boolean tmp = con.deleteNews(id.getId());
+        if ( tmp ) id.setValue("usunieto");
+        else id.setValue("blad przy usuwaniu");
+        return ResponseEntity.accepted().body(id);
 
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allNews")
-    public List<News> getNews(){
-        return con.getAllNews();
+    public ResponseEntity<?> getNews(){
+        return ResponseEntity.accepted().body(con.getAllNews());
     }
     
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
-    public News updateNews(@RequestBody News news) {
-        return con.updateNews(news);
-
+    public ResponseEntity<?> updateNews(@RequestBody News news) {
+        News result = con.updateNews(news);
+        switch(result.getId()){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad polaczenia"));
+		    default :
+                return ResponseEntity.ok(result);
+        }
     }
 
 

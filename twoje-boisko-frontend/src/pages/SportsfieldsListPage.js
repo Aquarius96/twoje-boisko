@@ -5,13 +5,14 @@ import '../components/TableSportsfield.css';
 class SportsfieldsListPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], dataCollected: false, searchText: "", selectValue: ""});
+    this.state = ({objects: [], pickedObjects: [], dataCollected: false, searchText: "", selectValue: "",currentPage:1});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
     this.handleSelectChange = this
       .handleSelectChange
       .bind(this);
+      this.pickObjects=this.pickObjects.bind(this);
   }
   componentDidMount() {
     fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
@@ -33,10 +34,25 @@ class SportsfieldsListPage extends Component {
 
   handleTextChange(e) {
     this.setState({searchText: e.target.value});
+    this.props.history.push("/listaBoisk/1");
   }
 
   handleSelectChange(e) {
-    this.setState({selectValue: e.target.value});
+    this.setState({selectValue: e.target.value},console.log("select"+this.state.selectValue));
+    this.props.history.push("/listaBoisk/1");
+  }
+
+  pickObjects(){
+    var objects = [];
+    var page = this.state.currentPage;
+    console.log("page"+page);
+    console.log("objects length"+this.state.objects.length);
+    this.state.objects.map(item => {
+      if(item.id >= 7*(page-1) && item.id < 7*page)
+        objects.push(item);
+        console.log(item.id);      
+    });
+    this.setState({pickedObjects:objects});
   }
 
   render() {
@@ -62,11 +78,15 @@ class SportsfieldsListPage extends Component {
                 <option value="stadion">stadion</option>
               </select>
             </div>
-          </div>
+          </div>          
           <TableSportsfield
+            history={this.props.history}
             objects={this.state.objects}
             searchText={this.state.searchText}
-            selectValue={this.state.selectValue}/>
+            selectValue={this.state.selectValue}
+            showAdmin={false}
+            page={this.props.match.params.page}
+            route="/listaBoisk/"/>
         </div>
       );
     } else {

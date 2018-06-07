@@ -13,9 +13,6 @@ CREATE TABLE `zeto`.`reservations` (
 -- Zrzut danych tabeli `users`
 --
 
-INSERT INTO `zeto`.`reservations` (`id`, `dateDay`, `hourStart`, `hourEnd`, `idObject`, `idUser`) VALUES
-(1, '29-02-18', '6:00', '10:00', 1, 0),
-(2, '01-01-19', '10:00', '12:00', 2, 2);
 
 
 select * from zeto.reservations

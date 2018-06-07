@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import NewsTab from '../components/NewsTab';
 import News from '../components/News';
+import Pagination from '../components/Pagination';
+import moment from 'moment';
 import '../css/inputs.css';
 
 class AdminNews extends Component {
   constructor(props) {
     super(props);
-    this.state=({wrapperRef:{},modalRef:{}});
-   this.openModal = this
+    this.state = ({wrapperRef: {}, modalRef: {}, currentPage: "", news: []});
+    this.openModal = this
       .openModal
       .bind(this);
     this.closeModal = this
@@ -19,10 +21,16 @@ class AdminNews extends Component {
     this.handleClickOutside = this
       .handleClickOutside
       .bind(this);
-      this.addNews=this.addNews.bind(this);
+    this.addNews = this
+      .addNews
+      .bind(this);
   }
 
-  addNews(e){
+  componentDidMount() {
+    this.setState({currentPage: this.props.page, news: this.props.news});
+  }
+
+  addNews(e) {
     e.preventDefault();
     this.closeModal();
     fetch('http://localhost:8080/news/add', {
@@ -31,35 +39,40 @@ class AdminNews extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify({header:document.addNews.title.value, text: document.addNews.text.value})
+        body: JSON.stringify({header: document.newnews.title.value, text: document.newnews.text.value, date:moment().format("YYYY-MM-DD hh:mm:ss")})
       })
       .then(response => response.json())
-      .then(result => {    
+      .then(result => {
         console.log(result);
+        this.props.update();
       });
   }
+
 
   setWrapperRef(id) {
     var modal = document.getElementById(id);
     console.log(modal);
-    var wrapper = document.getElementById(id).children[0];
+    var wrapper = document
+      .getElementById(id)
+      .children[0];
     console.log(wrapper);
     this.setState({
-      wrapperRef: wrapper, modalRef:modal
+      wrapperRef: wrapper,
+      modalRef: modal
     }, console.log("m " + wrapper));
   }
-  
+
   handleClickOutside(event) {
     if (this.state.wrapperRef && !this.state.wrapperRef.contains(event.target)) {
       this.closeModal();
     }
   }
-  
+
   openModal(id) {
     console.log(id);
     document.addEventListener('mousedown', this.handleClickOutside);
     this.setWrapperRef(id);
-    var modal = document.getElementById(id);    
+    var modal = document.getElementById(id);
     modal
       .classList
       .add("display");
@@ -69,7 +82,7 @@ class AdminNews extends Component {
         .add("transition");
     }, 20); //20milliseconds
   }
-  
+
   closeModal() {
     document.removeEventListener('mousedown', this.handleClickOutside);
     var modal = this.state.modalRef;
@@ -87,16 +100,13 @@ class AdminNews extends Component {
   render() {
     return (
       <div class="news-tab">
-      <button class="przyciskDodajAktualnosc" onClick={() =>this.openModal("modal")}>Dodaj aktualność</button>
+        <button class="przyciskDodajAktualnosc" onClick={() => this.openModal("modal")}>Dodaj aktualność</button>
         <div class="row">
-          {this
-            .props
-            .news
-            .map(item => <div class="col-sm-4"><News id={item.id} header={item.header} text={item.text} date={item.date} showAdmin={true}/></div>)}
+          
         </div>
         <div class="modal" id="modal">
                 <div class="wrapper">
-                  <form name="addNews" class="message">
+                  <form name="newnews" class="message">
                   <h1>Dodaj aktualność</h1>
                   <input name="title" type="text" placeholder="Tytuł"/>
                   <textarea name="description" className="textarea"type="text" placeholder="Treść..."></textarea>                  

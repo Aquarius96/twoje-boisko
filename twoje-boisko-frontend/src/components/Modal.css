@@ -135,3 +135,7 @@
   margin-bottom: 5px;
   margin-left: 8%;
 }
+
+.hidden{
+  display: none;
+}

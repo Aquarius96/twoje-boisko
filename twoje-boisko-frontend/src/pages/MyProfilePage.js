@@ -27,8 +27,7 @@ class MyProfilePage extends Component {
     }
   }
   showEditPassword() {
-    $('#editPassword').toggle({duration: 1000});
-    console.log(this.state.loggedUser);
+    $('#editPassword').toggle({duration: 1000});    
   }
 
   saveUserData(data) {

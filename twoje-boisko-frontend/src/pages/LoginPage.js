@@ -33,14 +33,46 @@ class LoginPage extends Component {
     this.checkRegisterData = this
       .checkRegisterData
       .bind(this);
+      this.forgotPassword=this.forgotPassword.bind(this);
+      this.forgotLogin=this.forgotLogin.bind(this);
   }
 
-  switchwindows()
+  switchwindows(window)
   {
-    $('form').animate({
-      height: "toggle",
-      opacity: "toggle"
-    }, {duration: 1000});
+    switch(window){
+      case 'login':
+      case 'register':
+      $('.register-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+      case 'forgot-password':
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.forgot-password-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+      case 'forgot-login':
+      $('.login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      $('.forgot-login-form').animate({
+        height: "toggle",
+        opacity: "toggle"
+      }, {duration: 1000});
+      break;
+    }
+    
   }
 
   validateRegisterData() {
@@ -87,6 +119,7 @@ class LoginPage extends Component {
           body: JSON.stringify({login: document.loginForm.login.value, password: document.loginForm.password.value})
         })
         .then(response => response.json())
+        
         .then(result => this.saveUserData(result));
     } else {
       window.alert("Podaj login oraz hasło");
@@ -95,10 +128,19 @@ class LoginPage extends Component {
   }
 
   saveUserData(data) {
-    localStorage.setItem('loggedUser', JSON.stringify(data));
-    this.setState({loggedUser: data});
-    localStorage.setItem('isLoggedIn', true);
-    this.checkLoginData(data);
+    if(data.type === "error"){
+      window.alert(data.value);
+    }
+    else{
+      localStorage.setItem('loggedUser', JSON.stringify(data));
+      this.setState({loggedUser: data});
+      localStorage.setItem('isLoggedIn', true);
+      this.setState({logged: true});
+          this
+            .props
+            .history
+            .push('/myProfilePage')
+    }    
   }
 
   switchPage(user) {
@@ -117,39 +159,33 @@ class LoginPage extends Component {
     }
   
   checkLoginData(user) {
-    switch (user.id) {
-      case - 1:
-        window.alert("Podano nieprawidłowy login");
-        break;
-      case - 2:
-        window.alert("Podano nieprawidłowe hasło");
-        break;
-      default:
-        this.setState({logged: true});
-        this
-          .props
-          .history
-          .push('/myProfilePage')
+    if(!user.type == "error"){
+      switch (user.id) {
+        case - 1:
+          window.alert("Podano nieprawidłowy login");
+          break;
+        case - 2:
+          window.alert("Podano nieprawidłowe hasło");
+          break;
+        default:
+          this.setState({logged: true});
+          this
+            .props
+            .history
+            .push('/myProfilePage')
+      }
     }
+    else window.alert(user.value);
   }
+
   checkRegisterData(user) {
-    switch (user.id) {
-      case - 1:
-        window.alert("Podany login jest już zajęty");
-        break;
-      case - 2:
-        window.alert("Podany adres e-mail jest już zajęty");
-        break;
-      case - 3:
-        window.alert("Podany adres e-mail oraz login są już zajęte");
-        break;
-      case - 4:
-        window.alert("Problem z połączeniem. Spróbuj ponownie później");
-        break;
-      default:
-        window.alert("Zarejestrowano pomyślnie");
-        this.switchwindows();
+    if(user.type == "error"){
+      window.alert(user.value);
     }
+    else{
+      window.alert("Potwierdź swoje konto linkiem aktywacyjnym, który znajdziesz na poczcie e-mail");
+      this.switchwindows();
+    }    
   }
 
   register(e) {
@@ -179,7 +215,38 @@ class LoginPage extends Component {
           });
         })
     }
+  }
 
+  forgotPassword(e){
+    e.preventDefault();
+    fetch('http://localhost:8080/user/forgot/password', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            value: document.forgotPasswordForm.email.value
+          })
+        })
+        .then(result => result.json())
+        .then(response => console.log(response))
+  }
+
+  forgotLogin(e){
+    e.preventDefault();
+    fetch('http://localhost:8080/user/forgot/login', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            value: document.forgotLoginForm.email.value
+          })
+        })
+        .then(result => result.json())
+        .then(response => console.log(response))
   }
 
   render() {
@@ -209,7 +276,7 @@ class LoginPage extends Component {
 
                 <button class="przyciskZaloguj" onClick={this.register}>Stwórz konto</button>
                 <p className="message">Jesteś już zarejestrowany?
-                  <a className="beniz" onClick={this.switchwindows}>Zaloguj się!</a>
+                  <a className="beniz" onClick={() => this.switchwindows('login')}>Zaloguj się!</a>
                 </p>
                 <p className="message">Pola oznaczone * są obowiązkowe</p>
               </form>
@@ -220,7 +287,31 @@ class LoginPage extends Component {
                 <input name="password" type="password" placeholder="Hasło..." required/>
                 <button class="przyciskZaloguj" onClick={this.login}>Zaloguj</button>
                 <p className="message">Nie masz konta?
-                  <a className="beniz" onClick={this.switchwindows}>Zarejestruj się!</a>
+                  <a className="beniz" onClick={() => this.switchwindows('login')}>Zarejestruj się!</a>
+                </p>
+                <p className="message">Zapomniałeś hasła?
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-password')}>Przypomnij hasło!</a>
+                </p>
+                <p className="message">Zapomniałeś loginu?
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-login')}>Przypomnij login!</a>
+                </p>
+              </form>
+
+              <form name="forgotPasswordForm" className="forgot-password-form">
+                <h1>Zapomniałeś hasła?</h1>
+                <input name="email" type="text" placeholder="Adres e-mail..." required/>
+                <button class="przyciskZaloguj" onClick={this.forgotPassword}>Przypomnij</button>
+                <p className="message">
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-password')}>Wróć do logowania</a>
+                </p>
+              </form>
+
+              <form name="forgotLoginForm" className="forgot-login-form">
+                <h1>Zapomniałeś loginu?</h1>
+                <input name="email" type="text" placeholder="Adres e-mail..." required/>
+                <button class="przyciskZaloguj" onClick={this.forgotLogin}>Przypomnij</button>
+                <p className="message">
+                  <a className="beniz" onClick={() => this.switchwindows('forgot-login')}>Wróć do logowania</a>
                 </p>
               </form>
             </div>

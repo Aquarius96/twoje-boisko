@@ -10,6 +10,7 @@ class AdminObjects extends Component {
     this.showEditData = this
       .showEditData
       .bind(this);
+      this.delete=this.delete.bind(this);
   }
 
   componentDidMount() {
@@ -27,11 +28,27 @@ class AdminObjects extends Component {
       .toggle("showEdit");
   }
 
+  delete(objectId){
+    console.log("objectid"+objectId);
+fetch('http://localhost:8080/object/delete', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+           id:objectId
+          })
+        })
+        .then(result => result.json()).
+        then(response => console.log(response));
+  }
+
   render() {
     return (
       <div class="tableContainer">
 
-        <table class="myTable">
+        <table class="myAdminObjectTable">
           <tr class="header myRow">
             <th class="nazwa">Nazwa Boiska
             </th>
@@ -52,7 +69,8 @@ class AdminObjects extends Component {
                   {
                     item.streetNumber
                   } </td>                   
-                    <td><button class="przyciskSzczegoly" onClick ={() => this.showEditData(item.id)}>Edytuj</button > </td> </tr>,
+                    <td><button class="przyciskSzczegoly" onClick ={() => this.showEditData(item.id)}>Edytuj</button > 
+                    <button class="przyciskUsunObiekt" onClick ={() => this.delete(item.id)}>Usuń</button ></td> </tr>,
                 <tr class="hidden" id={item.id}>
                 <td colSpan="3">{item.openDays}</td > </tr>
                 ]);

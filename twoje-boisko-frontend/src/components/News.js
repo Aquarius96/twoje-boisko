@@ -17,12 +17,30 @@ class News extends Component {
     this.handleClickOutside = this
       .handleClickOutside
       .bind(this);
+    this.deleteNews = this
+      .deleteNews
+      .bind(this);
  }
 
  componentDidMount(){
 
  }
 
+ deleteNews(e) {
+  fetch('http://localhost:8080/news/delete', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify({id: e})
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      this.props.update();
+    });
+}
  setWrapperRef(id) {
   var modal = document.getElementById(id);
   console.log(modal);
@@ -86,23 +104,19 @@ closeModal() {
              <button class="przyciskEdytujAktualnosc" onClick={() =>this.openModal(this.props.id)}>Edytuj</button>
              </div>
              <div class="ustawieniePrzyciskuUsun">
-             <button class="przyciskUsunAktualnosc">Usuń</button>
+             <button class="przyciskUsunAktualnosc" onClick={() => this.deleteNews(this.props.id)}>Usuń</button>
              </div>
            </div>
          </div>
          <div class="modal" id={this.props.id}>
-                <div class="wrapper">
-                  <div class="message">
-                  <h1>Dodaj obiekt</h1>
-                  <input name="nazwa" type="text" placeholder="Nazwa obiektu"/>
-                  <input name="dniotwarcia" type="text" placeholder="Dni otwarcia"/>
-                  <input name="godzinyotwarcia" type="time" placeholder="Godziny otwarcia"/>
-                  <input name="adres" type="text" placeholder="Adres"/>
-                  <input name="cennik" type="text" placeholder="Cennik"/>
-                  <input name="kontakt" type="text" placeholder="Kontakt"/>
-                    <button class="przyciskAdminObiekt" onClick={this.closeModal}>Dodaj obiekt</button>
-                  </div>
-                </div>
+         <div class="wrapper">
+            <form name="addNews" class="message">
+              <h1>Edytuj aktualność</h1>
+              <input name="title" type="text" placeholder="Tytuł"/>
+              <input className="longText" name="text" type="text" placeholder="Treść"/>
+              <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
+            </form>
+          </div>
               </div>
         </div>
       );

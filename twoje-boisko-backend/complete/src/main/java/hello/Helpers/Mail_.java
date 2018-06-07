@@ -23,16 +23,26 @@ public class Mail_
     }
     
     public void ConfirmEmail(User user_) throws AddressException, MessagingException {
-
-       generateAndSendEmail(user_," witamy w naszym serwisie!","W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: ");
+        
+        String body = "W celu zakonczenia rejestracji prosimy o przejscie na ponizszy link: ";
+        body += "<br>" + "<a href=\"http://localhost:3000/confirm/" + user_.getId() + "/" + user_.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
+       generateAndSendEmail(user_," witamy w naszym serwisie!",body);
     }
 
-    public void ForgotEmail(User user_) throws AddressException, MessagingException {
+    public void ForgotPasswdEmail(User user_) throws AddressException, MessagingException {
 
-        generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!","Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ");
-     }
+        String body = "Jesli to nie Ty zapomniales swojego hasla do naszego serwisu zignotuj ta wiadomosc, w przeciwnym wypadku prosimy o przejscie na ponizszy link: ";
+        body += "<br>" + "<a href=\"http://localhost:3000/forgotten/" + user_.getId() + "/" + user_.getCode() + "\">Zmien haslo</a> <br> Klucz : " + user_.getCode() + "<br />UserId : " + user_.getId() + "<br />Login : " + user_.getUsername();
+        generateAndSendEmail(user_," wyglada ze zapomniales swoje haslo!",body);
+    }
 
-    public static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
+    public void ForgotLoginEmail(User user_) throws AddressException, MessagingException {
+
+        String body = "Jesli to nie Ty probowales przypomniec sobie swoj login zignoruj ta wiadomosc w przeciwnym wypadku zernij w topic ;) ";
+        generateAndSendEmail(user_," wyglada ze probowales odzyskac swoj login!",body);
+    }
+
+    private static void generateAndSendEmail(User user,String topic, String body) throws AddressException, MessagingException {
         
         try{
         // Step1
@@ -49,7 +59,7 @@ public class Mail_
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
 		generateMailMessage.setSubject(user.getUsername() + topic);
-		String emailBody = body + "<br>" + "<a href=\"http://localhost:3000/confirm/" + user.getId() + "/" + user.getCode() + "\">Link aktywacyjny</a> <br> Klucz : " + user.getCode() + "<br />UserId : " + user.getId() + "<br />Login : " + user.getUsername() + "<br><br> Usciski, <br>AdminBOT";
+		String emailBody = body + "<br><br> Usciski, <br>AdminBOT!";
 		generateMailMessage.setContent(emailBody, "text/html");
 		//System.out.println("Mail Session has been created successfully..");
  
@@ -64,9 +74,5 @@ public class Mail_
         {
             System.out.println("Error mail: "+e);
         }
-
-		
     }
-    
-    
 }

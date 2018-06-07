@@ -1,18 +1,20 @@
 package hello.Controllers;
 
-import hello.Helpers.BCrypt;
+import hello.Helpers.Hash;
 import hello.Helpers.Index_;
 import hello.Helpers.Mail_;
+import hello.Helpers.Result_;
 import hello.Models.*;
 import hello.Services.*;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
-
-
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+
 
 
 
@@ -22,125 +24,219 @@ import javax.mail.internet.AddressException;
 public class UserController {
 
     private  UserService con;
+    private HttpHeaders responseHeaders;
     private Mail_ mail;
+    
+    private Hash hash;
 
     public UserController(){
         con = new UserService();
         mail = new Mail_();
+        responseHeaders = new HttpHeaders();
+
+        hash = new Hash();
     }
 
+
+    
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> test(/*@RequestBody Index_ code*/){
+
+        return ResponseEntity.accepted().headers(responseHeaders).body(hash.getHash("dupa XD"));
+    }   
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/test2",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> test2(/*@RequestBody Index_ code*/){
+        String s = "4d6a41784f4330774e5330784d5341794d7a6f7a4f5341674c53426b6458426849466845";
+        return ResponseEntity.accepted().headers(responseHeaders).body(hash.deHash(s));
+    } 
+
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> changepaswdafterforgot(@RequestBody PaswdDto2 user) {
+        if (con.checkPaswd(user.getId(), user.getPaswd())){
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Nowe haslo nie moze byc takie same jak stare"));
+        }
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswdafterForgot(user.getId(), user.getPaswd()));
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/getConCode",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> getConCode(@RequestBody Index_ code){
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.getConCode(code.getId()).equals(code.getValue()));
+    }   
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/confirm",method = RequestMethod.POST)
     @ResponseBody
-    public User Confirm(@RequestBody Index_ index) {
-
+    public ResponseEntity<?> Confirm(@RequestBody Index_ index) {
+        User result;
         User tmp = con.findUserById(index.getId());
         if (tmp.getCode().equals(index.getValue())) {
             tmp.setConfirm(true);
             tmp.setCode(null);
-            return con.updateUser(tmp);
+            result = con.updateUser(tmp);
+            switch(result.getId()){
+                case -1:
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("prawdopodobnie podales zle dane"));
+                case -2:
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("blad w polaczeniu"));
+                default :
+                    return ResponseEntity.ok(result);
+            }
         }
-        else return new User(-10); //zly confirmcode czy cos
+        else return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Podany ConfirmationCode nie pasuje"));
         
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
-    @RequestMapping(value ="/forgot/email",method = RequestMethod.POST)
+    @RequestMapping(value ="/forgot/password",method = RequestMethod.POST)
     @ResponseBody
-    public String ForgotEmail(@RequestBody Index_ email) throws AddressException, MessagingException {
+    public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email) throws AddressException, MessagingException {
 
         User user = con.findUserByEmail(email.getValue());
-        if (user.getId()<0) return "Brak uzytkownika o danym emailu"; // lub do poprawy i we froncie zmienicie wiadomosc
-        mail.ForgotEmail(user);
-        return "Wyslano emaila";
+        if (user.getId()<0){
+            email.setValue("Brak uzytkownika o danym emailu");
+            return ResponseEntity.accepted().body(email);
+        }
+        if (!user.getConfirm()){
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Aktywuj konto przed proba przypoknnienia hasla!"));
+        }
+        UUID uuid = UUID.randomUUID();
+        user.setCode(uuid.toString());
+        mail.ForgotPasswdEmail(user);
+        con.updateUser(user);
+
+        email.setValue("Wyslano emaila na adres: "+user.getEmail());
+        return ResponseEntity.accepted().body(email);
         
     }
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/forgot/login",method = RequestMethod.POST)
     @ResponseBody
-    public String ForgotLogin(@RequestBody Index_ email) throws AddressException, MessagingException {
+    public ResponseEntity<?> ForgotLogin(@RequestBody Index_ email) throws AddressException, MessagingException {
 
         User user = con.findUserByEmail(email.getValue());
-        if (user.getId()<0) return "Brak uzytkownika o danym emailu"; // lub do poprawy i we froncie zmienicie wiadomosc
-        return user.getUsername();
+        if (user.getId()<0){
+            email.setValue("Brak uzytkownika o danym emailu");
+            return ResponseEntity.accepted().body(email);
+        }
+        mail.ForgotLoginEmail(user);
+        email.setValue("Wyslano emaila na adres: "+user.getEmail());
+        return ResponseEntity.accepted().body(email);
         
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signin", method = RequestMethod.POST)
     @ResponseBody
-    public User logging(@RequestBody User_abs user_abs) {
+    public ResponseEntity<?> logging(@RequestBody User_abs user_abs) {
         Integer index = con.checkUser(user_abs);
-        User zalogowany;
-        if (index >= 0) zalogowany = con.findUserById(index);
-        else zalogowany = new User(index);
-        return  zalogowany;
-        
+        User result;
+        switch(index){
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Zly login"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Zle haslo"));
+            case -3:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Blad w polaczeniu"));
+            default :
+                result = con.findUserById(index);
+                if (result.getId()>=0) return ResponseEntity.ok(result);
+                else return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Blad w polaczeniu"));
+        }
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/signup", method = RequestMethod.POST)
     @ResponseBody
-    public User addUser(@RequestBody User user) throws AddressException, MessagingException {
+    public ResponseEntity<?> addUser(@RequestBody User user) throws AddressException, MessagingException {
         Integer tmp = con.checkUser(user); 
 
-        if (tmp == 0){
-            user.setId(con.getfreeId());
-            user.setConfirm(false);
-            UUID uuid = UUID.randomUUID();
-            user.setCode(uuid.toString());
-            String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); 
-            user.setPassword(pw_hash);
-            User user_ = con.addUser(user);
-            if (user_.getId() >= 0 ) {
-                mail.ConfirmEmail(user_);
-                return user_;
+        switch (tmp){
+            case 0:
+            User result = con.addUser(user);
+            switch (result.getId()){
+                case -1:
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Zle dane"));
+                case -2:
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Bład w polaczeniu"));
+                default :
+                    mail.ConfirmEmail(result);
+                    return ResponseEntity.ok(result);
             }
-            else return new User(-5); //* blad w serwiscie przy dodawaniu
+            case 1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Username jest zajety"));
+
+            case 2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Email jest zajety"));
+            case 3:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Wszystko jest zajete"));
+            default :
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Bład w polaczeniu"));
         }
-        else if (tmp==1) return new User(-1); //* zajety username
-        else if (tmp==2) return new User(-2); //* zajety email
-        else if (tmp==3) return new User(-3);// zajete wszystko
-        return new User(-4); //* blad z polaczeniem
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/changepaswd", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean changepaswd(@RequestBody PaswdDto user) {
-        return con.changePaswd(user.getId(), user.getOldpaswd(), user.getNewpaswd());
+    public ResponseEntity<?> changepaswd(@RequestBody PaswdDto user) {
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.changePaswd(user.getId(), user.getOldpaswd(), user.getNewpaswd()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/checkpaswd", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean checkpaswd(@RequestBody PaswdDto2 user) {
-        return con.checkPaswd(user.getId(), user.getPaswd());
+    public ResponseEntity<?> checkpaswd(@RequestBody PaswdDto2 user) {
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.checkPaswd(user.getId(), user.getPaswd()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/update", method = RequestMethod.POST)
     @ResponseBody
-    public User updateUser(@RequestBody User user) {
-        if (con.checkUpdater(user)) return con.updateUser(user);
-        return new User(-1);
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        switch(con.checkUpdater(user)){
+            case 1:
+                User result = con.updateUser(user);
+                switch(result.getId()){
+                    case -1:
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Zle dane"));
+                    case -2:
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Bład w polaczeniu"));
+                    default :
+                        return ResponseEntity.ok(result);
+                }
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Email jest zajety"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Blad w polaczeniu"));
+            default :
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Result_("Ups cos poszlo nei tak"));
+        }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteUser(@RequestParam(value="id", required = true) String id) {
-        Boolean tmp = con.deleteUser(Integer.parseInt(id));
-        if ( tmp ) return "usunieto";
-        else return "blad przy usuwaniu";
+    public ResponseEntity<?> deleteUser(@RequestBody Index_ id) {
+        Boolean tmp = con.deleteUser(id.getId());
+        if ( tmp ) id.setValue("usunieto");
+        else id.setValue("blad przy usuwaniu");
+        return ResponseEntity.ok(id);
 
     }
  
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/allUsers")
-    public List<User> getUsers(){
-        return con.getAllUsers();
+    public ResponseEntity<?> getUsers(){
+        return ResponseEntity.accepted().headers(responseHeaders).body(con.getAllUsers());
     } 
 
     

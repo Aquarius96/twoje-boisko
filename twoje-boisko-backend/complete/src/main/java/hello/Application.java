@@ -2,6 +2,8 @@ package hello;
 
 import java.util.Arrays;
 
+import javax.mail.MessagingException;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import hello.Helpers.Reminder;
+import hello.Models.Reservation;
+import hello.Services.ReservationsService;
 import hello.Services.UserService;
 
 
@@ -45,6 +50,17 @@ public class Application {
     // "0 0 0 25 12 ?" = every Christmas Day at midnight
     public void resetCache() {
     _us.clearConCode(); //! usuwanie confirmationCode usersom potweirdzonym -> chodzi o zapomnienie hasla
-}
+    }
+
+    private ReservationsService _rs = new ReservationsService();
+    private Reminder reminder = new Reminder();
+    @Scheduled(cron = "0 0 * * * *") //! co godzine wyslanie przypomnienia dla reserwacji ktore rozpoczynaja sie za godzine
+    public void sendReminder() throws MessagingException{
+        for (Reservation res : _rs.getReserwationsTorRemind()) {
+            reminder.sendReminder(res);
+            
+        }
+    }
+
 
 }

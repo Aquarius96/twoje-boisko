@@ -4,6 +4,8 @@ import Spinner from '../components/Spinner';
 import AdminNews from '../components/AdminNews';
 import AdminObjects from '../components/AdminObjects';
 import AdminUsers from '../components/AdminUsers';
+import Pagination from '../components/Pagination';
+import TableSportsfield from '../components/TableSportsfield';
 import {
   Link
 } from 'react-router';
@@ -13,7 +15,7 @@ import '../components/Modal.css';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}});
+    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false,objectsCollected:false, reservationsCollected:false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
@@ -34,29 +36,61 @@ class AdminPage extends Component {
       .bind(this);
       this.pickNews=this.pickNews.bind(this);
       this.addObject=this.addObject.bind(this);
+      this.fetchObjects=this.fetchObjects.bind(this);
+      this.fetchNews=this.fetchNews.bind(this);
+      this.updateNews=this.updateNews.bind(this);
+      this.updateObjects=this.updateObjects.bind(this);
       
   }
   // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
   componentDidMount() {
 
+    var page = this.props.match.params.page;
+    console.log("this is my "+page);
+    if(page == undefined){
+      console.log("xundefined");
+      //this.setState({currentPage:1});
+    }
+    else{
+      console.log("xnieundefined");
+      this.setState({currentPage:page});
+    }
+    
+    this.fetchObjects();
+    this.fetchNews();
 
+       
+  }
+
+  componentDidUpdate(prevProps,prevState){
+    console.log(this.state.news.length);
+    if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
+      this.setState({currentPage:this.props.match.params.page});
+      this.pickNews(6);
+    }
+    
+    //
+  }
+
+  fetchObjects(){
     fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
-      .then(response => response.json())
-      .then(data => {
-        var dataTab = [];
-        Object
-          .keys(data)
-          .forEach(function (key) {
-            dataTab.push(data[key]);
-          });
-        this.setState({objects: dataTab});
-        setTimeout(() => {
-          this.setState({dataCollected: true});
-        }, Math.random() * 1500);
-        console.log("state of objects", this.state.objects);
-      });
-
-      fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
+    .then(response => response.json())
+    .then(data => {
+      var dataTab = [];
+      Object
+        .keys(data)
+        .forEach(function (key) {
+          dataTab.push(data[key]);
+        });
+      this.setState({objects: dataTab});
+      setTimeout(() => {
+        this.setState({objectsCollected: true});
+      }, Math.random() * 1500);
+      console.log("state of objects", this.state.objects);
+    });
+  }
+  fetchNews(){
+    fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
         var dataTab = [];
@@ -67,14 +101,20 @@ class AdminPage extends Component {
           });
         this.setState({news: dataTab});
         setTimeout(() => {
-          this.setState({dataCollected: true});
+          this.setState({newsCollected: true});
         }, Math.random() * 1500);
         console.log("state of news", this.state.news);
-        this.pickNews();
-      });
-
-      
+        this.pickNews(6);
+      });     
   }
+
+  updateNews(){
+    this.fetchNews();
+  }
+
+  updateObjects(){
+    this.fetchObjects();
+  }  
 
   addObject(e){
     e.preventDefault();
@@ -98,15 +138,20 @@ class AdminPage extends Component {
           })
         })
         .then(result => result.json()).
-        then(response => console.log(response));
+        then(response => {
+          console.log(response);
+          this.updateObjects();
+        });
   }
  
   handleTextChange(e) {
     this.setState({searchText: e.target.value});
+    this.props.history.push("/panelAdmina/obiekty/1");
   }
  
   handleSelectChange(e) {
     this.setState({selectValue: e.target.value});
+    this.props.history.push("/panelAdmina/obiekty/1");
   }
   
   setWrapperRef(id) {
@@ -152,18 +197,35 @@ class AdminPage extends Component {
     }, 200); //0.3s
   }
 
-  pickNews(){
+  pickNews(itemCount){
     var news = [];
-    var page = this.props.match.params.page;
-    console.log("page"+page);
-    console.log("news length"+this.state.news.length);
+    var page = this.state.currentPage;
+    var pagesCount = 0;
+    var counter = 0;
+
     this.state.news.map(item => {
-      if(item.id >= 7*(page-1) && item.id < 7*page)
-        news.push(item);
-        console.log(item.id);      
+      if(counter == 0){
+        news[pagesCount]=[];
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else if(counter < itemCount){        
+        news[pagesCount].push(item);
+        counter++;
+      }
+      else{
+        pagesCount++;
+        counter = 0;
+        news[pagesCount]=[];
+        news[pagesCount].push(item);        
+        counter++;
+      }
+      
+            
     });
-    this.setState({pickedNews:news});
+    this.setState({pickedNews:news[page-1]});
   }
+
 
   
 
@@ -172,7 +234,7 @@ class AdminPage extends Component {
     for(var i = 0;i < 25;i++){
       hours.push(i);
     }
-    if (this.state.dataCollected) {
+    if (this.state.objectsCollected && this.state.newsCollected) {
       switch (this.props.match.params.url) {
         case "obiekty":
         
@@ -203,7 +265,7 @@ class AdminPage extends Component {
                   <h1>Dodaj obiekt</h1>
                   <input name="nazwa" type="text" placeholder="Nazwa obiektu"/>
                   <div class="select">
-                  <select name="selectType" onChange={this.handleSelectChange}>
+                  <select name="selectType">
                     <option selected value="">Wybierz typ obiektu</option>
                     <option value="orlik">orlik</option>
                     <option value="stadion">stadion</option>
@@ -255,16 +317,22 @@ class AdminPage extends Component {
                 </div>
               </div>
           
-              <AdminObjects
-                objects={this.state.objects}
-                searchText={this.state.searchText}
-                selectValue={this.state.selectValue}/>
+              <TableSportsfield
+              update={this.updateObjects}
+            history={this.props.history}
+            objects={this.state.objects}
+            searchText={this.state.searchText}
+            selectValue={this.state.selectValue}
+            showAdmin={true}
+            page={this.state.currentPage}
+            route="/panelAdmina/obiekty/"/>
             </div>
           )
-        case "aktualnosci":
-          return <AdminNews news={this.state.pickedNews}/>
-        case "uzytkownicy":
-          return <AdminUsers/>
+        case "aktualnosci":        
+          return <div>            
+            <AdminNews update={this.updateNews} news={this.state.pickedNews} page={this.state.currentPage}/>
+            <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={6} route="/panelAdmina/aktualnosci/" current ={this.state.currentPage}/>
+            </div>        
         default:
           return <p>admin</p>
       }
