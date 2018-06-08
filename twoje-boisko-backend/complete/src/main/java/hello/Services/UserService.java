@@ -71,10 +71,9 @@ public class UserService{
     }
 
     public User updateUser(User user){
-
-        User result = new User();
+         User result = new User();
         try{
-            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+findUserById(user.getId()).getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"', remindMe='"+user.getRemind().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
+            String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+user.getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"', remindMe='"+user.getRemind().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
             Integer execute = st.executeUpdate(task);
             if (execute == 1) {
                 result.setId(user.getId());
@@ -93,7 +92,7 @@ public class UserService{
                 result.setId(-1);
             }
         }catch (Exception exception){
-            System.out.println("Error update user (polaczenie): "+exception);
+            System.out.println("Error update user (jesli java lang null to puste pole): "+exception);
             result.setId(-2);
         }
         reload();
@@ -168,7 +167,9 @@ public class UserService{
     public Integer checkUpdater(User user){
         outList = contex.stream().filter(x->x.getEmail().equals(user.getEmail()) &&  x.getId()!=user.getId()).collect(Collectors.toList()); 
         if (outList.isEmpty()) return 1;
-        else return -1;
+        System.out.println("lista: "+outList.get(0).getEmail() +" "+ outList.get(0).getId());
+        System.out.println("user: "+user.getEmail() +" "+ user.getId());
+        return -1;
     }
 
     public Integer checkUser(User user){

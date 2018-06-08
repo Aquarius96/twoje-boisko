@@ -207,8 +207,6 @@ public class UserController {
                 }
             case -1:
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
-            case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
             default :
                 return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups cos poszlo nei tak"));
         }
