@@ -36,8 +36,9 @@ class NewPasswordPage extends Component {
       })
       .then(response => response.json())
       .then(result => {        
-        window.alert(result);
-      });
+        console.log(result);
+      })
+      .catch(err => window.alert(err.value))
   }
 
   render() {

@@ -106,23 +106,59 @@ class MyProfilePage extends Component {
   updateUserData = (e) => {
     e.preventDefault();
     if (this.validateUpdateData()) {
-      var data = {};
-      data.id = JSON
-        .parse(localStorage.getItem('loggedUser'))
-        .id;
-      data.username = JSON
-        .parse(localStorage.getItem('loggedUser'))
-        .username;
-      data.password = document.editForm.newPassword.value;
-      data.firstname = document.editForm.firstname.value;
-      data.lastname = document.editForm.lastname.value;
-      data.email = document.editForm.email.value;
-      data.phone = document.editForm.phone.value;
+      var data = JSON
+      .parse(localStorage.getItem('loggedUser'));
+      console.log('update');
+      
+      
 
-      axios
+      if(document.editForm.newPassword.value.length > 0){
+        data.password = document.editForm.newPassword.value;
+      }
+      if(document.editForm.firstname.value.length > 0){
+        data.firstname = document.editForm.firstname.value;
+      }
+      if(document.editForm.lastname.value.length > 0){
+        data.lastname = document.editForm.lastname.value;
+      }
+      if(document.editForm.email.value.length > 0){
+        data.email = document.editForm.email.value;
+      }
+      if(document.editForm.phone.value.length > 0){
+        data.phone = document.editForm.phone.value;
+      }
+      
+     if(document.editForm.newPassword.value.length > 0 || document.editForm.password.value.length > 0 || document.editForm.checkPassword.value.length > 0){
+      console.log(JSON
+        .parse(localStorage.getItem('loggedUser')));
+       const passData = {};
+       passData.id = data.id;
+       passData.paswd = document.editForm.password.value;
+
+       axios.post('http://localhost:8080/user/checkpaswd', passData)
+       .then(res => {
+         if(res.data){
+           data.password = document.editForm.newPassword.value;
+           axios.post('http://localhost:8080/user/update/', data)
+           .then(res => {
+             console.log(res.data)
+           })
+           .catch(err => console.log(err))
+         } else {
+           axios.post('http://localhost:8080/user/update/hash', data)
+           .then(res => {
+             console.log(res.data)
+           })
+           .catch(err => console.log(err))
+         }
+       })
+       .catch(err => console.log(err))
+     }
+
+      /*axios
         .post('http://localhost:8080/user/update', data)
         .then(res => console.log(res.data))
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.log(err.response.data))*/
         /*fetch('http://localhost:8080/user/update', {
         method: 'POST',
         mode: 'cors',
