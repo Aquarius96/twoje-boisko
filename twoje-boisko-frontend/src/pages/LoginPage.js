@@ -189,36 +189,46 @@ class LoginPage extends Component {
             data.phone= document.registerForm.phone.value;
             axios.post('http://localhost:8080/user/signup', data)
             .then(res => {
-              console.log(res);
+              window.alert(res.data);
               this.setState({registered: true});
             })
-            .catch(err => window.alert(err.response.data.value))      
+            .catch(err => {
+              window.alert(err.response.data.value);
+              this.setState({registered: true});
+            })      
     }
   }
 
   forgotPassword(e){
     e.preventDefault();
+    this.setState({registered:true});
     var body ={};
     body.value = document.forgotPasswordForm.email.value;
     axios.post('http://localhost:8080/user/forgot/password', body)
-    .then(res => window.alert(res.data))
-    .catch(err => window.alert(err.response.data));    
+    .then(res => {
+      window.alert(res.data);
+      this.setState({registered:false});
+    })
+    .catch(err => {
+      window.alert(err.response.data.value);
+      this.setState({registered:false});
+    });    
   }
 
   forgotLogin(e){
     e.preventDefault();
-    fetch('http://localhost:8080/user/forgot/login', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-          body: JSON.stringify({
-            value: document.forgotLoginForm.email.value
-          })
-        })
-        .then(result => result.json())
-        .then(response => console.log(response))
+    this.setState({registered:true});
+    var body ={};
+    body.value = document.forgotLoginForm.email.value;
+    axios.post('http://localhost:8080/user/forgot/login', body)
+    .then(res => {
+      window.alert(res.data);
+      this.setState({registered:false});
+    })
+    .catch(err => {
+      window.alert(err.response.data.value);
+      this.setState({registered:false});
+    });    
   }
 
   render() {
