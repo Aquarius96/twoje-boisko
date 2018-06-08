@@ -214,6 +214,31 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/update/hash", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> updateUserhash(@RequestBody User user) {
+        user = userService.haszujUsera(user);
+        switch(userService.checkUpdater(user)){
+            case 1:
+                User result = userService.updateUser(user);
+                switch(result.getId()){
+                    case -1:
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+                    case -2:
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                    default :
+                        return ResponseEntity.ok(result);
+                }
+            case -1:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
+            case -2:
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
+            default :
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups cos poszlo nei tak"));
+        }
+    }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
