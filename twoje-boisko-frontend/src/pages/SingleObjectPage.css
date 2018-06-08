@@ -29,3 +29,7 @@
     color: #b3b3b3;
     font-size: 14px;
   }
+img{
+  max-width: 700px;
+  max-height: 375px;
+}

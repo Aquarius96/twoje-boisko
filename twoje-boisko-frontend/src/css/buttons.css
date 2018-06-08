@@ -35,9 +35,14 @@
   font-size: 12px;
   margin: 4px 2px;
   width: 100%;
+  border: 2px solid red;
 }
 .przyciskAnuluj:hover {
   background-color: #4CAF50;
+  color: white;
+}
+.przyciskAnuluj:hover {
+  background-color: red;
   color: white;
 }
 .przyciskZapiszZmiany {
@@ -106,28 +111,6 @@
   background-color: #4CAF50;
   color: white;
 }
-.przyciskSzczegoly {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  -webkit-transition-duration: 0.6s;
-  transition-duration: 0.6s;
-  cursor: pointer;
-  background-color: white;
-  color: #216224;
-  border: 2px solid #4CAF50;
-  border-radius: 8px;
-  padding: 8px 8px;
-  font-size: 12px;
-  margin: 4px 2px;
-}
-.przyciskSzczegoly:hover {
-  background-color: #4CAF50;
-  color: white;
-}
 .przyciskRezerwuj {
   background-color: #4CAF50;
   border: none;
@@ -186,7 +169,7 @@
   color: #216224;
   border: 2px solid #4CAF50;
   border-radius: 8px;
-  width: 170px;
+  width: 220px;
   height: 50px;
   font-size: 16px;
   padding: 10px 20px 12px ;
@@ -248,33 +231,6 @@
   background-color: red;
   color: white;
 }
-.przyciskUsunObiekt {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  -webkit-transition-duration: 0.6s;
-  transition-duration: 0.6s;
-  cursor: pointer;
-  background-color: white;
-  color: #216224;
-  border: 2px solid #4CAF50;
-  border-radius: 8px;
-  padding: 8px 8px;
-  font-size: 12px;
-  margin: 4px 2px;
-  border: 2px solid red;
-}
-.przyciskUsunObiekt:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-.przyciskUsunObiekt:hover {
-  background-color: red;
-  color: white;
-}
 .przyciskEdytujAktualnosc {
   background-color: #4CAF50;
   border: none;
@@ -320,6 +276,78 @@
   clear: both;
 }
 .przyciskDodajAktualnosc:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.przyciskSzczegoly {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  cursor: pointer;
+  background-color: white;
+  color: #216224;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 12px;
+  margin: 4px 2px;
+}
+.przyciskSzczegoly:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.przyciskUsunObiekt {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  cursor: pointer;
+  background-color: white;
+  color: #216224;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 12px;
+  margin: 4px 2px;
+  border: 2px solid red;
+}
+.przyciskUsunObiekt:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.przyciskUsunObiekt:hover {
+  background-color: red;
+  color: white;
+}
+.pagination-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  cursor: pointer;
+  background-color: white;
+  color: #216224;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 12px;
+  margin: 4px 2px;
+  width: 60px;
+}
+.pagination-button:hover {
   background-color: #4CAF50;
   color: white;
 }

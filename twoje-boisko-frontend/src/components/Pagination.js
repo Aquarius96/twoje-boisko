@@ -94,18 +94,16 @@ class Pagination extends Component {
 
   render() {
    
-      return (<div>
+      return (<div><center>
           {this.state.Links.map(item =>{
                     return (
-                                 
-                    <button onClick={() => this.switchPage(this.props.route+item.nr)}>{item.txt}</button>
-                
+                    <button className="pagination-button" onClick={() => this.switchPage(this.props.route+item.nr)}>{item.txt}</button>
                     );
                   
                 } 
                  
                 )}
-      </div>);
+       </center></div>);
       
   }
 }
