@@ -134,25 +134,28 @@ class MyProfilePage extends Component {
        const passData = {};
        passData.id = data.id;
        passData.paswd = document.editForm.password.value;
-
+       console.log(data.id);
+       console.log(passData.paswd); 
        axios.post('http://localhost:8080/user/checkpaswd', passData)
        .then(res => {
          if(res.data){
            data.password = document.editForm.newPassword.value;
            axios.post('http://localhost:8080/user/update/', data)
-           .then(res => {
-             console.log(res.data)
+           .then(resp => {
+             console.log(resp.data)
            })
            .catch(err => console.log(err))
          } else {
-           axios.post('http://localhost:8080/user/update/hash', data)
-           .then(res => {
-             console.log(res.data)
-           })
-           .catch(err => console.log(err))
+           window.alert('Podane hasło jest nieprawidłowe. Spróbuj ponownie.')
          }
        })
        .catch(err => console.log(err))
+     } else {
+      axios.post('http://localhost:8080/user/update/hash', data)
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => console.log(err))
      }
 
       /*axios

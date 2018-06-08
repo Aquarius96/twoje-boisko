@@ -36,7 +36,10 @@ class NewPasswordPage extends Component {
       })
       .then(response => response.json())
       .then(result => {        
-        console.log(result);
+        if(result){
+          window.alert('Pomyślnie zmieniono hasło. Teraz możesz się zalogować.');
+          this.props.history.push("/LoginPage");
+        }
       })
       .catch(err => window.alert(err.value))
   }

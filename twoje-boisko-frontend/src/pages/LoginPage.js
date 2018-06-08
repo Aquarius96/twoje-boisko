@@ -126,7 +126,9 @@ class LoginPage extends Component {
           body: JSON.stringify({login: document.loginForm.login.value, password: document.loginForm.password.value})
         })
         .then(response => response.json())
-        .then(result => this.saveUserData(result));
+        .then(result => {
+          this.saveUserData(result);
+        });
     } else {
       window.alert("Podaj login oraz hasło");
     }
@@ -134,6 +136,7 @@ class LoginPage extends Component {
   }
 
   saveUserData(data) {
+    console.log(data);
     if (data.type === "error") {
       window.alert(data.value);
     } else {
