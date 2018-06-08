@@ -271,7 +271,7 @@ class TableSportsfield extends Component {
                           } </td>                   
                             <td><button class="przyciskSzczegoly" onClick ={() => this.openModal(item.id)}>Edytuj</button > 
                             <button class="przyciskUsunObiekt" onClick ={() => this.delete(item.id)}>Usuń</button ></td> 
-                            <td colSpan="3"><div class="modal" id={item.id}>
+                            <tr colSpan="3"><div class="modal" id={item.id}>
                 <div class="wrapper">
                   <form class="message" name="objectForm">
                   <h1>Edytuj obiekt</h1>
@@ -327,7 +327,7 @@ class TableSportsfield extends Component {
                     <button class="przyciskAdminObiekt" onClick={this.editObject}>Edytuj</button>
                   </form>
                 </div>
-              </div></td >
+              </div></tr >
                             </tr>,
                         
                         

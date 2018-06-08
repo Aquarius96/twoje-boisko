@@ -52,8 +52,8 @@ class NewPasswordPage extends Component {
         <div className="NewPasswordPage form">
           <form name="forgotForm" className="login-form">
                 <h1>Zmień hasło</h1>
-                <input name="password" type="text" placeholder="Hasło..." required/>
-                <input name="checkPassword" type="text" placeholder="Powtórz hasło..." required/>
+                <input name="password" type="password" placeholder="Hasło..." required/>
+                <input name="checkPassword" type="password" placeholder="Powtórz hasło..." required/>
                 <button class="przyciskZaloguj" onClick={this.changePassword}>Zmień</button>
               </form>
         </div>

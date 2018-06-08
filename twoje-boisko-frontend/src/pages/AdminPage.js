@@ -114,7 +114,27 @@ class AdminPage extends Component {
 
   updateObjects(){
     this.fetchObjects();
-  }  
+  }
+  
+  validateObjectData = () => {
+    const obj = document.addObjectForm;
+    var stringPattern = /^[a-zA-Z0-9]/;
+    var openDaysBool = document.addObjectForm.selectDaysStart.value < document.addObjectForm.selectDaysEnd.value;
+    var openHoursBool = document.addObjectForm.selectHoursStart.value < document.addObjectForm.selectHoursEnd.value;
+    var numberPattern = /^[0-9]/;
+    var phonePattern = /^[0-9]{9,}/;
+
+    var objName = document.addObjectForm.nazwa.value;    
+    var objCity = document.addObjectForm.city.value;
+    var objStreet = document.addObjectForm.street.value;
+    var objStreetNumber = document.addObjectForm.streetNumber.value;
+    var objPrice = document.addObjectForm.priceList.value;
+    var objContact = document.addObjectForm.contact.value;
+
+    if(objName == "" || objCity == "" || objStreet == "" || objStreetNumber == "" || objPrice == "" || objContact == "") {
+      window.alert("Proszę wypełnić wszystkie pola oznaczone symbolem *");
+    }
+  }
 
   addObject(e){
     e.preventDefault();
