@@ -35,6 +35,12 @@ public class UserService{
         contex = getUserFromDB();
     }
 
+    public User haszujUsera(User user){
+        String newpwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(newpwd);
+        return user;
+    }
+
     public String getConCode(Integer id){
         User user = findUserById(id);
         return user.getCode();
@@ -65,6 +71,7 @@ public class UserService{
     }
 
     public User updateUser(User user){
+
         User result = new User();
         try{
             String task = "UPDATE users  SET username='"+user.getUsername()+"', password='"+findUserById(user.getId()).getPassword()+"', firstname='"+user.getFirstname()+"', lastname='"+user.getLastname()+"', email='"+user.getEmail()+"', phone='"+user.getPhone()+"', confirmationCode='"+user.getCode()+"', isConfirmed='"+user.getConfirm().compareTo(false)+"', remindMe='"+user.getRemind().compareTo(false)+"' WHERE id = '"+user.getId()+"';";
