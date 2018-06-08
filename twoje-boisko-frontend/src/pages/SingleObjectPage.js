@@ -323,11 +323,7 @@ class SingleObjectPage extends Component {
         <div className="xD">
           <div class="row">
             <div class="map col-xl-8">
-              <h1>
-                Tu nie bedzie mapy 
-                
-              </h1>
-
+             <img src='http://wiadomosci.niepolomice.eu/wp-content/uploads/2017/03/baner_stadion.jpg'/>
             </div>
             <div class="col-xl-4">
 
