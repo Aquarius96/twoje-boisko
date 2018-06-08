@@ -215,8 +215,8 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/update/hash", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> updateUserhash(@RequestBody User user) {
-        user = userService.haszujUsera(user);
+    public ResponseEntity<?> updateUserhash(@RequestBody User user_) {
+        User user = userService.haszujUsera(user_);
         switch(userService.checkUpdater(user)){
             case 1:
                 User result = userService.updateUser(user);
