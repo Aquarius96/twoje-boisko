@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-//import './MainPage.css';
 import Spinner from '../components/Spinner';
 class ConfirmPage extends Component {
   constructor(props) {
     super(props);
     this.state = ({userId: null, confirmationCode: "", dataCollected: false});
   }
-  // ma byc spinner dopoki nie przyjdzie response z backendu czy kod jest poprawny
-  componentDidMount() {
 
+  componentDidMount() {
     fetch('http://localhost:8080/user/confirm', {
       method: 'POST',
       mode: 'cors',
@@ -19,11 +17,8 @@ class ConfirmPage extends Component {
       })
       .then(response => response.json())
       .then(result => {
-        this.setState({dataCollected: true});
-        console.log(this.props.match.params.id);
-        console.log(this.props.match.params.value);
-        console.log(result);
-        setTimeout(() => this.props.history.push("/loginPage"),3000);
+        this.setState({dataCollected: true});       
+        setTimeout(() => this.props.history.push("/loginPage"), 3000);
       });
   }
 
@@ -37,7 +32,6 @@ class ConfirmPage extends Component {
     } else {
       return <Spinner/>
     }
-
   }
 }
 

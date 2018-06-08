@@ -34,46 +34,50 @@ class LoginPage extends Component {
     this.checkRegisterData = this
       .checkRegisterData
       .bind(this);
-      this.forgotPassword=this.forgotPassword.bind(this);
-      this.forgotLogin=this.forgotLogin.bind(this);
+    this.forgotPassword = this
+      .forgotPassword
+      .bind(this);
+    this.forgotLogin = this
+      .forgotLogin
+      .bind(this);
   }
 
   switchwindows(window)
   {
-    switch(window){
+    switch (window) {
       case 'login':
       case 'register':
-      $('.register-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      $('.login-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      break;
+        $('.register-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        $('.login-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        break;
       case 'forgot-password':
-      $('.login-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      $('.forgot-password-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      break;
+        $('.login-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        $('.forgot-password-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        break;
       case 'forgot-login':
-      $('.login-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      $('.forgot-login-form').animate({
-        height: "toggle",
-        opacity: "toggle"
-      }, {duration: 1000});
-      break;
+        $('.login-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        $('.forgot-login-form').animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, {duration: 1000});
+        break;
     }
-    
+
   }
 
   validateRegisterData() {
@@ -89,7 +93,8 @@ class LoginPage extends Component {
       window.alert("Podaj login długości od 3 do 16 znaków składający się tylko z liter oraz cyfr");
       return false;
     } else if (!passwordPattern.test(reg.password.value)) {
-      window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę. Znaki specjalne są niedozwolone");
+      window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę. Znaki" +
+          " specjalne są niedozwolone");
       return false;
     } else if (reg.password.value !== reg.checkPassword.value) {
       window.alert("Podane hasła nie zgadzają się");
@@ -101,8 +106,9 @@ class LoginPage extends Component {
       window.alert("Podany numer telefonu jest nieprawidłowy");
       return false;
     }
-    this.setState({registered:true},() => {
-      console.log("xd");
+    this.setState({
+      registered: true
+    }, () => {      
       this.forceUpdate();
     });
     return true;
@@ -120,7 +126,6 @@ class LoginPage extends Component {
           body: JSON.stringify({login: document.loginForm.login.value, password: document.loginForm.password.value})
         })
         .then(response => response.json())
-        
         .then(result => this.saveUserData(result));
     } else {
       window.alert("Podaj login oraz hasło");
@@ -129,30 +134,27 @@ class LoginPage extends Component {
   }
 
   saveUserData(data) {
-    if(data.type === "error"){
+    if (data.type === "error") {
       window.alert(data.value);
-    }
-    else{
-      if(!data.confirm) {
-        window.alert('Twoje konto nie zostało jeszcze potwierdzone, Udaj się na pocztę email i przejdź w link aktywacyjny.');
-      }
-      else {
+    } else {
+      if (!data.confirm) {
+        window.alert('Twoje konto nie zostało jeszcze potwierdzone, Udaj się na pocztę email i przejdź' +
+            ' w link aktywacyjny.');
+      } else {
         localStorage.setItem('loggedUser', JSON.stringify(data));
         this.setState({loggedUser: data});
         localStorage.setItem('isLoggedIn', true);
         this.setState({logged: true});
-            this
-              .props
-              .history
-              .push('/myProfilePage')
+        this
+          .props
+          .history
+          .push('/myProfilePage')
       }
-      
-    }    
+
+    }
   }
 
-  switchPage(user) {
-    console.log(JSON.parse(localStorage.getItem('loggedUser')).id);
-    console.log(user.id);
+  switchPage(user) {  
     if (JSON.parse(localStorage.getItem('loggedUser')).id != user.id) {
       setTimeout(() => {
         this.switchPage(user);
@@ -162,73 +164,72 @@ class LoginPage extends Component {
         .props
         .history
         .push('/myProfilePage');
-
     }
   
- 
-
   checkRegisterData(user) {
-    if(user.type == "error"){
+    if (user.type == "error") {
       window.alert(user.value);
-    }
-    else{
+    } else {
       window.alert("Potwierdź swoje konto linkiem aktywacyjnym, który znajdziesz na poczcie e-mail");
       this.switchwindows();
-    }    
+    }
   }
 
   register(e) {
     e.preventDefault();
     if (this.validateRegisterData()) {
       var data = {};
-      data.username= document.registerForm.login.value;
-            data.password= document.registerForm.password.value;
-            data.firstname= document.registerForm.firstname.value;
-            data.lastname= document.registerForm.lastname.value;
-            data.email= document.registerForm.email.value;
-            data.phone= document.registerForm.phone.value;
-            axios.post('http://localhost:8080/user/signup', data)
-            .then(res => {
-              window.alert(res.data);
-              this.setState({registered: true});
-            })
-            .catch(err => {
-              window.alert(err.response.data.value);
-              this.setState({registered: true});
-            })      
+      data.username = document.registerForm.login.value;
+      data.password = document.registerForm.password.value;
+      data.firstname = document.registerForm.firstname.value;
+      data.lastname = document.registerForm.lastname.value;
+      data.email = document.registerForm.email.value;
+      data.phone = document.registerForm.phone.value;
+      axios
+        .post('http://localhost:8080/user/signup', data)
+        .then(res => {
+          window.alert(res.data);
+          this.setState({registered: true});
+        })
+        .catch(err => {
+          window.alert(err.response.data.value);
+          this.setState({registered: true});
+        })
     }
   }
 
-  forgotPassword(e){
+  forgotPassword(e) {
     e.preventDefault();
-    this.setState({registered:true});
-    var body ={};
+    this.setState({registered: true});
+    var body = {};
     body.value = document.forgotPasswordForm.email.value;
-    axios.post('http://localhost:8080/user/forgot/password', body)
-    .then(res => {
-      window.alert(res.data);
-      this.setState({registered:false});
-    })
-    .catch(err => {
-      window.alert(err.response.data.value);
-      this.setState({registered:false});
-    });    
+    axios
+      .post('http://localhost:8080/user/forgot/password', body)
+      .then(res => {
+        window.alert(res.data);
+        this.setState({registered: false});
+      })
+      .catch(err => {
+        window.alert(err.response.data.value);
+        this.setState({registered: false});
+      });
   }
 
-  forgotLogin(e){
+  forgotLogin(e) {
     e.preventDefault();
-    this.setState({registered:true});
-    var body ={};
+    this.setState({registered: true});
+    var body = {};
     body.value = document.forgotLoginForm.email.value;
-    axios.post('http://localhost:8080/user/forgot/login', body)
-    .then(res => {
-      window.alert(res.data);
-      this.setState({registered:false});
-    })
-    .catch(err => {
-      window.alert(err.response.data.value);
-      this.setState({registered:false});
-    });    
+    axios
+      .post('http://localhost:8080/user/forgot/login', body)
+      .then(res => {
+        window.alert(res.data);
+        this.setState({registered: false});
+      })
+      .catch(err => {
+        window.alert(err.response.data.value);
+        this.setState({registered: false});
+      });
   }
 
   render() {

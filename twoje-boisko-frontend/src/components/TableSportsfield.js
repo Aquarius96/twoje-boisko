@@ -144,8 +144,8 @@ class TableSportsfield extends Component {
       
     }
 
-    editObject(){
-
+    editObject(id){
+      
     }
 
     validateObjectData(data){
@@ -324,7 +324,7 @@ class TableSportsfield extends Component {
                   <input name="streetNumber" type="text" placeholder={item.streetNumber}/>
                   <input name="priceList" type="text" placeholder={item.priceList}/>
                   <input name="contact" type="text" placeholder={item.contact}/>
-                    <button class="przyciskAdminObiekt" onClick={this.editObject}>Edytuj</button>
+                    <button class="przyciskAdminObiekt" onClick={() => this.editObject(item)}>Edytuj</button>
                   </form>
                 </div>
               </div></tr >

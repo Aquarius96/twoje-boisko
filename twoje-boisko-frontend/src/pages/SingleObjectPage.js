@@ -24,18 +24,20 @@ class SingleObjectPage extends Component {
       hourEnd: null,
       userId: null,
       dataCollected: false,
-      reservationsCollected:false,
+      reservationsCollected: false,
       hoursReady: false,
       updateBool: false
     });
-    this.updateComponent=this.updateComponent.bind(this);
+    this.updateComponent = this
+      .updateComponent
+      .bind(this);
     this.handleChange = this
       .handleChange
       .bind(this);
     this.countInArray = this
       .countInArray
       .bind(this);
- 
+
     this.blockReservations = this
       .blockReservations
       .bind(this);
@@ -43,13 +45,17 @@ class SingleObjectPage extends Component {
       .insertToday
       .bind(this);
 
-      this.fetchObjectData=this.fetchObjectData.bind(this);
-      this.fetchReservationsData=this.fetchReservationsData.bind(this);
+    this.fetchObjectData = this
+      .fetchObjectData
+      .bind(this);
+    this.fetchReservationsData = this
+      .fetchReservationsData
+      .bind(this);
   }
 
- /* componentDidUpdate(prevProps, prevState) {
+  /* componentDidUpdate(prevProps, prevState) {
     if (prevState.dataCollected != this.state.dataCollected || prevState.updateBool != this.state.updateBool) {
-      
+
       fetch(`http://localhost:8080/res/find_o/?id=` + this.props.match.params.id, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
@@ -73,58 +79,52 @@ class SingleObjectPage extends Component {
           .parse(localStorage.getItem('loggedUser'))
           .id
       });
-    } catch (err) {
-      console.log("error");
+    } catch (err) {      
     }
 
     this.fetchObjectData();
     this.fetchReservationsData();
-    
+
   }
 
-  fetchObjectData(){
+  fetchObjectData() {
     fetch(`http://localhost:8080/object/find?id=` + this.props.match.params.id, {mode: 'cors'})
-    .then(response => response.json())
-    .then(data => {
-      var dataTab = [];
-      Object
-        .keys(data)
-        .forEach(function (key) {
-          dataTab[key] = data[key];
-        });
-      this.setState({object: dataTab});
-      setTimeout(() => {
-        this.setState({dataCollected: true});
-      }, Math.random() * 1500);
-
-      console.log("state of object", this.state.object);
-      console.log("state of object2", this.state.object);
-    });
-  }
-
-  fetchReservationsData(){
-    if(this.state.dataCollected){
-      fetch(`http://localhost:8080/res/find_o/?id=` + this.props.match.params.id, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
         var dataTab = [];
         Object
           .keys(data)
           .forEach(function (key) {
-            dataTab.push(data[key]);
+            dataTab[key] = data[key];
           });
-        this.setState({reservations: dataTab});
+        this.setState({object: dataTab});
         setTimeout(() => {
-          this.setState({reservationsCollected: true});
-        }, Math.random() * 1500);
-        console.log("state of reservations", this.state.reservations);
+          this.setState({dataCollected: true});
+        }, Math.random() * 1500);        
       });
+  }
+
+  fetchReservationsData() {
+    if (this.state.dataCollected) {
+      fetch(`http://localhost:8080/res/find_o/?id=` + this.props.match.params.id, {mode: 'cors'})
+        .then(response => response.json())
+        .then(data => {
+          var dataTab = [];
+          Object
+            .keys(data)
+            .forEach(function (key) {
+              dataTab.push(data[key]);
+            });
+          this.setState({reservations: dataTab});
+          setTimeout(() => {
+            this.setState({reservationsCollected: true});
+          }, Math.random() * 1500);          
+        });
       this.blockReservations();
+    } else {
+      setTimeout(this.fetchReservationsData, 10);
     }
-    else{
-      setTimeout(this.fetchReservationsData,10);
-    }
-    
+
   }
 
   insertToday(item, tab) {
@@ -134,24 +134,21 @@ class SingleObjectPage extends Component {
   }
 
   blockReservations() {
-    if(this.state.reservationsCollected){
-      console.log("blokuje");
+    if (this.state.reservationsCollected) {      
       var blockTab = [];
       var res = this.state.reservations;
       var resToday = [];
       for (var k = 0; k < res.length; k++) {
         this.insertToday(res[k], resToday);
-      }
-      console.log(resToday);
+      }      
       for (var i = 0; i < resToday.length; i++) {
         for (var j = Number(resToday[i].hourStart); j < Number(resToday[i].hourEnd); j++) {
           if (blockTab.indexOf(j.toString().concat("-", (j + 1).toString())) < 0) {
             blockTab.push(j.toString().concat("-", (j + 1).toString()));
           }
         }
-      }
-      console.log("block tab" + blockTab);
-  
+      }      
+
       var start = parseInt(this.state.object.openHours.split("-")[0]);
       var end = parseInt(this.state.object.openHours.split("-")[1]);
       var myHours = [];
@@ -160,48 +157,40 @@ class SingleObjectPage extends Component {
         if (blockTab.indexOf(e) == -1) {
           myHours.push(e);
         }
-  
-      }
-      console.log("h" + myHours);
-  
-      this.setState({freeHours: myHours, hoursReady:true});  
-      
-  
+
+      }     
+
+      this.setState({freeHours: myHours, hoursReady: true});
+
       var inputs = document.getElementsByClassName("reserve");
       for (var i = 0; i < inputs.length; i++) {
         if (blockTab.indexOf(inputs[i].value) >= 0) {
-          inputs[i].disabled = true;
-          console.log("input disabled" + inputs[i].classList);
+          inputs[i].disabled = true;          
           inputs[i]
             .classList
-            .toggle("hidden");
-          console.log("input disabled" + inputs[i].classList);
+            .toggle("hidden");          
         } else 
           inputs[i].disabled = false;
-        }
-      console.log(blockTab);
+        }      
+    } else {
+      setTimeout(this.blockReservations, 10);
     }
-    else{
-      setTimeout(this.blockReservations,10);
-    }
-    
-  }  
+  }
 
-  updateComponent(){
-    this.setState({reservationsCollected:false});
-    this.fetchReservationsData();
-    console.log(this.state.reservations);
+  updateComponent() {
+    this.setState({reservationsCollected: false});
+    this.fetchReservationsData();    
   }
 
   handleChange(date) {
     this.setState({
       startDate: date
-    }, () => {
-      console.log(this.state.startDate);
+    }, () => {      
       this.blockReservations();
     });
-    
-    this.setState({updateBool:!this.state.updateBool});
+    this.setState({
+      updateBool: !this.state.updateBool
+    });
   }
 
   reserve() {
@@ -227,31 +216,21 @@ class SingleObjectPage extends Component {
       if (hoursTab[i] < min) 
         min = hoursTab[i];
       }
-    
-    console.log("min" + min);
-    console.log("max" + max);
-    for (var i = min + 1; i < max; i++) {
-      console.log("test");
+        
+    for (var i = min + 1; i < max; i++) {      
       if (this.countInArray(hoursTab, i) != 2) {
         wynik = false;
         break;
       }
     }
     this.closeModal();
-    if (wynik) {
-      console.log("rezerwujemy");
-
-      if (min > 0 && max > 0 && this.state.userId >= 0) {
-        console.log("dzialam");
+    if (wynik) {      
+      if (min > 0 && max > 0 && this.state.userId >= 0) {        
         this.setState({
           hourStart: min,
           hourEnd: max
-        }, () => this.addReservation());
-        console.log(this.state.hourStart);
-        console.log(this.state.hourEnd);
-        console.log(this.state.userId);
+        }, () => this.addReservation());        
       }
-
     } else {
       window.alert("Podaj poprawne godziny rezerwacji");
     }
@@ -271,7 +250,7 @@ class SingleObjectPage extends Component {
     var wrapper = document.getElementById("wrapper");
     this.setState({
       wrapperRef: wrapper
-    }, console.log("m " + wrapper));
+    });
   }
 
   handleClickOutside(event) {
@@ -300,30 +279,28 @@ class SingleObjectPage extends Component {
     modal
       .classList
       .remove("transition");
-    setTimeout(function () {
-      //timeout before removing modal, so that animations have time to play out.
+    setTimeout(function () {      
       modal
         .classList
         .remove("display");
-    }, 200); //0.3s
+    }, 200);
   }
 
   render() {
 
-    if (this.state.dataCollected && this.state.hoursReady) {
-      console.log("well " + this.state.object.openHours);
+    if (this.state.dataCollected && this.state.hoursReady) {      
       var start = parseInt(this.state.object.openHours.split("-")[0]);
       var end = parseInt(this.state.object.openHours.split("-")[1]);
       var myHours = [];
       for (var i = start; i < end; i++) {
         myHours.push(i);
-      }
-      console.log("h" + myHours);
+      }     
       return (
         <div className="xD">
           <div class="row">
             <div class="map col-xl-8">
-             <img src='http://wiadomosci.niepolomice.eu/wp-content/uploads/2017/03/baner_stadion.jpg'/>
+              <img
+                src={'http://localhost:8080/photo/get?name=' + this.state.object.photoName}/>
             </div>
             <div class="col-xl-4">
 
@@ -357,7 +334,12 @@ class SingleObjectPage extends Component {
             </div>
           </div>
 
-          <TableSingleObject update={this.updateComponent} freeHours={this.state.freeHours} startDate={this.state.startDate} userId={this.state.userId} objectId={this.props.match.params.id}/>
+          <TableSingleObject
+            update={this.updateComponent}
+            freeHours={this.state.freeHours}
+            startDate={this.state.startDate}
+            userId={this.state.userId}
+            objectId={this.props.match.params.id}/>
         </div>
       );
     }

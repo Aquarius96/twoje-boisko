@@ -32,8 +32,11 @@ class AdminNews extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.news && this.props.page > 1){
-      this.props.history.push("/panelAdmina/aktualnosci/"+(this.props.page-1));
+    if (!nextProps.news && this.props.page > 1) {
+      this
+        .props
+        .history
+        .push("/panelAdmina/aktualnosci/" + (this.props.page - 1));
     }
   }
 
@@ -46,27 +49,29 @@ class AdminNews extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify({header: document.newnews.title.value, text: document.newnews.description.value, date:moment().format("YYYY-MM-DD hh:mm:ss")})
+        body: JSON.stringify({
+          header: document.newnews.title.value,
+          text: document.newnews.description.value,
+          date: moment().format("YYYY-MM-DD hh:mm:ss")
+        })
       })
       .then(response => response.json())
-      .then(result => {
-        console.log(result);
-        this.props.update();
+      .then(result => {        
+        this
+          .props
+          .update();
       });
   }
 
-
   setWrapperRef(id) {
-    var modal = document.getElementById(id);
-    console.log(modal);
+    var modal = document.getElementById(id);    
     var wrapper = document
       .getElementById(id)
-      .children[0];
-    console.log(wrapper);
+      .children[0];   
     this.setState({
       wrapperRef: wrapper,
       modalRef: modal
-    }, console.log("m " + wrapper));
+    });
   }
 
   handleClickOutside(event) {
@@ -75,8 +80,7 @@ class AdminNews extends Component {
     }
   }
 
-  openModal(id) {
-    console.log(id);
+  openModal(id) {    
     document.addEventListener('mousedown', this.handleClickOutside);
     this.setWrapperRef(id);
     var modal = document.getElementById(id);
@@ -87,7 +91,7 @@ class AdminNews extends Component {
       modal
         .classList
         .add("transition");
-    }, 20); //20milliseconds
+    }, 20);
   }
 
   closeModal() {
@@ -96,43 +100,47 @@ class AdminNews extends Component {
     modal
       .classList
       .remove("transition");
-    setTimeout(function () {
-      //timeout before removing modal, so that animations have time to play out.
+    setTimeout(function () {      
       modal
         .classList
         .remove("display");
-    }, 200); //0.3s
+    }, 200);
   }
 
-  render() {    
+  render() {
     return (
       <div class="news-tab">
         <button class="przyciskDodajAktualnosc" onClick={() => this.openModal("modal")}>Dodaj aktualność</button>
-        {this.props.news ?
-          <div class="row">
-          {this
-            .props
-            .news
-            .map(item => <div class="col-sm-4"><News
-              update={this.props.update}
-              id={item.id}
-              header={item.header}
-              text={item.text}
-              date={item.date}
-              showAdmin={true}/></div>)}
-        </div> : <div>Brak aktualności do wyświetlenia</div>
-         }
-        
+        {this.props.news
+          ? <div class="row">
+              {this
+                .props
+                .news
+                .map(item => <div class="col-sm-4"><News
+                  update={this.props.update}
+                  id={item.id}
+                  header={item.header}
+                  text={item.text}
+                  date={item.date}
+                  showAdmin={true}/></div>)}
+            </div>
+          : <div>Brak aktualności do wyświetlenia</div>
+}
+
         <div class="modal" id="modal">
-                <div class="wrapper">
-                  <form name="newnews" class="message">
-                  <h1>Dodaj aktualność</h1>
-                  <input name="title" type="text" placeholder="Tytuł"/>
-                  <textarea name="description" className="textarea"type="text" placeholder="Treść..."></textarea>                  
-                    <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
-                  </form>
-                </div>
-              </div>
+          <div class="wrapper">
+            <form name="newnews" class="message">
+              <h1>Dodaj aktualność</h1>
+              <input name="title" type="text" placeholder="Tytuł"/>
+              <textarea
+                name="description"
+                className="textarea"
+                type="text"
+                placeholder="Treść..."></textarea>
+              <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
+            </form>
+          </div>
+        </div>
       </div>
 
     );

@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-//import './MainPage.css';
 import Spinner from '../components/Spinner';
 import AdminNews from '../components/AdminNews';
-import AdminObjects from '../components/AdminObjects';
-import AdminUsers from '../components/AdminUsers';
 import Pagination from '../components/Pagination';
 import TableSportsfield from '../components/TableSportsfield';
 import {
@@ -12,10 +9,11 @@ import {
 import '../css/select.css';
 import './LoginPage.css';
 import '../components/Modal.css';
+import axios from 'axios';
 class AdminPage extends Component {
   constructor(props) {
     super(props);
-    this.state = ({objects: [], news: [], pickedNews:[], dataCollected: false,objectsCollected:false, reservationsCollected:false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
+    this.state = ({file: null, objects: [], news: [], pickedNews:[], dataCollected: false,objectsCollected:false, reservationsCollected:false, searchText: "", selectValue: "", wrapperRef: {}, modalRef:{}, currentPage:1});
     this.handleTextChange = this
       .handleTextChange
       .bind(this);
@@ -72,6 +70,25 @@ class AdminPage extends Component {
     //
   }
 
+  handleImageChange = (e) => {            
+    const reader = new FileReader();
+    const file = e.target.files[0];    
+    reader.onloadend = () => {
+        this.setState({
+            file: file            
+        });
+    }    
+    reader.readAsDataURL(file);
+}
+
+addAvatar = (id) => {    
+    const formData = new FormData();
+    formData.append('file', this.state.file);
+    axios.post('http://localhost:8080/photo/post/'+id, formData)
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))        
+}
+
   fetchObjects(){
     fetch(`http://localhost:8080/object/allObjects`, {mode: 'cors'})
     .then(response => response.json())
@@ -117,6 +134,7 @@ class AdminPage extends Component {
   }
   
   validateObjectData = () => {
+    console.log('validate obj data');
     const obj = document.addObjectForm;
     var stringPattern = /^[a-zA-Z0-9]/;
     var openDaysBool = document.addObjectForm.selectDaysStart.value < document.addObjectForm.selectDaysEnd.value;
@@ -133,13 +151,22 @@ class AdminPage extends Component {
 
     if(objName == "" || objCity == "" || objStreet == "" || objStreetNumber == "" || objPrice == "" || objContact == "") {
       window.alert("Proszę wypełnić wszystkie pola oznaczone symbolem *");
+      return false;
     }
+    if(!stringPattern.test(objName)){
+      window.alert("Wpisz poprawną nazwę obiektu");
+    }
+    if(!stringPattern.test(objCity)){
+      window.alert("Wpisz poprawne miasto");
+    }
+    return true;
   }
 
   addObject(e){
-    e.preventDefault();
-    this.closeModal();
-    fetch('http://localhost:8080/object/add', {
+    e.preventDefault();    
+    if(this.validateObjectData()){
+      this.closeModal();
+      fetch('http://localhost:8080/object/add', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -159,9 +186,13 @@ class AdminPage extends Component {
         })
         .then(result => result.json()).
         then(response => {
+          if(this.state.file){
+            this.addAvatar(response.id);
+          }         
           console.log(response);
           this.updateObjects();
         });
+    }    
   }
  
   handleTextChange(e) {
@@ -329,6 +360,9 @@ class AdminPage extends Component {
                   <input name="streetNumber" type="text" placeholder="Nr budynku"/>
                   <input name="priceList" type="text" placeholder="Cennik"/>
                   <input name="contact" type="text" placeholder="Numer kontaktowy"/>
+                  <input id="file-upload" 
+                        type="file"                    
+                        onChange={(e)=>this.handleImageChange(e)} />
                     <button class="przyciskAdminObiekt" onClick={this.addObject}>Dodaj obiekt</button>
                   </form>
                 </div>

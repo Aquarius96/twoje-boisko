@@ -7,23 +7,19 @@ var jwtDecode = require('jwt-decode');
 class MainPage extends Component {
   constructor(props) {
     super(props);
-    this.state=({news: [],pickedNews:null,dataCollected:false,currentPage:1});
-    this.pickNews=this.pickNews.bind(this);
+    this.state = ({news: [], pickedNews: null, dataCollected: false, currentPage: 1});
+    this.pickNews = this
+      .pickNews
+      .bind(this);
   }
 
-  componentDidMount() {    
+  componentDidMount() {
 
-      var page = this.props.match.params.page;    
-    if(page == undefined){
-      
-      //this.setState({currentPage:1});
-    }
-    else{
-      console.log("xnieundefined");
-      this.setState({currentPage:page});
-    }
-
-      fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
+    var page = this.props.match.params.page;
+    if (page !== undefined) {
+      this.setState({currentPage: page});
+    }    
+    fetch(`http://localhost:8080/news/allNews`, {mode: 'cors'})
       .then(response => response.json())
       .then(data => {
         var dataTab = [];
@@ -35,74 +31,75 @@ class MainPage extends Component {
         this.setState({news: dataTab});
         setTimeout(() => {
           this.setState({dataCollected: true});
-        }, Math.random() * 1500);
-        console.log("state of news", this.state.news);
+        }, Math.random() * 1500);        
         this.pickNews(9);
       });
   }
 
-  componentDidUpdate(prevProps,prevState){
-    console.log(this.state.news.length);
-    if(prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined){
-      this.setState({currentPage:this.props.match.params.page});
+  componentDidUpdate(prevProps, prevState) {    
+    if (prevState.currentPage != this.props.match.params.page && this.props.match.params.page != undefined) {
+      this.setState({currentPage: this.props.match.params.page});
       this.pickNews(9);
     }
-    
-    //
   }
 
-  pickNews(itemCount){
+  pickNews(itemCount) {
     var news = [];
     var page = this.state.currentPage;
     var pagesCount = 0;
     var counter = 0;
 
-    this.state.news.map(item => {
-      if(counter == 0){
-        news[pagesCount]=[];
-        news[pagesCount].push(item);
-        counter++;
-      }
-      else if(counter < itemCount){        
-        news[pagesCount].push(item);
-        counter++;
-      }
-      else{
-        pagesCount++;
-        counter = 0;
-        news[pagesCount]=[];
-        news[pagesCount].push(item);        
-        counter++;
-      }
-      
-            
+    this
+      .state
+      .news
+      .map(item => {
+        if (counter == 0) {
+          news[pagesCount] = [];
+          news[pagesCount].push(item);
+          counter++;
+        } else if (counter < itemCount) {
+          news[pagesCount].push(item);
+          counter++;
+        } else {
+          pagesCount++;
+          counter = 0;
+          news[pagesCount] = [];
+          news[pagesCount].push(item);
+          counter++;
+        }
+      });
+    this.setState({
+      pickedNews: news[page - 1]
     });
-    this.setState({pickedNews:news[page-1]});
   }
 
   render() {
-   
-      if(this.state.dataCollected){
-        return (
-          <div className="MainPage news-tab">
-          {this.state.pickedNews ?
-        <div class="row">
-        
-        {this
-            .state
-            .pickedNews
-            .map(item => <div class="col-sm-4"><News header={item.header} text={item.text} date={item.date} showAdmin={false}/></div>)}
-        </div> : <div>Brak aktualności do wyświetlenia</div>
-      }          
-        
-        <Pagination history={this.props.history} dataLength={this.state.news.length} dataPerPage={9} route="/aktualnosci/" current ={this.state.currentPage}/>
-      </div>
-    );
-      }
-      else{
-        return <Spinner />
-      }
-      
+
+    if (this.state.dataCollected) {
+      return (
+        <div className="MainPage news-tab">
+          {this.state.pickedNews
+            ? <div class="row">
+                {this
+                  .state
+                  .pickedNews
+                  .map(item => <div class="col-sm-4"><News header={item.header} text={item.text} date={item.date} showAdmin={false}/></div>)}
+              </div>
+            : <div>Brak aktualności do wyświetlenia</div>}
+
+          <Pagination
+            history={this.props.history}
+            dataLength={this.state.news.length}
+            dataPerPage={9}
+            route="/aktualnosci/"
+            current
+            ={this.state.currentPage}/>
+        </div>
+      );
+    } else {
+      return <Spinner/>
+    }
+
   }
 }
 

@@ -28,24 +28,40 @@ class MyProfilePage extends Component {
     }
   }
   showEditPassword() {
-    $('#editPassword').toggle({duration: 1000});    
+    $('#editPassword').toggle({duration: 1000});
   }
 
   fetchReservations = (id) => {
-    axios.get("http://localhost:8080/res/find_u?id="+id)
-    .then(res => {
-      if(res.data.length > 0){
-        this.setState({reservations: res.data})
-      }      
-    });
+    axios
+      .get("http://localhost:8080/res/find_u?id=" + id)
+      .then(res => {        
+        if (res.data.length > 0) {
+          console.log(res.data);
+          const arr = [];                
+                for(let i = 0; i < res.data.length; i++) {
+                    arr.push(res.data[i].e1);
+                    arr[i].name = res.data[i].e2.name;
+                    arr[i].city = res.data[i].e2.city;
+                    arr[i].street = res.data[i].e2.street;
+                    arr[i].streetNumber = res.data[i].e2.streetNumber;
+                }
+                console.log(arr);
+          this.setState({reservations: arr})
+        }
+      });
   }
 
-  deleteReservation = (id) => {
-    console.log("dzialaj");
+  deleteReservation = (id) => {    
     var data = {};
-    data.id=id;
-    axios.post("http://localhost:8080/res/delete", data)
-    .then(res => this.setState({reservations: this.state.reservations.filter(x => x.id !== res.data.id)}));
+    data.id = id;
+    axios
+      .post("http://localhost:8080/res/delete", data)
+      .then(res => this.setState({
+        reservations: this
+          .state
+          .reservations
+          .filter(x => x.id !== res.data.id)
+      }));
   }
 
   saveUserData(data) {
@@ -56,7 +72,6 @@ class MyProfilePage extends Component {
       this.setState({loggedUser: data});
       window.alert("Pomyślnie zaktualizowano dane");
     }
-
   }
 
   validateUpdateData() {
@@ -71,7 +86,7 @@ class MyProfilePage extends Component {
     if (reg.email.value === "") 
       reg.email.value = this.state.loggedUser.email;
     if (reg.phone.value === "") 
-      reg.phone.value = this.state.loggedUser.phone;    
+      reg.phone.value = this.state.loggedUser.phone;
     if (!passwordPattern.test(reg.newPassword.value) && reg.newPassword.value.length > 0) {
       window.alert("Podaj hasło długości od 8 do 16 znaków oraz zawierające literę oraz cyfrę");
       return false;
@@ -84,8 +99,7 @@ class MyProfilePage extends Component {
     } else if (!phonePattern.test(reg.phone.value) && reg.phone.value.length > 0) {
       window.alert("Podany numer telefonu jest nieprawidłowy");
       return false;
-    }
-    //window.alert("Pomyślnie zaktualizowano dane");
+    }    
     return true;
   }
 
@@ -94,21 +108,22 @@ class MyProfilePage extends Component {
     if (this.validateUpdateData()) {
       var data = {};
       data.id = JSON
-      .parse(localStorage.getItem('loggedUser'))
-      .id;
+        .parse(localStorage.getItem('loggedUser'))
+        .id;
       data.username = JSON
-      .parse(localStorage.getItem('loggedUser'))
-      .username;
-      data.password = document.editForm.newPassword.value; 
+        .parse(localStorage.getItem('loggedUser'))
+        .username;
+      data.password = document.editForm.newPassword.value;
       data.firstname = document.editForm.firstname.value;
       data.lastname = document.editForm.lastname.value;
       data.email = document.editForm.email.value;
       data.phone = document.editForm.phone.value;
 
-      axios.post('http://localhost:8080/user/update', data)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err.response.data))
-      /*fetch('http://localhost:8080/user/update', {
+      axios
+        .post('http://localhost:8080/user/update', data)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err.response.data))
+        /*fetch('http://localhost:8080/user/update', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -222,38 +237,38 @@ class MyProfilePage extends Component {
 
           </div>
 
-          
-            {this.state.reservations ?
-            <table class="ReservationTable">
-            <tr class="header">
-              <th class="obiekt">Obiekt</th>
-              <th class="adresObiektu">Adres</th>
-              <th class="dataRezerwacji">Data rezerwacji</th>
-              <th class="godzinaRezerwacji">Godzina rezerwacji</th>
-              <th class="przyciskAnulujTabela"></th>
-            </tr> 
-{this.state.reservations.map(res => {
-  return (
-    
-    <tr>
-  <td>Orlik przy SP 3</td>
-  <td>Polska 12</td>
-  <td>{res.dateDay}</td>
-  <td>{res.hourStart}.00 - {res.hourEnd}.00</td>
-  <td>
-    <button class="przyciskAnuluj" onClick={() => this.deleteReservation(res.id)}>Anuluj</button>
-  </td>
-</tr>
+          {this.state.reservations
+            ? <table class="ReservationTable">
+                <tr class="header">
+                  <th class="obiekt">Obiekt</th>
+                  <th class="adresObiektu">Adres</th>
+                  <th class="dataRezerwacji">Data rezerwacji</th>
+                  <th class="godzinaRezerwacji">Godziny rezerwacji</th>
+                  <th class="przyciskAnulujTabela"></th>
+                </tr>
+                {this
+                  .state
+                  .reservations
+                  .map(res => {
+                    return (
 
-  );
-})} </table>: <p>Wygląda na to, że nie masz aktualnie żadnych rezerwacji. Przejdź do listy boisk, aby to zmienić!</p>
-            }
-            
-            
+                      <tr>
+                        <td>{res.name}</td>
+                        <td>{res.city}, {res.street} {res.streetNumber}</td>
+                        <td>{res.dateDay}</td>
+                        <td>{res.hourStart}.00 - {res.hourEnd}.00</td>
+                        <td>
+                          <button class="przyciskAnuluj" onClick={() => this.deleteReservation(res.id)}>Anuluj</button>
+                        </td>
+                      </tr>
 
-            
+                    );
+                  })}
+              </table>
+            : <p>Wygląda na to, że nie masz aktualnie żadnych rezerwacji. Przejdź do listy
+              boisk, aby to zmienić!</p>
+}
 
-          
         </div>
       );
     } else 
