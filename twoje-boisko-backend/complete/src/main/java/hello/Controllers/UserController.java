@@ -47,9 +47,9 @@ public class UserController {
     @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> changepaswdafterforgot(@RequestBody PaswdDto2 user) {
-        if (userService.checkPaswd(user.getId(), user.getPaswd())){
+        /*if (userService.checkPaswd(user.getId(), user.getPaswd())){
             return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Nowe haslo nie moze byc takie same jak stare"));
-        }
+        }*/
         return ResponseEntity.accepted().headers(responseHeaders).body(userService.changePaswdafterForgot(user.getId(), user.getPaswd()));
     }
 
