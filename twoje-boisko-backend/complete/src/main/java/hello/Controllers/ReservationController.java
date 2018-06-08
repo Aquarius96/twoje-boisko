@@ -97,7 +97,15 @@ public class ReservationController {
     @RequestMapping(value = "/find_u", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findReservationuser(@RequestParam(value="id", required = true) String id) {
-        return ResponseEntity.accepted().body(reservationsService.findReservationsUser(Integer.parseInt(id)));
+
+        List<Reservation> all = reservationsService.findReservationsUser(Integer.parseInt(id));
+        List<Boosted<Reservation,SportObject>> boosted = new ArrayList<>();
+        for (Reservation var : all) {
+            SportObject ob = sportObjectService.findSportObjectById(var.getIdObject());
+            boosted.add(new Boosted<Reservation,SportObject>(var, ob));
+        }
+        return ResponseEntity.ok(boosted);
+        //return ResponseEntity.accepted().body(reservationsService.findReservationsUser(Integer.parseInt(id)));
 
     }
 
