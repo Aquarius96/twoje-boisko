@@ -136,8 +136,8 @@ addAvatar = (id) => {
   validateObjectData = () => {
     console.log('validate obj data');
     const obj = document.addObjectForm;
-    var stringPattern = /^[a-zA-Z0-9]/;
-    var openDaysBool = document.addObjectForm.selectDaysStart.value < document.addObjectForm.selectDaysEnd.value;
+    var stringPattern = /^[a-zA-Z]/;    
+    var stringNumberPattern = /^[a-zA-Z0-9]/;
     var openHoursBool = document.addObjectForm.selectHoursStart.value < document.addObjectForm.selectHoursEnd.value;
     var numberPattern = /^[0-9]/;
     var phonePattern = /^[0-9]{9,}/;
@@ -149,16 +149,23 @@ addAvatar = (id) => {
     var objPrice = document.addObjectForm.priceList.value;
     var objContact = document.addObjectForm.contact.value;
 
-    if(objName == "" || objCity == "" || objStreet == "" || objStreetNumber == "" || objPrice == "" || objContact == "") {
-      window.alert("Proszę wypełnić wszystkie pola oznaczone symbolem *");
+    if(objName == "" || objCity == "" || objStreet == "" || objStreetNumber == "" || objPrice == "" || objContact == "" || document.addObjectForm.selectDaysStart.value.length === 0 || document.addObjectForm.selectDaysEnd.value.length === 0) {
+      window.alert("Proszę wypełnić wszystkie pola z danymi obiektu");
       return false;
     }
     if(!stringPattern.test(objName)){
       window.alert("Wpisz poprawną nazwę obiektu");
+      return false;
     }
     if(!stringPattern.test(objCity)){
       window.alert("Wpisz poprawne miasto");
+      return false;
     }
+    if(!openHoursBool){
+      window.alert('Podaj poprawne godziny otwarcia');
+      return false;
+    }
+    
     return true;
   }
 
@@ -346,13 +353,13 @@ addAvatar = (id) => {
                 <div class="select ">
                   <select name="selectHoursStart">
                     <option selected value="">Godzina otwarcia</option>
-                    {hours.map(item => <option value={item}>{item}</option>)}
+                    {hours.map(item => <option value={item}>{item}.00</option>)}
                   </select>
                 </div>
                 <div class="select ">
                   <select name="selectHoursEnd">
                     <option selected value="">Godzina zamknięcia</option>
-                    {hours.map(item => <option value={item.toString()}>{item.toString()}</option>)}
+                    {hours.map(item => <option value={item.toString()}>{item.toString()}.00</option>)}
                   </select>
                 </div>              
                   <input name="city" type="text" placeholder="Miasto"/>

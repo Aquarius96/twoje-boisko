@@ -99,6 +99,9 @@ class MyProfilePage extends Component {
     } else if (!phonePattern.test(reg.phone.value) && reg.phone.value.length > 0) {
       window.alert("Podany numer telefonu jest nieprawidłowy");
       return false;
+    } else if ((reg.newPassword.value.length > 0 || reg.checkPassword.value.length > 0) && reg.password.value.length === 0) {
+      window.alert("Aby zmienić hasło musisz najpierw podać stare hasło");
+      return false;
     }    
     return true;
   }
@@ -154,7 +157,9 @@ class MyProfilePage extends Component {
      else {
       axios.post('http://localhost:8080/user/update/', data)
       .then(res => {
-        console.log(res.data)
+        console.log(res.data);
+        localStorage.setItem('loggedUser', JSON.stringify(res.data));
+        window.alert('Pomyślnie zaktualizowano dane');
       })
       .catch(err => console.log(err))
      }     

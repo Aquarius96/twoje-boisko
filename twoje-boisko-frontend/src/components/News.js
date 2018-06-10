@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import './News.css';
+import axios from 'axios';
+import moment from 'moment';
 
 class News extends Component {
  constructor(props){
    super(props);
-   this.state=({wrapperRef:{},modalRef:{}});
+   this.state=({currentNews: null, wrapperRef:{},modalRef:{}});
    this.openModal = this
       .openModal
       .bind(this);
@@ -57,7 +59,7 @@ handleClickOutside(event) {
   }
 }
 
-openModal(id) {
+openModal(id) {  
   console.log(id);
   document.addEventListener('mousedown', this.handleClickOutside);
   this.setWrapperRef(id);
@@ -86,6 +88,43 @@ closeModal() {
   }, 200); //0.3s
 }
 
+handleChange = (e) => {
+  const news = Object.assign({}, this.state.currentNews);
+  news.id = this.props.id;
+  news.date = this.props.date;
+  if(e.target.value.length > 0){
+    if(e.target.name === 'header'){
+      console.log('upd header');
+      news.header = e.target.value;
+    }
+    if(e.target.name === 'text'){
+      console.log('upd text');
+      news.text = e.target.value;
+    }
+  }
+  this.setState({currentNews: news});
+}
+
+handleSubmit = (e) => {
+  e.preventDefault();
+  const news = Object.assign({}, this.state.currentNews);
+  if(!this.state.currentNews.header){
+    news.header = this.props.header;
+  }
+  if(!this.state.currentNews.text){
+    news.text = this.props.text;
+  }
+  if(this.state.currentNews){
+    axios.post('http://localhost:8080/news/update', news)
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(err => console.log(err.response.data))
+  }
+  this.closeModal();
+  this.props.update();
+}
+
  render() {
    if(this.props.showAdmin){
      return (
@@ -110,11 +149,15 @@ closeModal() {
          </div>
          <div class="modal" id={this.props.id}>
          <div class="wrapper">
-            <form name="addNews" class="message">
+            <form name="addNews" class="message" onChange={this.handleChange}>
               <h1>Edytuj aktualność</h1>
-              <input name="title" type="text" placeholder="Tytuł"/>
-              <input className="longText" name="text" type="text" placeholder="Treść"/>
-              <button class="przyciskAdminObiekt" onClick={this.addNews}>Dodaj</button>
+              <input name="header" type="text" placeholder="Tytuł"/>
+              <textarea
+                name="text"
+                className="textarea"
+                type="text"
+                placeholder="Treść..."></textarea>
+              <button class="przyciskAdminObiekt" onClick={this.handleSubmit}>Zapisz zmiany</button>
             </form>
           </div>
               </div>

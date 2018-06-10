@@ -322,7 +322,7 @@ class SingleObjectPage extends Component {
                 <p class="info">
                   Cennik:
                 </p>
-                <p>{this.state.object.priceList}</p>
+                <p>{this.state.object.priceList} zł/h</p>
                 <p class="info">
                   Kontakt:
                 </p>

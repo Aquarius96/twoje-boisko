@@ -141,7 +141,7 @@ class LoginPage extends Component {
       window.alert(data.value);
     } else {
       if (!data.confirm) {
-        window.alert('Twoje konto nie zostało jeszcze potwierdzone, Udaj się na pocztę email i przejdź' +
+        window.alert('Twoje konto nie zostało jeszcze potwierdzone. Sprawdź pocztę email i przejdź' +
             ' w link aktywacyjny.');
       } else {
         localStorage.setItem('loggedUser', JSON.stringify(data));
