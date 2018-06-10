@@ -77,9 +77,9 @@ public class Application {
     @Scheduled(cron = "0 0 * * * *") //! co godzine wyslanie przypomnienia dla reserwacji ktore rozpoczynaja sie za godzine
     public void sendReminder() throws MessagingException{
         for (Reservation res : _rs.getReserwationsTorRemind()) {
-            reminder.sendReminder(res);
-            
+            reminder.sendReminder(res);    
         }
+        reservationsService.deleteOutOfDate();
     }
 
 

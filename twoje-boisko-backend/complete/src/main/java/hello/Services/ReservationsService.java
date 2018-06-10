@@ -224,7 +224,31 @@ public class ReservationsService{
         }
         reload();
         return result;
-	}
+    }
+    
+    public void deleteOutOfDate(){
+
+        Date date = new Date();
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, -1);
+        Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String day = dateFormat.format(date);
+
+        
+        try{
+            String task = "SELECT * FROM reservations where dateDay='"+day+"' and hourStart='"+(hour)+"'";
+            rs = st.executeQuery(task);
+            
+			while (rs.next()){
+                deleteReservation(rs.getInt("id"));
+            }
+        }catch (Exception exception){
+            System.out.println("Error remindreserations: "+exception);
+        }
+    }
+
 }
 
 
