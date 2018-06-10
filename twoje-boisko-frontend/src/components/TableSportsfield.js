@@ -408,6 +408,8 @@ class TableSportsfield extends Component {
                   <input name="streetNumber" type="text" placeholder={item.streetNumber}/>
                   <input name="priceList" type="text" placeholder={item.priceList}/>
                   <input name="contact" type="text" placeholder={item.contact}/>
+                  <label htmlFor="file-upload" className="custom-file-upload ">Wybierz plik</label>
+                  {this.state.file ? this.state.file.name : null}
                   <input id="file-upload" 
                         type="file"                    
                         onChange={(e)=>this.handleImageChange(e)} />

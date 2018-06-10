@@ -198,7 +198,7 @@ class TableSingleObject extends Component {
             </table>
           </div>
           {this.props.userId || this.props.userId === 0 ?
-          <button class="przyciskRezerwuj" onClick={this.validateReservationData}>Rezerwuj</button> :
+          <center><button class="przyciskRezerwuj" onClick={this.validateReservationData}>Rezerwuj</button></center> :
           <p>Zaloguj się, aby móc zarezerwować ten obiekt</p>
           }
           <div class="modal" id="modal">

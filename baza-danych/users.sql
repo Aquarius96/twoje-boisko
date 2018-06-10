@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- HASLO DLA ADMINA TO zaqwsx123!!!!!!!!!! 
 --
-
+DROP TABLE zeto.users;
 CREATE TABLE `zeto`.`users` (
   `id` int(11) NOT NULL,
   `username` varchar(30) COLLATE utf8_bin NOT NULL,
@@ -55,7 +55,7 @@ INSERT INTO `zeto`.`users` (`id`, `username`, `password`, `firstname`, `lastname
 --
 -- Indeksy dla tabeli `users`
 --
-ALTER TABLE `users`
+ALTER TABLE zeto.users
   ADD PRIMARY KEY (`id`);
 COMMIT;
 

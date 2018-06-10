@@ -367,6 +367,8 @@ addAvatar = (id) => {
                   <input name="streetNumber" type="text" placeholder="Nr budynku"/>
                   <input name="priceList" type="text" placeholder="Cennik"/>
                   <input name="contact" type="text" placeholder="Numer kontaktowy"/>
+                  <label htmlFor="file-upload" className="custom-file-upload ">Wybierz plik</label>
+                  {this.state.file ? this.state.file.name : null}
                   <input id="file-upload" 
                         type="file"                    
                         onChange={(e)=>this.handleImageChange(e)} />
