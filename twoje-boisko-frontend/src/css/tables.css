@@ -170,6 +170,7 @@
   border-collapse: collapse;
   width: 100%;
   font-size: 18px;
+  margin-top: 15px;
 }
 .ReservationTable-scroll {
   height: 350px;

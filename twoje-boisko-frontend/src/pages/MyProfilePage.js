@@ -254,7 +254,10 @@ class MyProfilePage extends Component {
             </form>
 
           </div>
-
+          <div className="powiadomienia-form">
+          <p>Twoje powiadomienia odnośnie nadchodzących rezerwacji są wyłączone. Kliknij przycisk aby je włączyć!</p>
+          <button className="powiadomienia-button">Włącz powiadomienia!</button>
+          </div>
           {this.state.reservations
             ? <table class="ReservationTable">
                 <tr class="header">
@@ -286,7 +289,6 @@ class MyProfilePage extends Component {
             : <p>Wygląda na to, że nie masz aktualnie żadnych rezerwacji. Przejdź do listy
               boisk, aby to zmienić!</p>
 }
-
         </div>
       );
     } else 

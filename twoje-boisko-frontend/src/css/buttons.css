@@ -372,3 +372,24 @@
   background-color: #4CAF50;
   color: white;
 }
+.powiadomienia-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  cursor: pointer;
+  background-color: white;
+  color: #216224;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  padding: 8px 8px;
+  margin-top: -500px;
+}
+.powiadomienia-button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
