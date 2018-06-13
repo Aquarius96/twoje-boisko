@@ -106,6 +106,21 @@ class MyProfilePage extends Component {
     return true;
   }
 
+  switchNotifications = (e) => {
+    e.preventDefault();
+    var data = {};
+    data.id = this.state.loggedUser.id;
+    axios.post('http://localhost:8080/user/remin', data)
+    .then(res => {
+      console.log(res.data);
+      var newUser = this.state.loggedUser;
+      newUser.remind = !newUser.remind;
+      this.setState({loggedUser: newUser});
+      localStorage.setItem('loggedUser', JSON.stringify(newUser));
+    })
+    .catch(err => console.log(err.response.data))
+  }
+
   updateUserData = (e) => {
     e.preventDefault();
     if (this.validateUpdateData()) {
@@ -145,7 +160,9 @@ class MyProfilePage extends Component {
            data.password = document.editForm.newPassword.value;
            axios.post('http://localhost:8080/user/update/hash', data)
            .then(resp => {
-             console.log(resp.data)
+             console.log(resp.data);
+             localStorage.setItem('loggedUser', JSON.stringify(res.data));
+             window.alert('Pomyślnie zaktualizowano dane');
            })
            .catch(err => console.log(err))
          } else {
@@ -254,10 +271,16 @@ class MyProfilePage extends Component {
             </form>
 
           </div>
+          {this.state.loggedUser && this.state.loggedUser.remind ? 
+          <div className="powiadomienia-form">
+          <p>Twoje powiadomienia odnośnie nadchodzących rezerwacji są włączone. Kliknij przycisk aby je wyłączyć!</p>
+          <button onClick={this.switchNotifications} className="powiadomienia-button">Wyłącz powiadomienia!</button>
+          </div> :
           <div className="powiadomienia-form">
           <p>Twoje powiadomienia odnośnie nadchodzących rezerwacji są wyłączone. Kliknij przycisk aby je włączyć!</p>
-          <button className="powiadomienia-button">Włącz powiadomienia!</button>
+          <button onClick={this.switchNotifications} className="powiadomienia-button">Włącz powiadomienia!</button>
           </div>
+          }
           {this.state.reservations
             ? <table class="ReservationTable">
                 <tr class="header">

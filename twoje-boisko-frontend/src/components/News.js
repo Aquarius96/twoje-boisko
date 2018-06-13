@@ -108,12 +108,11 @@ handleChange = (e) => {
 handleSubmit = (e) => {
   e.preventDefault();
   const news = Object.assign({}, this.state.currentNews);
-  if(!this.state.currentNews.header){
+  if(!this.state.currentNews){
     news.header = this.props.header;
-  }
-  if(!this.state.currentNews.text){
     news.text = this.props.text;
-  }
+    window.alert('Podaj nagłówek i treść');
+  }  
   if(this.state.currentNews){
     axios.post('http://localhost:8080/news/update', news)
     .then(res => {

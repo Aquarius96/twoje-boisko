@@ -52,7 +52,7 @@ public class UserController {
         if (userService.updateUser(user).getId()>=0){
             return ResponseEntity.ok("Zmieniono");
         }
-        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad w polaczeniu"));
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
 
     }
 
@@ -86,9 +86,9 @@ public class UserController {
             result = userService.updateUser(tmp);
             switch(result.getId()){
                 case -1:
-                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Prawdopodobnie podałeś złe dane"));
                 case -2:
-                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad w polaczeniu"));
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w połączeniu"));
                 default :
                     return ResponseEntity.ok(result);
             }
@@ -103,19 +103,19 @@ public class UserController {
     public ResponseEntity<?> ForgotPassword(@RequestBody Index_ email){
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak użytkownika o danym adresie e-mail"));
         }
         if (!user.getConfirm()){
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Aktywuj konto przed proba przypoknnienia hasla!"));
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Aktywuj konto przed próba przypomnienia hasła!"));
         }
         UUID uuid = UUID.randomUUID();
         user.setCode(hash.getFreshHash(uuid.toString()));
         
         switch(userService.updateUser(user).getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Złe dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w połączeniu"));
             default :
                 _result = mail.ForgotPasswdEmail(user);
                 if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors().get(0)));
@@ -130,7 +130,7 @@ public class UserController {
 
         User user = userService.findUserByEmail(email.getValue());
         if (user.getId()<0){
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak uzytkownika o danym emailu"));
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Brak użytkownika o danym adresie e-mail"));
         }
         _result = mail.ForgotLoginEmail(user);
         if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors().get(0)));
@@ -146,15 +146,15 @@ public class UserController {
         User result;
         switch(index){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zly login"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zły login"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle haslo"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Złe hasło"));
             case -3:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połaczeniu"));
             default :
                 result = userService.findUserById(index);
                 if (result.getId()>=0) return ResponseEntity.ok(result);
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
         }
     }
 
@@ -170,22 +170,22 @@ public class UserController {
             User res = userService.addUser(user);
             switch (res.getId()){
                 case -1:
-                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Złe dane"));
                 case -2:
-                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                    return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
                 default :
                     _result = mail.ConfirmEmail(res);
                     if (_result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_( _result.getErrors().get(0)));
                     return ResponseEntity.ok(_result.getSUccesedResult());
             }
             case 1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Username jest zajety"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Login jest zajęty"));
             case 2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajęty"));
             case 3:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Wszystko jest zajete"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Login i Email są zajęte"));
             default :
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
         }
     }
 
@@ -212,16 +212,16 @@ public class UserController {
                 User result = userService.updateUser(user);
                 switch(result.getId()){
                     case -1:
-                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Złe dane"));
                     case -2:
-                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
                     default :
                         return ResponseEntity.ok(result);
                 }
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajęty"));
             default :
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups cos poszlo nei tak"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups coś poszło nie tak"));
         }
     }
 
@@ -235,18 +235,18 @@ public class UserController {
                 User result = userService.updateUser(user);
                 switch(result.getId()){
                     case -1:
-                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Zle dane"));
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Złe dane"));
                     case -2:
-                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu"));
+                        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w połączeniu"));
                     default :
                         return ResponseEntity.ok(result);
                 }
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Email jest zajety"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("E-mail jest zajęty"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad w polaczeniu"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd w połączeniu"));
             default :
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups cos poszlo nei tak"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Ups coś poszło nie tak"));
         }
     }
 
@@ -258,9 +258,9 @@ public class UserController {
             if (reservationsService.deleteReservationForUser(id.getId())){
                 return ResponseEntity.ok("Pomyslnie usunieto");
             }
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad przy usuwaniu rezerwacji uzytkonika"));
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd przy usuwaniu rezerwacji użytkownika"));
         }
-        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad przy usuwaniu uzytkownial"));
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd przy usuwaniu użytkownika"));
 
         
     }
