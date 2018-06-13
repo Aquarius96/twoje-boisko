@@ -42,6 +42,19 @@ public class UserController {
         _result = new ResultDto<>();
 
     }
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @RequestMapping(value ="/remin", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> changeremind(@RequestBody Index_ index) {
+        User user = userService.findUserById(index.getId());
+        Boolean remind = user.getRemind();
+        user.setRemind(!remind);
+        if (userService.updateUser(user).getId()>=0){
+            return ResponseEntity.ok("Zmieniono");
+        }
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad w polaczeniu"));
+
+    }
 
     @CrossOrigin(origins = "http://localhost:3000/")
     @RequestMapping(value ="/newpaswd", method = RequestMethod.POST)
