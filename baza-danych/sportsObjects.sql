@@ -18,8 +18,8 @@ CREATE TABLE `zeto`.`sportsObjects` (
 --
 
 INSERT INTO `zeto`.`sportsObjects` (`id`, `name`, `type`, `openDays`, `openHours`, `city`, `street`, `streetNumber`, `priceList`, `contact`) VALUES
-(1, 'Orlik SW Antoniego', 'orlik', 'PN-PT', '10:00-22:00', 'Olsztyn', 'Rakowa', '29b', '25zl/h', '518799424'),
-(2, 'Stadion Stomil', 'stadion', 'SB-SR', '6:00-20:00', 'Olsztyn', 'Czeslawa Oczapowskiego', '1', '18zl/h', '666024321');
+(1, 'Orlik SW Antoniego', 'orlik', 'PN-PT', '10-22', 'Olsztyn', 'Rakowa', '29b', '25zl/h', '518799424'),
+(2, 'Stadion Stomil', 'stadion', 'SB-SR', '6-20', 'Olsztyn', 'Czeslawa Oczapowskiego', '1', '18zl/h', '666024321');
 
 
 select * from zeto.sportsObjects

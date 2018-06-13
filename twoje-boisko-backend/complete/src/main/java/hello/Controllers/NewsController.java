@@ -33,9 +33,9 @@ public class NewsController{
         News result = newsService.addNews(news);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Prawdopodobnie podałeś złe dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład połączenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -66,9 +66,9 @@ public class NewsController{
         News result = newsService.updateNews(news);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Prawdopodobnie podałeś złe dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd połączenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }

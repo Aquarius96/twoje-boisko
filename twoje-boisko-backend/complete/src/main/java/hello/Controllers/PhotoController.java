@@ -52,7 +52,7 @@ public class PhotoController{
         if (result.isError()) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_(result.getErrors().get(0)));
         object_.setPhotoName(result.getSUccesedResult());
         SportObject res = sportObjectService.updateSportObject(object_);
-        if (res.getId()<0) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w polaczeniu z baza danych"));
+        if (res.getId()<0) return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład w połączeniu z baza danych"));
         return ResponseEntity.ok(res.getPhotoName());
         
     }

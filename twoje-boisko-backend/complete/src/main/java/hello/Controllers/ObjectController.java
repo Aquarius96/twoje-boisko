@@ -30,9 +30,9 @@ public class ObjectController{
         SportObject result = sportObjectService.addSportObject(sportObject);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Prawdopodobnie podałeś złe dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd połączenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -47,9 +47,9 @@ public class ObjectController{
             if (reservationsService.deleteReservationForObiect(id.getId())){
                 return ResponseEntity.ok("Pomyslnie usunieto");
             }
-            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Blad podczas proby usuwania rezerwacji obiektu"));
+            return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd podczas próby usuwania rezerwacji obiektu"));
         }
-        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Bład podczas proby usuwania obiektu"));
+        return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd podczas próby usuwania obiektu"));
 
     }
 
@@ -60,9 +60,9 @@ public class ObjectController{
         SportObject result = sportObjectService.updateSportObject(object);
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("prawdopodobnie podales zle dane"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Prawdopodobnie podałeś złe dane"));
             case -2:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd połączenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
@@ -88,7 +88,7 @@ public class ObjectController{
         SportObject result = sportObjectService.findSportObjectById(Integer.parseInt(id));
         switch(result.getId()){
             case -1:
-                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("blad polaczenia"));
+                return ResponseEntity.badRequest().headers(responseHeaders).body(new Error_("Błąd połączenia"));
 		    default :
                 return ResponseEntity.ok(result);
         }
