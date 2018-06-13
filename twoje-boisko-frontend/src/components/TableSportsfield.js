@@ -349,10 +349,10 @@ class TableSportsfield extends Component {
                             item.city
                           }, {
                             item.street
-                          }
-                          {
+                          } {
                             item.streetNumber
-                          } </td>                   
+                          }
+                           </td>                   
                             <td><button class="przyciskSzczegoly" onClick ={() => this.openModal(item)}>Edytuj</button > 
                             <button class="przyciskUsunObiekt" onClick ={() => this.delete(item.id)}>Usuń</button ></td> 
                             <tr colSpan="3"><div class="modal" id={item.id}>
