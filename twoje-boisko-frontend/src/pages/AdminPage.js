@@ -138,7 +138,7 @@ addAvatar = (id) => {
     const obj = document.addObjectForm;
     var stringPattern = /^[a-zA-Z]/;    
     var stringNumberPattern = /^[a-zA-Z0-9]/;
-    var openHoursBool = document.addObjectForm.selectHoursStart.value < document.addObjectForm.selectHoursEnd.value;
+    var openHoursBool = document.addObjectForm.selectHoursStart.value.split(":")[0] < document.addObjectForm.selectHoursEnd.value.split(":")[0];
     var numberPattern = /^[0-9]/;
     var phonePattern = /^[0-9]{9,}/;
 
@@ -161,7 +161,7 @@ addAvatar = (id) => {
       window.alert("Wpisz poprawne miasto");
       return false;
     }
-    if(openHoursBool){
+    if(!openHoursBool){
       window.alert('Podaj poprawne godziny otwarcia');
       return false;
     }
@@ -195,10 +195,10 @@ addAvatar = (id) => {
         then(response => {
           if(this.state.file){
             this.addAvatar(response.id);
-          }         
-          console.log(response);
+          }                   
           this.updateObjects();
-        });
+        })
+        .catch(err => window.alert(err.value))
     }    
   }
  
@@ -353,13 +353,13 @@ addAvatar = (id) => {
                 <div class="select ">
                   <select name="selectHoursStart">
                     <option selected value="">Godzina otwarcia</option>
-                    {hours.map(item => <option value={item}>{item}.00</option>)}
+                    {hours.map(item => <option value={item}>{item}:00</option>)}
                   </select>
                 </div>
                 <div class="select ">
                   <select name="selectHoursEnd">
                     <option selected value="">Godzina zamknięcia</option>
-                    {hours.map(item => <option value={item.toString()}>{item.toString()}.00</option>)}
+                    {hours.map(item => <option value={item.toString()}>{item.toString()}:00</option>)}
                   </select>
                 </div>              
                   <input name="city" type="text" placeholder="Miasto"/>

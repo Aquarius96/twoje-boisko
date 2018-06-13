@@ -317,8 +317,7 @@ class SingleObjectPage extends Component {
                 <p class="info">
                   Adres:
                 </p>
-                <p>{this.state.object.city}, {this.state.object.street}
-                  {this.state.object.streetNumber}</p>
+                <p>{this.state.object.city}, {this.state.object.street} {this.state.object.streetNumber}</p>
                 <p class="info">
                   Cennik:
                 </p>

@@ -184,7 +184,7 @@ class TableSingleObject extends Component {
                 .map(item => {
                   return (
                     <tr>
-                      <td>{item}</td>
+                      <td>{item.split("-")[0]}:00 - {item.split("-")[1]}:00</td>
                       <td>
                         <label class="check">
                           <input type="checkbox" className="reserve" name="reserve" value={item}/>
