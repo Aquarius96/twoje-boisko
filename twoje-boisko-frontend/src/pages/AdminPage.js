@@ -161,7 +161,7 @@ addAvatar = (id) => {
       window.alert("Wpisz poprawne miasto");
       return false;
     }
-    if(!openHoursBool){
+    if(openHoursBool){
       window.alert('Podaj poprawne godziny otwarcia');
       return false;
     }
