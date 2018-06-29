@@ -58,7 +58,7 @@ class Navbar extends Component {
                 <li class="nav-item"></li>
                 <li class="nav-item">
                   <Link className="a nav-link" to="/">
-                    <i class="fas fa-home"></i>
+                    Strona główna
                   </Link>
                 </li>
                 <li class="nav-item">
@@ -96,7 +96,7 @@ class Navbar extends Component {
                 <li class="nav-item"></li>
                 <li class="nav-item">
                 <Link className="a nav-link" to="/">
-                    <i class="fas fa-home"></i>
+                    Strona główna
                   </Link>
                 </li>
                 <li class="nav-item">
@@ -129,7 +129,7 @@ class Navbar extends Component {
               <li class="nav-item"></li>
               <li class="nav-item">
               <Link className="a nav-link" to="/">
-                    <i class="fas fa-home"></i>
+                    Strona główna
                   </Link>
               </li>
               <li class="nav-item">

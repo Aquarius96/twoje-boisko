@@ -40,8 +40,9 @@ class AdminNews extends Component {
     }
   }
 
-  addNews(e) {
+  addNews = (e) => {
     e.preventDefault();
+    console.log("makarena");
     this.closeModal();
     fetch('http://localhost:8080/news/add', {
       method: 'POST',
@@ -50,8 +51,8 @@ class AdminNews extends Component {
         'Content-Type': 'application/json'
       },
         body: JSON.stringify({
-          header: document.newnews.title.value,
-          text: document.newnews.description.value,
+          header: document.newnews2.title.value,
+          text: document.newnews2.description.value,
           date: moment().format("YYYY-MM-DD hh:mm:ss")
         })
       })
@@ -129,7 +130,7 @@ class AdminNews extends Component {
 
         <div class="modal" id="modal">
           <div class="wrapper">
-            <form name="newnews" class="message">
+            <form name="newnews2" class="message">
               <h1>Dodaj aktualność</h1>
               <input name="title" type="text" placeholder="Tytuł"/>
               <textarea

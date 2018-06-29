@@ -53,7 +53,7 @@ public class NewsService{
     }
 
     private Integer getfreeId(){
-        Integer result=1;
+        Integer result=0;
         for (News news : contex) {
             if (news.getId()!=result) break;
             result += 1;
